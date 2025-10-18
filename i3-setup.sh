@@ -28,8 +28,9 @@ sudo systemctl enable tlp
 echo "==> Instalando interface e UX..."
 sudo pacman -S --noconfirm rofi feh picom lxappearance dunst polkit-gnome
 
-echo "==> Instalando barra e ícones..."
-sudo pacman -S --noconfirm papirus-icon-theme noto-fonts ttf-jetbrains-mono
+echo "==> Instalando fontes e ícones..."
+sudo pacman -S --noconfirm papirus-icon-theme noto-fonts ttf-jetbrains-mono ttf-fira-code ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono nerd-fonts-fira-code nerd-fonts-jetbrains-mono nerd-fonts-hack ttf-material-design-icons ttf-font-awesome
+fc-cache -fv
 
 echo "==> Instalando apps úteis..."
 sudo pacman -S --noconfirm thunar flameshot htop blueman cbatticon
