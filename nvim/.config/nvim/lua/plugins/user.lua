@@ -1,6 +1,6 @@
 return {
-	"LazyVim/LazyVim",
-	opts = {
-		colorscheme = "github_dark_default",
-	},
+  "LazyVim/LazyVim",
+  opts = {
+    colorscheme = "oldworld",
+  },
 }
