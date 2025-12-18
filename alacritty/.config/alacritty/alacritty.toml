@@ -5,7 +5,7 @@ builtin_box_drawing = true
 [window]
 padding = { x = 3, y = 3 }
 dynamic_padding = true
-opacity = 0.9
+opacity = 1
 decorations = "None"
 
 [font.normal]
