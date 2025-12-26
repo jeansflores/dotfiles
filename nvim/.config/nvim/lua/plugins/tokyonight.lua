@@ -2,7 +2,7 @@ return {
   "folke/tokyonight.nvim",
   lazy = false,
   opts = {
-    style = "storm",
+    style = "moon",
     transparent = false,
     terminal_colors = true,
   },
