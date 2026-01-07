@@ -1,0 +1,19 @@
+[global]
+font = CaskaydiaCove Nerd Font
+padding = 8
+horizontal_padding = 8
+separator_height = 2
+frame_width = 2
+markup = full
+
+[urgency_low]
+background = "#222222"
+foreground = "#999999"
+
+[urgency_normal]
+background = "#000000"
+foreground = "#ffffff"
+
+[urgency_critical]
+background = "#900000"
+foreground = "#ffffff"
