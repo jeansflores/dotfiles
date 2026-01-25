@@ -1,3 +1,2 @@
 starship init fish | source
-/usr/sbin/mise activate fish | source
-
+~/.local/bin/mise activate fish | source
