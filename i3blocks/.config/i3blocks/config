@@ -1,0 +1,78 @@
+# Global properties
+separator=true
+separator_block_width=15
+
+[systemctl]
+command=$SCRIPT_DIR/systemctl
+interval=once
+markup=pango
+instance=docker
+
+[docker]
+command=$SCRIPT_DIR/docker
+color=#0db7ed
+interval=10
+LABEL=🐳 
+
+[cpu]
+command=~/.config/i3blocks/contrib/cpu_usage/cpu_usage
+interval=10
+label=CPU 
+
+[memory]
+command=$SCRIPT_DIR/memory
+label=MEM
+interval=30
+
+[volume]
+command=$SCRIPT_DIR/volume
+#LABEL=♪ 
+LABEL=VOL 
+interval=once
+signal=10
+#STEP=5%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+#NATURAL_MAPPING=0
+
+[backlight]
+command=$SCRIPT_DIR/backlight
+label=☀
+interval=20
+#STEP_SIZE=5
+#USE_SUDO=0
+
+[battery]
+command=$SCRIPT_DIR/battery
+interval=30
+LABEL=BAT
+#LABEL=⚡
+#BAT_NUMBER=0
+
+[xkb_layout]
+command=$SCRIPT_DIR/xkb_layout
+font=monospace
+font_weight=bold
+interval=persist
+markup=pango
+
+[calendar]
+command=$SCRIPT_DIR/calendar
+interval=1
+LABEL= 
+DATEFMT=+%H:%M:%S
+# SHORTFMT=+%H:%M:%S
+HEIGHT=180
+WIDTH=220
+
+# [time]
+# command=date '+%Y-%m-%d %H:%M:%S'
+# interval=1
+
+[dunst]
+command=$SCRIPT_DIR/dunst
+interval=once
+format=json
+markup=pango
+#min_width=50
+#align=center
