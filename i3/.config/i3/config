@@ -130,5 +130,6 @@ client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
 client.background       #FFFFFF
 
 bar {
+  position top
   status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
 }
