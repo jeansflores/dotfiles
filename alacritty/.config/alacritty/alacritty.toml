@@ -5,22 +5,21 @@ builtin_box_drawing = true
 [window]
 padding = { x = 3, y = 3 }
 dynamic_padding = true
-opacity = 0.95
 
 [font.normal]
-family = "FiraCode Nerd Font"
+family = "Cascadia Code"
 style = "Regular"
 
 [font.bold]
-family = "FiraCode Nerd Font"
+family = "Cascadia Code"
 style = "Bold"
 
 [font.italic]
-family = "FiraCode Nerd Font"
+family = "Cascadia Code"
 style = "Italic"
 
 [font.bold_italic]
-family = "FiraCode Nerd Font"
+family = "Cascadia Code"
 style = "Bold Italic"
 
 [[keyboard.bindings]]
