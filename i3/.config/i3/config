@@ -1,0 +1,134 @@
+font pango:Cascadia Code 12
+
+default_border pixel 1
+default_floating_border pixel 1
+
+exec --no-startup-id dex-autostart --autostart --environment i3
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+exec --no-startup-id dunst
+exec --no-startup-id blueman-applet
+exec --no-startup-id lxpolkit
+exec_always --no-startup-id setxkbmap -layout us -variant intl
+exec --no-startup-id xfsettingsd
+exec xinput set-prop "FTCS0038:00 2808:0106 Touchpad" "libinput Tapping Enabled" 1
+exec --no-startup-id xsetroot -solid "#222222"
+
+bindsym Mod4+Shift+s exec flameshot gui
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && killall -SIGUSR1 i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && killall -SIGUSR1 i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && killall -SIGUSR1 i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && killall -SIGUSR1 i3status
+
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 10%-
+
+bindsym XF86Display exec --no-startup-id arandr
+
+floating_modifier Mod4
+
+tiling_drag modifier titlebar
+
+bindsym Mod4+Return exec alacritty
+
+bindsym Mod4+q kill
+
+bindsym Mod4+d exec "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '#005577' -sf '#EEEEEE' -fn 'monospace-10'"
+
+bindsym Mod4+j focus left
+bindsym Mod4+k focus down
+bindsym Mod4+l focus up
+bindsym Mod4+semicolon focus right
+
+bindsym Mod4+Left focus left
+bindsym Mod4+Down focus down
+bindsym Mod4+Up focus up
+bindsym Mod4+Right focus right
+
+bindsym Mod4+Shift+j move left
+bindsym Mod4+Shift+k move down
+bindsym Mod4+Shift+l move up
+bindsym Mod4+Shift+semicolon move right
+
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+Right move right
+
+bindsym Mod4+h split h
+
+bindsym Mod4+v split v
+
+bindsym Mod4+f fullscreen toggle
+
+bindsym Mod4+s layout stacking
+bindsym Mod4+w layout tabbed
+bindsym Mod4+e layout toggle split
+
+bindsym Mod4+Shift+space floating toggle
+
+bindsym Mod4+a focus parent
+
+bindsym Mod4+Ctrl+e exec thunar
+bindsym Mod4+Shift+x exec --no-startup-id i3lock -c 000000 && xset dpms force off
+
+bindsym Mod4+1 workspace number "1"
+bindsym Mod4+2 workspace number "2"
+bindsym Mod4+3 workspace number "3"
+bindsym Mod4+4 workspace number "4"
+bindsym Mod4+5 workspace number "5"
+bindsym Mod4+6 workspace number "6"
+bindsym Mod4+7 workspace number "7"
+bindsym Mod4+8 workspace number "8"
+bindsym Mod4+9 workspace number "9"
+bindsym Mod4+0 workspace number "10"
+
+bindsym Mod4+Shift+1 move container to workspace number "1"
+bindsym Mod4+Shift+2 move container to workspace number "2"
+bindsym Mod4+Shift+3 move container to workspace number "3"
+bindsym Mod4+Shift+4 move container to workspace number "4"
+bindsym Mod4+Shift+5 move container to workspace number "5"
+bindsym Mod4+Shift+6 move container to workspace number "6"
+bindsym Mod4+Shift+7 move container to workspace number "7"
+bindsym Mod4+Shift+8 move container to workspace number "8"
+bindsym Mod4+Shift+9 move container to workspace number "9"
+bindsym Mod4+Shift+0 move container to workspace number "10"
+
+bindsym Mod4+Shift+c reload
+bindsym Mod4+Shift+r restart
+bindsym Mod4+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+mode "resize" {
+  bindsym j resize shrink width 10 px or 10 ppt
+  bindsym k resize grow height 10 px or 10 ppt
+  bindsym l resize shrink height 10 px or 10 ppt
+  bindsym semicolon resize grow width 10 px or 10 ppt
+
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym Mod4+r mode "default"
+}
+
+bindsym Mod4+r mode "resize"
+
+# class                 border  bground text    indicator child_border
+client.focused          #83CAFA #51A2DA #FFFFFF #83CAFA   #51A2DA
+client.focused_inactive #8C8C8C #4C4C4C #FFFFFF #4C4C4C   #8C8C8C
+client.unfocused        #4C4C4C #222222 #888888 #292D2E   #222222
+client.urgent           #EC69A0 #DB3279 #FFFFFF #DB3279   #DB3279
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+
+client.background       #FFFFFF
+
+bar {
+  position top
+  status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
+}
