@@ -47,7 +47,7 @@ exec --no-startup-id xfsettingsd
 exec --no-startup-id sh -c 'export GTK_THEME=Adwaita-dark'
 
 exec xinput set-prop "FTCS0038:00 2808:0106 Touchpad" "libinput Tapping Enabled" 1
-exec --no-startup-id xsetroot -solid "#222222"
+exec --no-startup-id xsetroot -solid "#111111"
 
 bindsym Mod4+Shift+s exec flameshot gui
 
@@ -65,6 +65,9 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 10%-
 
 bindsym XF86Display exec --no-startup-id arandr
+
+# Monitor switching (cycle through: laptop, extend, mirror, external)
+bindsym $mod+p exec --no-startup-id ~/.config/i3/scripts/monitor-switch.sh
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
