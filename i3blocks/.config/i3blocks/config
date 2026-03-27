@@ -1,54 +1,47 @@
+command=/usr/lib/i3blocks/$BLOCK_NAME/$BLOCK_NAME
 separator=true
 separator_block_width=15
 
-[systemctl]
-command=$SCRIPT_DIR/systemctl/systemctl
-interval=once
-markup=pango
-instance=docker
-
 [cpu_usage]
-command=$SCRIPT_DIR/cpu_usage/cpu_usage
+command=/usr/lib/i3blocks/cpu_usage/cpu_usage
 interval=10
-LABEL=cpu 
+LABEL=cpu:
 DECIMALS=0
 COLOR_NORMAL=#EBDBB2
 COLOR_WARN=#FFFC00
 COLOR_CRIT=#FF0000
 
 [memory]
-command=$SCRIPT_DIR/memory/memory
-label=men 
+command=/usr/lib/i3blocks/memory/memory
+label=mem:
 interval=30
 
-[volume]
-command=$SCRIPT_DIR/volume/volume
-LABEL=vol 
-interval=once
-signal=10
+# [volume]
+# command=/usr/lib/i3blocks/volume/volume
+# LABEL=vol:
+# interval=once
+# signal=10
 
 [battery]
-command=$SCRIPT_DIR/battery/battery
+command=/usr/lib/i3blocks/battery/battery
 interval=30
-LABEL=bat 
+LABEL=bat:
 
 [calendar]
-command=$SCRIPT_DIR/calendar/calendar
+command=/usr/lib/i3blocks/calendar/calendar
 interval=1
-LABEL= 
+LABEL=
 DATEFMT=+%H:%M:%S
 HEIGHT=180
 WIDTH=220
 
 [user]
-label= 
-command=lslogins | grep $USER | awk '{print $5}'
+label=
+command=lslogins | grep $USER | awk '{print $2}'
 interval=once
 
 [dunst]
-command=$SCRIPT_DIR/dunst/dunst
+command=/usr/lib/i3blocks/dunst/dunst
 interval=once
 format=json
 markup=pango
-#min_width=50
-#align=center
