@@ -1,0 +1,7 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR --export LANG:en_US\x2eUTF\x2d8
+SETUVAR --export --path LANGUAGE:en_US\x2eUTF\x2d8
+SETUVAR --export LC_ALL:en_US\x2eUTF\x2d8
+SETUVAR __fish_initialized:4300
+SETUVAR fish_greeting:
