@@ -5,3 +5,4 @@ SETUVAR --export --path LANGUAGE:en_US\x2eUTF\x2d8
 SETUVAR --export LC_ALL:en_US\x2eUTF\x2d8
 SETUVAR __fish_initialized:4300
 SETUVAR fish_greeting:
+SETUVAR fish_user_paths:/home/jean/\x2elocal/bin
