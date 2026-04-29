@@ -10,7 +10,7 @@ padding = { x = 3, y = 3 }
 dynamic_padding = true
 
 [font.normal]
-family = "Iosevka Term"
+family = "IosevkaTerm Nerd Font"
 style = "Regular"
 
 [colors.primary]
