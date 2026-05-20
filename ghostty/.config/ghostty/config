@@ -1,6 +1,0 @@
-font-family = "Iosevka Term"
-font-family-bold = "Iosevka Term Bold"
-font-family-italic = "Iosevka Term Italic"
-font-size = 12
-theme = TokyoNight
-term = xterm-256color
