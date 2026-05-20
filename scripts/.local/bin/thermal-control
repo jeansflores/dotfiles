@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+#
+# thermal-control — limita aquecimento do Ryzen 7 7735HS via amd_pstate EPP
+#
+# Uso:
+#   thermal-control apply   → aplica perfil térmico (chamado pelo systemd)
+#   thermal-control boost   → toggle turbo boost on/off
+#   thermal-control status  → exibe estado atual
+
+BOOST=/sys/devices/system/cpu/cpufreq/boost
+EPP_PATH=/sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
+# cap em 3.4GHz — evita rajadas de turbo que disparam a ventoinha
+# max disponível é 4.8GHz, base clock é ~2.7GHz
+MAX_FREQ=3400000
+
+apply() {
+    # EPP balance_power: kernel prioriza eficiência sobre pico de performance
+    for f in /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference; do
+        echo "balance_power" > "$f"
+    done
+    # cap de frequência máxima
+    for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq; do
+        echo "$MAX_FREQ" > "$f"
+    done
+    echo "thermal-control: EPP=balance_power, max_freq=${MAX_FREQ}Hz aplicado"
+}
+
+boost_toggle() {
+    if [ ! -f "$BOOST" ]; then
+        echo "boost: não suportado nesse kernel"
+        exit 1
+    fi
+    current=$(cat "$BOOST")
+    if [ "$current" = "1" ]; then
+        echo 0 > "$BOOST"
+        echo "turbo boost: desativado"
+    else
+        echo 1 > "$BOOST"
+        echo "turbo boost: ativado"
+    fi
+}
+
+status() {
+    echo "=== EPP por core ==="
+    cat /sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference
+    echo "=== Frequência máxima ==="
+    echo "$(( $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq) / 1000 ))MHz"
+    echo "=== Turbo boost ==="
+    [ "$(cat $BOOST 2>/dev/null)" = "1" ] && echo "ativado" || echo "desativado"
+    echo "=== Temperaturas ==="
+    for f in /sys/class/hwmon/hwmon*/temp1_input; do
+        name=$(cat "$(dirname $f)/name" 2>/dev/null)
+        temp=$(( $(cat "$f") / 1000 ))
+        echo "$name: ${temp}°C"
+    done
+}
+
+case "$1" in
+    apply)  apply ;;
+    boost)  boost_toggle ;;
+    status) status ;;
+    *)      apply ;;
+esac
