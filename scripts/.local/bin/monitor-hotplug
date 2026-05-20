@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# chamado pelo udev quando há mudança de estado HDMI
+export DISPLAY=:0
+export XAUTHORITY="/home/$USER/.Xauthority"
+exec /home/$USER/.local/bin/monitor-manager auto
