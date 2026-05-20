@@ -8,13 +8,11 @@ Configurações gerenciadas com [GNU Stow](https://www.gnu.org/software/stow/).
 dotfiles/
 ├── alacritty/   → ~/.config/alacritty/
 ├── autostart/   → ~/.config/autostart/
-├── ghostty/     → ~/.config/ghostty/
 ├── gitconfig/   → ~/
 ├── i3/          → ~/.config/i3/
 ├── nvim/        → ~/.config/nvim/
 ├── polybar/     → ~/.config/polybar/
-├── scripts/     → ~/.local/bin/
-└── tmux/        → ~/
+└── scripts/     → ~/.local/bin/
 ```
 
 ---
@@ -62,7 +60,7 @@ bash -c 'for url in "https://github.com/ryanoasis/nerd-fonts/releases/download/v
 
 ```bash
 cd ~/dotfiles
-stow i3 polybar alacritty autostart scripts nvim gitconfig tmux
+stow i3 polybar alacritty autostart scripts nvim gitconfig
 ```
 
 > Para remover os symlinks: `stow -D <pacote>`
