@@ -128,6 +128,13 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
 set $ws2 "2"
+
+# workspace assignments
+assign [class="Google-chrome"] $ws1
+assign [class="Alacritty"] $ws2
+
+# ws1 sempre em modo tabbed quando Chrome abre
+for_window [class="Google-chrome"] layout tabbed
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
@@ -188,7 +195,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # class                 border  bground text    indicator child_border
-client.focused          #83CAFA #51A2DA #FFFFFF #83CAFA   #51A2DA
+client.focused          #FFFFFF #000000 #FFFFFF #FFFFFF   #FFFFFF
 client.focused_inactive #8C8C8C #4C4C4C #FFFFFF #4C4C4C   #8C8C8C
 client.unfocused        #4C4C4C #222222 #888888 #292D2E   #222222
 client.urgent           #EC69A0 #DB3279 #FFFFFF #DB3279   #DB3279
@@ -197,3 +204,7 @@ client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
 client.background       #FFFFFF
 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# apps de startup por workspace
+exec --no-startup-id google-chrome-stable
+exec --no-startup-id alacritty
