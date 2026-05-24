@@ -207,4 +207,4 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # apps de startup por workspace
 exec --no-startup-id google-chrome-stable
-exec --no-startup-id alacritty
+exec --no-startup-id alacritty -e zellij
