@@ -3,7 +3,8 @@
 PROFILES=(power-saver balanced performance)
 
 current() {
-    powerprofilesctl get
+    busctl get-property net.hadess.PowerProfiles /net/hadess/PowerProfiles \
+        net.hadess.PowerProfiles ActiveProfile 2>/dev/null | awk '{gsub(/"/, ""); print $2}'
 }
 
 label() {
@@ -25,7 +26,8 @@ next_profile() {
 
 case "$1" in
     toggle)
-        powerprofilesctl set "$(next_profile)"
+        busctl set-property net.hadess.PowerProfiles /net/hadess/PowerProfiles \
+            net.hadess.PowerProfiles ActiveProfile s "$(next_profile)"
         ;;
     *)
         label "$(current)"
