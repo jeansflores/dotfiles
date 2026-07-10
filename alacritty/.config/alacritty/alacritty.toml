@@ -1,0 +1,146 @@
+[font]
+size = 12
+
+[font.normal]
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "FiraCode Nerd Font"
+style = "Italic"
+
+# Colors section of "Alacritty - TOML configuration file format"
+# https://github.com/alacritty/alacritty/blob/master/extra/man/alacritty.5.scd#colors
+
+[colors.primary]
+foreground = "#e0def4"
+background = "#232136"
+dim_foreground = "#908caa"
+bright_foreground = "#e0def4"
+
+[colors.cursor]
+text = "#e0def4"
+cursor = "#56526e"
+
+[colors.vi_mode_cursor]
+text = "#e0def4"
+cursor = "#56526e"
+
+[colors.search.matches]
+foreground = "#908caa"
+background = "#393552"
+
+[colors.search.focused_match]
+foreground = "#232136"
+background = "#ea9a97"
+
+[colors.hints.start]
+foreground = "#908caa"
+background = "#2a273f"
+
+[colors.hints.end]
+foreground = "#6e6a86"
+background = "#2a273f"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.footer_bar]
+foreground = "#e0def4"
+background = "#2a273f"
+
+[colors.selection]
+text = "#e0def4"
+background = "#44415a"
+
+[colors.normal]
+black = "#393552"
+red = "#eb6f92"
+green = "#3e8fb0"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ea9a97"
+white = "#e0def4"
+
+[colors.bright]
+black = "#6e6a86"
+red = "#eb6f92"
+green = "#3e8fb0"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ea9a97"
+white = "#e0def4"
+
+[colors.dim]
+black = "#6e6a86"
+red = "#eb6f92"
+green = "#3e8fb0"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ea9a97"
+white = "#e0def4"
+
+# [colors.primary]
+# background = "#282a36"
+# foreground = "#f8f8f2"
+# bright_foreground = "#ffffff"
+#
+# [colors.cursor]
+# text = "#282a36"
+# cursor = "#f8f8f2"
+#
+# [colors.vi_mode_cursor]
+# text = "CellBackground"
+# cursor = "CellForeground"
+#
+# [colors.selection]
+# text = "CellForeground"
+# background = "#44475a"
+#
+# [colors.normal]
+# black = "#21222c"
+# red = "#ff5555"
+# green = "#50fa7b"
+# yellow = "#f1fa8c"
+# blue = "#bd93f9"
+# magenta = "#ff79c6"
+# cyan = "#8be9fd"
+# white = "#f8f8f2"
+#
+# [colors.bright]
+# black = "#6272a4"
+# red = "#ff6e6e"
+# green = "#69ff94"
+# yellow = "#ffffa5"
+# blue = "#d6acff"
+# magenta = "#ff92df"
+# cyan = "#a4ffff"
+# white = "#ffffff"
+#
+# [colors.search.matches]
+# foreground = "#44475a"
+# background = "#50fa7b"
+#
+# [colors.search.focused_match]
+# foreground = "#44475a"
+# background = "#ffb86c"
+#
+# [colors.footer_bar]
+# background = "#282a36"
+# foreground = "#f8f8f2"
+#
+# [colors.hints.start]
+# foreground = "#282a36"
+# background = "#f1fa8c"
+#
+# [colors.hints.end]
+# foreground = "#f1fa8c"
+# background = "#282a36"

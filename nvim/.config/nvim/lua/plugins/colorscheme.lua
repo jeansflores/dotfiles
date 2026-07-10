@@ -1,19 +1,21 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    "rose-pine/neovim",
+    name = "rose-pine",
     opts = {
-      style = "moon",
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
+      variant = "moon", -- define a variante como moon
+      dark_variant = "moon",
     },
+    config = function(_, opts)
+      require("rose-pine").setup(opts)
+      vim.cmd("colorscheme rose-pine-moon")
+    end,
   },
+  -- Configura o LazyVim para usar o tema
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-moon",
+      colorscheme = "rose-pine-moon",
     },
   },
 }
