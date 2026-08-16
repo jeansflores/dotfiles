@@ -1,0 +1,37 @@
+# Swaylock — Tokyo Night (Night)
+
+daemonize
+ignore-empty-password
+show-failed-attempts
+indicator-caps-lock
+indicator-radius=100
+indicator-thickness=8
+
+color=1a1b26
+
+inside-color=1a1b26
+inside-clear-color=1a1b26
+inside-ver-color=1a1b26
+inside-wrong-color=1a1b26
+
+ring-color=414868
+ring-clear-color=e0af68
+ring-ver-color=7aa2f7
+ring-wrong-color=f7768e
+
+key-hl-color=bb9af7
+bs-hl-color=ff9e64
+
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+separator-color=00000000
+
+text-color=c0caf5
+text-clear-color=e0af68
+text-ver-color=7aa2f7
+text-wrong-color=f7768e
+
+font=Noto Sans
+font-size=20

@@ -1,0 +1,53 @@
+/* Wofi — Tokyo Night (Night) */
+
+window {
+    background-color: #16161e;
+    border: 1px solid #292e42;
+    border-radius: 12px;
+    font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;
+    font-size: 14px;
+}
+
+#outer-box {
+    padding: 10px;
+}
+
+#input {
+    background-color: #1a1b26;
+    color: #c0caf5;
+    border: 1px solid #292e42;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+}
+
+#input:focus {
+    border: 1px solid #7aa2f7;
+}
+
+#scroll {
+    margin: 0;
+}
+
+#inner-box {
+    background-color: transparent;
+}
+
+#entry {
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #a9b1d6;
+}
+
+#entry:selected {
+    background-color: #7aa2f7;
+    color: #16161e;
+}
+
+#text {
+    color: inherit;
+}
+
+#text:selected {
+    color: #16161e;
+}

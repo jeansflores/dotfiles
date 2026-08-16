@@ -1,0 +1,178 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "spacing": 4,
+    "margin-top": 6,
+    "margin-left": 8,
+    "margin-right": 8,
+
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "idle_inhibitor",
+        "cpu",
+        "memory",
+        "temperature",
+        "backlight",
+        "pulseaudio",
+        "custom/powerprofile",
+        "battery",
+        "tray",
+        "custom/notification"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": " {}"
+    },
+
+    "sway/window": {
+        "format": "{title}",
+        "max-length": 60,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "  $1",
+            "(.*) - Google Chrome": "  $1",
+            "(.*) - NVIM": "  $1"
+        }
+    },
+
+    "clock": {
+        "interval": 30,
+        "format": "  {:%H:%M}",
+        "format-alt": "  {:%d/%m/%Y  %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "months":  "<span color='#c0caf5'><b>{}</b></span>",
+                "days":    "<span color='#a9b1d6'>{}</span>",
+                "weekdays":"<span color='#7aa2f7'><b>{}</b></span>",
+                "today":   "<span color='#ff9e64'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip-format-activated": "Suspensão automática bloqueada",
+        "tooltip-format-deactivated": "Suspensão automática ativa"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "  {usage}%",
+        "on-click": "ghostty -e btop"
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "  {percentage}%",
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G em uso",
+        "on-click": "ghostty -e btop"
+    },
+
+    "temperature": {
+        // k10temp (CPU AMD) — caminho estável, imune à renumeração de hwmonN
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
+        "interval": 5,
+        "critical-threshold": 85,
+        "format": "  {temperatureC}°C",
+        "format-critical": "  {temperatureC}°C"
+    },
+
+    "backlight": {
+        "device": "amdgpu_bl1",
+        "format": "{icon}  {percent}%",
+        "format-icons": ["", ""],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "  mudo",
+        "format-bluetooth": "  {volume}%",
+        "format-icons": {
+            "headphone": "",
+            "headset": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "scroll-step": 5
+    },
+
+    // Perfil de energia do power-profiles-daemon.
+    // Clique = menu wofi · botão direito = cicla · o ícone segue o perfil.
+    // O "signal" abaixo tem que bater com WAYBAR_SIGNAL no script.
+    "custom/powerprofile": {
+        "exec": "$HOME/.local/bin/powerprofile waybar",
+        "return-type": "json",
+        "interval": 30,
+        "signal": 8,
+        "format": "{}",
+        "on-click": "$HOME/.local/bin/powerprofile menu",
+        "on-click-right": "$HOME/.local/bin/powerprofile cycle"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "adapter": "ADP0",
+        "interval": 30,
+        "states": {
+            "warning": 25,
+            "critical": 12
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}  ({power:0.1f} W)"
+    },
+
+    // Bluetooth e rede vivem aqui: blueman-applet e nm-applet.
+    // Ambos sobem sozinhos no login via xdg-desktop-autostart.target.
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "",
+            "none": "",
+            "dnd-notification": "",
+            "dnd-none": "",
+            "inhibited-notification": "",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    }
+}

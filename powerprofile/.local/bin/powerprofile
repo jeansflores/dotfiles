@@ -1,0 +1,171 @@
+#!/usr/bin/env bash
+#
+# powerprofile — seleção e persistência do perfil de energia
+#
+# Conversa direto com o power-profiles-daemon pelo D-Bus do sistema
+# (o polkit já libera a troca para a sessão ativa, sem senha).
+#
+# Uso:
+#   powerprofile get         imprime o perfil ativo
+#   powerprofile set <p>     aplica um perfil e memoriza a escolha
+#   powerprofile cycle       avança para o próximo perfil
+#   powerprofile menu        menu wofi para escolher
+#   powerprofile waybar      JSON para o módulo custom/powerprofile
+#   powerprofile restore     reaplica o perfil memorizado (roda no login)
+#   powerprofile watch       observa o D-Bus e memoriza qualquer mudança
+#
+set -euo pipefail
+
+DEST=net.hadess.PowerProfiles
+OBJ=/net/hadess/PowerProfiles
+IFACE=net.hadess.PowerProfiles
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
+STATE_FILE="$STATE_DIR/power-profile"
+
+# Precisa bater com "signal" no módulo da waybar
+WAYBAR_SIGNAL=8
+
+icon_for() {
+    case "$1" in
+        power-saver) printf '󰾆' ;;
+        balanced)    printf '󰾅' ;;
+        performance) printf '󰓅' ;;
+        *)           printf '󰠠' ;;
+    esac
+}
+
+label_for() {
+    case "$1" in
+        power-saver) printf 'Economia' ;;
+        balanced)    printf 'Equilibrado' ;;
+        performance) printf 'Desempenho' ;;
+        *)           printf '%s' "$1" ;;
+    esac
+}
+
+get() {
+    busctl get-property --system "$DEST" "$OBJ" "$IFACE" ActiveProfile \
+        | sed 's/^s "//; s/"$//'
+}
+
+# Lista os perfis que o daemon expõe, na ordem em que ele os informa
+profiles() {
+    busctl get-property --system "$DEST" "$OBJ" "$IFACE" Profiles \
+        | grep -oE '"(power-saver|balanced|performance)"' \
+        | tr -d '"' \
+        | awk '!seen[$0]++'
+}
+
+remember() {
+    mkdir -p "$STATE_DIR"
+    printf '%s\n' "$1" > "$STATE_FILE"
+}
+
+refresh_waybar() {
+    pkill -RTMIN+$WAYBAR_SIGNAL waybar 2>/dev/null || true
+}
+
+apply() {
+    busctl set-property --system "$DEST" "$OBJ" "$IFACE" ActiveProfile s "$1"
+    remember "$1"
+    refresh_waybar
+}
+
+cmd_cycle() {
+    local cur next i
+    cur=$(get)
+    mapfile -t all < <(profiles)
+    for i in "${!all[@]}"; do
+        if [[ "${all[$i]}" == "$cur" ]]; then
+            next="${all[$(( (i + 1) % ${#all[@]} ))]}"
+            break
+        fi
+    done
+    apply "${next:-balanced}"
+}
+
+cmd_menu() {
+    local cur choice profile
+    cur=$(get)
+
+    choice=$(
+        while read -r p; do
+            if [[ "$p" == "$cur" ]]; then
+                printf '● %s  %s\n' "$(icon_for "$p")" "$(label_for "$p")"
+            else
+                printf '  %s  %s\n' "$(icon_for "$p")" "$(label_for "$p")"
+            fi
+        done < <(profiles) \
+        | wofi --dmenu --prompt 'Perfil de energia' --width 320 --height 200 \
+               --cache-file /dev/null
+    ) || exit 0
+
+    [[ -n "$choice" ]] || exit 0
+
+    case "$choice" in
+        *Economia)    profile=power-saver ;;
+        *Equilibrado) profile=balanced ;;
+        *Desempenho)  profile=performance ;;
+        *) exit 0 ;;
+    esac
+
+    apply "$profile"
+    notify-send -i battery -t 2500 'Perfil de energia' "$(label_for "$profile")" 2>/dev/null || true
+}
+
+cmd_waybar() {
+    local cur
+    cur=$(get)
+    printf '{"text":"%s","alt":"%s","class":"%s","tooltip":"Perfil de energia: %s"}\n' \
+        "$(icon_for "$cur")" "$cur" "$cur" "$(label_for "$cur")"
+}
+
+cmd_restore() {
+    [[ -r "$STATE_FILE" ]] || exit 0
+
+    local saved
+    saved=$(tr -d '[:space:]' < "$STATE_FILE")
+    [[ -n "$saved" ]] || exit 0
+
+    # No boot o daemon pode ainda não ter aparecido no bus
+    local i
+    for i in $(seq 30); do
+        if busctl get-property --system "$DEST" "$OBJ" "$IFACE" ActiveProfile >/dev/null 2>&1; then
+            break
+        fi
+        sleep 1
+    done
+
+    busctl set-property --system "$DEST" "$OBJ" "$IFACE" ActiveProfile s "$saved"
+    refresh_waybar
+}
+
+# Memoriza mudanças feitas por qualquer caminho — inclusive o clique
+# que cicla o perfil direto na waybar, que não passa por este script.
+cmd_watch() {
+    gdbus monitor --system --dest "$DEST" 2>/dev/null | while read -r line; do
+        case "$line" in
+            *ActiveProfile*)
+                remember "$(get)"
+                refresh_waybar
+                ;;
+        esac
+    done
+}
+
+case "${1:-waybar}" in
+    get)     get ;;
+    set)     apply "${2:?uso: powerprofile set <power-saver|balanced|performance>}" ;;
+    cycle)   cmd_cycle ;;
+    menu)    cmd_menu ;;
+    waybar)  cmd_waybar ;;
+    restore) cmd_restore ;;
+    watch)   cmd_watch ;;
+    list)    profiles ;;
+    *)
+        printf 'uso: %s {get|set <perfil>|cycle|menu|waybar|restore|watch|list}\n' \
+            "${0##*/}" >&2
+        exit 1
+        ;;
+esac

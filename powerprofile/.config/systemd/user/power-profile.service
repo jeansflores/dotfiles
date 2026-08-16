@@ -1,0 +1,16 @@
+[Unit]
+Description=Restaura e memoriza o perfil de energia (power-profiles-daemon)
+Documentation=man:powerprofilesctl(1)
+After=dbus.service
+
+[Service]
+Type=simple
+# Reaplica o perfil escolhido antes do reboot...
+ExecStartPre=%h/.local/bin/powerprofile restore
+# ...e fica observando o D-Bus para memorizar qualquer troca posterior
+ExecStart=%h/.local/bin/powerprofile watch
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

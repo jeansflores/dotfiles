@@ -1,0 +1,33 @@
+# Ghostty — Tokyo Night
+# Referência completa: `ghostty +show-config --default --docs | less`
+# Temas disponíveis:  `ghostty +list-themes`
+
+# Variantes: "TokyoNight Night" (mais escura) | "TokyoNight Storm" | "TokyoNight Moon" | "TokyoNight Day"
+theme = TokyoNight Night
+
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 11
+font-feature = calt
+font-feature = liga
+
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+
+# No Sway o título é desenhado pelo compositor, não pelo GTK
+window-decoration = none
+
+# Leve transparência — descomente se quiser (Sway não faz blur atrás)
+# background-opacity = 0.95
+
+cursor-style = block
+cursor-style-blink = false
+mouse-hide-while-typing = true
+
+scrollback-limit = 10000
+copy-on-select = clipboard
+
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+confirm-close-surface = false
