@@ -1,21 +1,29 @@
 return {
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
     opts = {
-      variant = "moon", -- define a variante como moon
-      dark_variant = "moon",
+      -- Mesma variante do Ghostty/Waybar: TokyoNight Night
+      style = "night",
+      light_style = "day",
+      transparent = false,
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+        sidebars = "dark", -- explorer, trouble, etc.
+        floats = "dark", -- janelas flutuantes (picker, lazy, mason)
+      },
     },
-    config = function(_, opts)
-      require("rose-pine").setup(opts)
-      vim.cmd("colorscheme rose-pine-moon")
-    end,
   },
   -- Configura o LazyVim para usar o tema
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine-moon",
+      colorscheme = "tokyonight-night",
     },
   },
 }
