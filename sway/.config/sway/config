@@ -38,6 +38,15 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Daemon de notificações (o módulo da waybar fala com ele via swaync-client)
 exec swaync
 
+# Bandeja: bluetooth e rede.
+# Sem display manager, o graphical-session.target do systemd --user nunca
+# fica ativo nesta sessão — então o xdg-desktop-autostart.target (que
+# dependeria dele) nunca sobe o nm-applet.desktop sozinho. O blueman-applet
+# escapa disso por ser ativado via D-Bus (BusName=org.blueman.Applet), mas o
+# nm-applet não tem esse fallback. Por isso os dois sobem aqui, explícitos.
+exec blueman-applet
+exec nm-applet
+
 ### Idle configuration
 #
 # 5 min: bloqueia · 10 min: desliga a tela · antes de suspender: bloqueia
@@ -73,6 +82,10 @@ exec swayidle -w \
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+
+    # Start a terminal already attached to tmux (sessão "main": reaproveita
+    # se já existir, cria se não)
+    bindsym $mod+Mod1+Return exec $term -e tmux new-session -A -s main
 
     # Kill focused window
     bindsym $mod+Shift+q kill

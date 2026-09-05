@@ -68,6 +68,7 @@ por `Mod+hjkl`, workspaces por `Mod+1..0` e o modo `resize` seguem o default.
 | Atalho | Ação |
 | --- | --- |
 | `Mod+Return` | terminal (ghostty) |
+| `Mod+Alt+Return` | terminal com tmux (sessão `main`) |
 | `Mod+d` | lançador (wmenu-run) |
 | `Mod+Shift+q` | fecha a janela |
 | `Mod+Shift+c` | recarrega o Sway |
@@ -89,9 +90,11 @@ Da esquerda para a direita: workspaces, título da janela, relógio ao centro e,
 perfil de energia, bateria, bandeja e notificações.
 
 Rede e bluetooth **não** têm módulo próprio: ficam na bandeja, a cargo do
-`nm-applet` e do `blueman-applet`. Os dois sobem sozinhos no login, via
-`xdg-desktop-autostart.target` do `systemd --user` — não há `exec` para eles no
-config do Sway.
+`nm-applet` e do `blueman-applet`, subidos por `exec` no config do Sway. Sem
+display manager, o `graphical-session.target` do `systemd --user` nunca fica
+ativo nesta sessão, então o `xdg-desktop-autostart.target` (que dependeria
+dele) nunca sobe o `nm-applet.desktop` sozinho — daí o `exec` explícito para
+os dois.
 
 O sensor de temperatura é apontado por `hwmon-path-abs` no diretório do
 dispositivo, e não por `/sys/class/hwmon/hwmonN`, cuja numeração muda entre
