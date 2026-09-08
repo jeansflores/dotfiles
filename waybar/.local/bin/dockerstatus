@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# dockerstatus — status do serviço Docker para o módulo custom/docker da waybar
+#
+# Uso:
+#   dockerstatus waybar    JSON para o módulo custom/docker
+#
+set -euo pipefail
+
+ICON=$''   # nf-linux-docker (Symbols Nerd Font)
+
+cmd_waybar() {
+    if ! systemctl is-active --quiet docker; then
+        printf '{"text":"%s off","alt":"stopped","class":"stopped","tooltip":"Docker parado"}\n' "$ICON"
+        return
+    fi
+
+    local n
+    n=$(docker ps -q 2>/dev/null | wc -l)
+
+    if [[ "$n" -eq 0 ]]; then
+        printf '{"text":"%s 0","alt":"idle","class":"idle","tooltip":"Docker ativo — nenhum container rodando"}\n' "$ICON"
+    else
+        printf '{"text":"%s %s","alt":"running","class":"running","tooltip":"Docker ativo — %s container(s) rodando"}\n' \
+            "$ICON" "$n" "$n"
+    fi
+}
+
+case "${1:-waybar}" in
+    waybar) cmd_waybar ;;
+    *)
+        printf 'uso: %s {waybar}\n' "${0##*/}" >&2
+        exit 1
+        ;;
+esac

@@ -96,6 +96,7 @@ window#waybar.hidden {
 #cpu,
 #memory,
 #temperature,
+#custom-docker,
 #backlight,
 #pulseaudio,
 #custom-powerprofile,
@@ -139,6 +140,12 @@ window#waybar.empty #window {
 #cpu         { color: @green; }
 #memory      { color: @magenta; }
 #temperature { color: @teal; }
+
+/* Docker — apagado quando parado, tom normal ativo/rodando */
+#custom-docker            { color: @blue1; }
+#custom-docker.idle       { color: @comment; }
+#custom-docker.stopped    { color: @comment; }
+
 #backlight   { color: @yellow; }
 #pulseaudio  { color: @cyan; }
 #battery     { color: @green; }

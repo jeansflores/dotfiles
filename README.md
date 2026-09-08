@@ -86,8 +86,8 @@ bloqueada (`--locked`).
 ## Barra
 
 Da esquerda para a direita: workspaces, título da janela, relógio ao centro e,
-à direita, inibidor de suspensão, CPU, memória, temperatura, brilho, volume,
-perfil de energia, bateria, bandeja e notificações.
+à direita, inibidor de suspensão, CPU, memória, temperatura, Docker, brilho,
+volume, perfil de energia, bateria, bandeja e notificações.
 
 Rede e bluetooth **não** têm módulo próprio: ficam na bandeja, a cargo do
 `nm-applet` e do `blueman-applet`, subidos por `exec` no config do Sway. Sem
@@ -99,6 +99,21 @@ os dois.
 O sensor de temperatura é apontado por `hwmon-path-abs` no diretório do
 dispositivo, e não por `/sys/class/hwmon/hwmonN`, cuja numeração muda entre
 boots.
+
+## Docker
+
+O ícone segue o serviço: apagado (cinza) quando o `docker.service` está
+parado, baleia acesa com a contagem de containers em execução quando está
+ativo. Clique abre o `lazydocker` num terminal — igual ao `btop` que abre ao
+clicar na CPU/RAM.
+
+```bash
+dockerstatus waybar   # JSON consumido pelo módulo custom/docker
+```
+
+Não depende de sudo: o usuário já está no grupo `docker`, e `systemctl
+is-active`/`docker ps` não exigem privilégio para consultar. O `lazydocker`
+vem do `mise` (não é pacote destes dotfiles).
 
 ## Perfil de energia
 
