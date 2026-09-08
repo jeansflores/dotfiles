@@ -100,12 +100,16 @@
 
     // Serviço Docker: apagado se parado, contagem de containers se ativo.
     // Clique = abre o lazydocker num terminal (igual ao btop da RAM/CPU).
+    //
+    // O lazydocker vem do mise, e a waybar (subida pelo Sway, sem shell de
+    // login) não tem o PATH do mise — daí o caminho absoluto para o shim,
+    // que resolve a versão certa sozinho mesmo com PATH mínimo.
     "custom/docker": {
         "exec": "$HOME/.local/bin/dockerstatus waybar",
         "return-type": "json",
         "interval": 5,
         "format": "{}",
-        "on-click": "ghostty -e lazydocker"
+        "on-click": "ghostty -e $HOME/.local/share/mise/shims/lazydocker"
     },
 
     "backlight": {
