@@ -9,3 +9,21 @@ status_indicators = "symbols"
 [theme]
 name = "terminal"
 auto_switch = false
+
+# Direct chords (no prefix). The prefix bindings keep working alongside.
+# alt+hjkl        -> move between panes/agents in the current Space
+# alt+shift+j/k   -> next/previous Space
+# alt+shift+h/l   -> previous/next tab
+# alt+n/p         -> next/previous agent (across Spaces, via the agent panel)
+# Heads-up: LazyVim uses alt+j/k to move lines; herdr now consumes them first.
+[keys]
+focus_pane_left = ["prefix+h", "alt+h"]
+focus_pane_down = ["prefix+j", "alt+j"]
+focus_pane_up = ["prefix+k", "alt+k"]
+focus_pane_right = ["prefix+l", "alt+l"]
+next_workspace = "alt+shift+j"
+previous_workspace = "alt+shift+k"
+previous_tab = ["prefix+p", "alt+shift+h"]
+next_tab = ["prefix+n", "alt+shift+l"]
+next_agent = "alt+n"
+previous_agent = "alt+p"
