@@ -83,9 +83,10 @@ exec swayidle -w \
     # Start a terminal
     bindsym $mod+Return exec $term
 
-    # Start a terminal already attached to tmux (sessão "main": reaproveita
-    # se já existir, cria se não)
-    bindsym $mod+Mod1+Return exec $term -e tmux new-session -A -s main
+    # Start a terminal attached to herdr (sessão persistente: reaproveita
+    # se já existir, cria se não). Caminho absoluto do shim: o Sway não
+    # herda o PATH do mise.
+    bindsym $mod+Mod1+Return exec $term -e /home/jean/.local/share/mise/shims/herdr
 
     # Kill focused window
     bindsym $mod+Shift+q kill

@@ -46,6 +46,7 @@ stow -D waybar               # remove
 | `powerprofile` | seletor de perfil de energia e seu serviço systemd |
 | `screenrec` | gravação de tela (wf-recorder) com indicador na barra |
 | `nvim` | Neovim (LazyVim) |
+| `herdr` | herdr (workspace de terminais) |
 | `tmux` | tmux |
 | `gitconfig` | git |
 
@@ -69,7 +70,7 @@ por `Mod+hjkl`, workspaces por `Mod+1..0` e o modo `resize` seguem o default.
 | Atalho | Ação |
 | --- | --- |
 | `Mod+Return` | terminal (ghostty) |
-| `Mod+Alt+Return` | terminal com tmux (sessão `main`) |
+| `Mod+Alt+Return` | terminal com herdr (sessão persistente) |
 | `Mod+d` | lançador (wmenu-run) |
 | `Mod+Shift+q` | fecha a janela |
 | `Mod+Shift+c` | recarrega o Sway |
