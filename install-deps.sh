@@ -38,6 +38,7 @@ PKGS=(
     playerctl
     grim                        #     screenshot
     slurp                       #     seleção de região
+    wf-recorder                 # (+) gravação de tela (script screenrec)
     wl-clipboard
     jq                          #     usado no bind de screenshot da janela em foco
 
@@ -96,8 +97,8 @@ if [[ "${1:-}" == "--stow" ]]; then
     cd "$(dirname "$(readlink -f "$0")")"
     # --no-folding cria symlink por arquivo, nunca do diretório inteiro: assim
     # apps que escrevem em ~/.config/gtk-3.0 e afins não sujam o repositório.
-    stow --no-folding gitconfig ghostty gtk nvim powerprofile sway swaylock \
-                      swaync tmux wofi waybar xdg-portal
+    stow --no-folding gitconfig ghostty gtk nvim powerprofile screenrec sway \
+                      swaylock swaync tmux wofi waybar xdg-portal
 fi
 
 echo

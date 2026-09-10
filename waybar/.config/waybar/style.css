@@ -92,6 +92,7 @@ window#waybar.hidden {
 #mode,
 #window,
 #clock,
+#custom-recording,
 #idle_inhibitor,
 #cpu,
 #memory,
@@ -130,6 +131,13 @@ window#waybar.empty #window {
 #clock {
     color: @fg;
     font-weight: bold;
+}
+
+/* Gravação de tela — invisível parado, vermelho piscando enquanto grava */
+#custom-recording.recording {
+    color: @red;
+    font-weight: bold;
+    animation: blink 1.2s steps(2, start) infinite;
 }
 
 #idle_inhibitor        { color: @comment; }

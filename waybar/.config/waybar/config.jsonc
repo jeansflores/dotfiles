@@ -10,6 +10,7 @@
     "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
     "modules-center": ["clock"],
     "modules-right": [
+        "custom/recording",
         "idle_inhibitor",
         "cpu",
         "memory",
@@ -64,6 +65,18 @@
             "on-scroll-up": "shift_up",
             "on-scroll-down": "shift_down"
         }
+    },
+
+    // Gravação de tela (Mod+Shift+R). Só aparece enquanto grava: ponto
+    // vermelho piscando + tempo decorrido. Clique para parar.
+    // O "signal" abaixo tem que bater com WAYBAR_SIGNAL no script.
+    "custom/recording": {
+        "exec": "$HOME/.local/bin/screenrec waybar",
+        "return-type": "json",
+        "interval": 1,
+        "signal": 9,
+        "format": "{}",
+        "on-click": "$HOME/.local/bin/screenrec stop"
     },
 
     "idle_inhibitor": {

@@ -44,6 +44,7 @@ stow -D waybar               # remove
 | `gtk` | fonte, modo escuro e ícones das aplicações GTK 3 e 4 |
 | `xdg-portal` | qual backend do xdg-desktop-portal atende cada função |
 | `powerprofile` | seletor de perfil de energia e seu serviço systemd |
+| `screenrec` | gravação de tela (wf-recorder) com indicador na barra |
 | `nvim` | Neovim (LazyVim) |
 | `tmux` | tmux |
 | `gitconfig` | git |
@@ -79,6 +80,8 @@ por `Mod+hjkl`, workspaces por `Mod+1..0` e o modo `resize` seguem o default.
 | `Print` | seleciona uma região e copia para a área de transferência |
 | `Shift+Print` | tela inteira em `~/Pictures/Screenshots` |
 | `Mod+Print` | janela em foco, para a área de transferência |
+| `Mod+Shift+r` | grava uma região da tela; de novo, para |
+| `Mod+Ctrl+r` | grava a tela inteira; `Mod+Shift+r` para |
 
 As teclas de mídia e de brilho do notebook funcionam mesmo com a tela
 bloqueada (`--locked`).
@@ -86,8 +89,9 @@ bloqueada (`--locked`).
 ## Barra
 
 Da esquerda para a direita: workspaces, título da janela, relógio ao centro e,
-à direita, inibidor de suspensão, CPU, memória, temperatura, Docker, brilho,
-volume, perfil de energia, bateria, bandeja e notificações.
+à direita, indicador de gravação (só enquanto grava), inibidor de suspensão,
+CPU, memória, temperatura, Docker, brilho, microfone, volume, perfil de
+energia, bateria, bandeja e notificações.
 
 Rede e bluetooth **não** têm módulo próprio: ficam na bandeja, a cargo do
 `nm-applet` e do `blueman-applet`, subidos por `exec` no config do Sway. Sem
@@ -114,6 +118,26 @@ dockerstatus waybar   # JSON consumido pelo módulo custom/docker
 Não depende de sudo: o usuário já está no grupo `docker`, e `systemctl
 is-active`/`docker ps` não exigem privilégio para consultar. O `lazydocker`
 vem do `mise` (não é pacote destes dotfiles).
+
+## Gravação de tela
+
+`Mod+Shift+r` abre o `slurp` para escolher uma região e começa a gravar;
+`Mod+Ctrl+r` grava a tela inteira. Enquanto grava, um ponto vermelho piscando
+com o tempo decorrido aparece na ponta direita da barra — clique nele, ou
+`Mod+Shift+r` de novo, para parar. O arquivo vai para `~/Videos/Screencasts`
+com timestamp no nome, como os screenshots, e o caminho chega por notificação.
+
+```bash
+screenrec toggle [region|screen]  # inicia ou para
+screenrec start "0,0 1280x720"    # geometria explícita, útil em script
+screenrec stop
+screenrec status                  # "recording <s>" ou "idle"
+```
+
+Codifica por GPU (`h264_vaapi` no Radeon, quase zero CPU). Se a VA-API falhar
+ao subir, cai sozinho para `libx264` e a notificação avisa qual foi usado. O
+`wl-screenrec` seria a alternativa mais leve, mas só existe no AUR; o
+`wf-recorder` está no repositório oficial.
 
 ## Perfil de energia
 

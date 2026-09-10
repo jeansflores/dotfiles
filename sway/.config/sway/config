@@ -245,6 +245,13 @@ bindsym $mod+r mode "resize"
     bindsym Shift+Print exec mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png
     bindsym $mod+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy
 
+    # Gravação de tela com wf-recorder (script screenrec)
+    # $mod+Shift+r   → seleciona uma região e grava; de novo para parar
+    # $mod+Ctrl+r    → grava a tela inteira; $mod+Shift+r para parar
+    # Arquivos em ~/Videos/Screencasts; o ponto vermelho na waybar mostra que está gravando
+    bindsym $mod+Shift+r exec $HOME/.local/bin/screenrec toggle region
+    bindsym $mod+Ctrl+r exec $HOME/.local/bin/screenrec toggle screen
+
     # Bloquear a tela
     bindsym $mod+Ctrl+l exec swaylock -f
 

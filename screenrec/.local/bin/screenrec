@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+#
+# screenrec — gravação de tela com wf-recorder, no mesmo espírito dos prints
+#
+# Uso:
+#   screenrec toggle [alvo]   inicia (ou para, se já estiver gravando)
+#   screenrec start  [alvo]   inicia; alvo = region (padrão) | screen | "X,Y WxH"
+#   screenrec stop            para e avisa onde ficou o arquivo
+#   screenrec status          imprime "recording <segundos>" ou "idle"
+#   screenrec waybar          JSON para o módulo custom/recording
+#
+# Codifica por GPU (h264_vaapi no Radeon) e cai para libx264 por CPU se a
+# VA-API falhar ao subir. O arquivo vai para ~/Videos/Screencasts.
+#
+set -euo pipefail
+
+OUT_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}/Screencasts"
+RUN_DIR="${XDG_RUNTIME_DIR:-/tmp}/screenrec"
+PID_FILE="$RUN_DIR/pid"
+INFO_FILE="$RUN_DIR/info"      # linha 1: arquivo · linha 2: epoch do início
+
+VAAPI_DEV=/dev/dri/renderD128
+
+# Precisa bater com "signal" no módulo da waybar
+WAYBAR_SIGNAL=9
+
+# nf-fa-circle, em escape pra não sumir em copy-paste de uso privado
+ICON=$'\uf111'
+
+refresh_waybar() {
+    pkill -RTMIN+$WAYBAR_SIGNAL waybar 2>/dev/null || true
+}
+
+notify() {
+    notify-send -a screenrec -i camera-video -t 3000 "$@" 2>/dev/null || true
+}
+
+recording_pid() {
+    local pid
+    [[ -r "$PID_FILE" ]] || return 1
+    pid=$(<"$PID_FILE")
+    [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null || { rm -f "$PID_FILE" "$INFO_FILE"; return 1; }
+    printf '%s' "$pid"
+}
+
+# Geometria "X,Y WxH" do alvo pedido
+geometry_for() {
+    case "${1:-region}" in
+        region)
+            slurp -d -b '#1a1b2680' -c '#f7768eff' -s '#00000000' -w 2
+            ;;
+        screen)
+            swaymsg -t get_outputs \
+                | jq -r '.[] | select(.focused) | .rect | "\(.x),\(.y) \(.width)x\(.height)"'
+            ;;
+        *[0-9]*,*x*)
+            printf '%s' "$1"
+            ;;
+        *)
+            printf 'alvo desconhecido: %s\n' "$1" >&2
+            return 1
+            ;;
+    esac
+}
+
+# Sobe o wf-recorder com os argumentos extras dados; retorna 1 se ele morrer
+# no primeiro segundo (tipicamente encoder indisponível).
+launch() {
+    local geom=$1 file=$2; shift 2
+    wf-recorder -g "$geom" -f "$file" "$@" >/dev/null 2>"$RUN_DIR/log" &
+    local pid=$!
+    sleep 1
+    if kill -0 "$pid" 2>/dev/null; then
+        printf '%s' "$pid"
+        return 0
+    fi
+    wait "$pid" 2>/dev/null || true
+    return 1
+}
+
+cmd_start() {
+    if recording_pid >/dev/null; then
+        printf 'já está gravando\n' >&2
+        return 1
+    fi
+
+    local geom
+    geom=$(geometry_for "${1:-region}") || exit 0     # Esc no slurp cancela
+    [[ -n "$geom" ]] || exit 0
+
+    mkdir -p "$OUT_DIR" "$RUN_DIR"
+    local file="$OUT_DIR/$(date +'%Y-%m-%d_%H-%M-%S').mp4"
+    local pid encoder=GPU
+
+    if ! pid=$(launch "$geom" "$file" -c h264_vaapi -d "$VAAPI_DEV"); then
+        encoder=CPU
+        rm -f "$file"
+        pid=$(launch "$geom" "$file" -c libx264 -p preset=veryfast) || {
+            notify -u critical 'Gravação falhou' "$(tail -n 3 "$RUN_DIR/log")"
+            exit 1
+        }
+    fi
+
+    printf '%s\n' "$pid" > "$PID_FILE"
+    printf '%s\n%s\n' "$file" "$(date +%s)" > "$INFO_FILE"
+    refresh_waybar
+    notify 'Gravando a tela' "Codificador: $encoder · Mod+Shift+R para parar"
+}
+
+cmd_stop() {
+    local pid file
+    pid=$(recording_pid) || { printf 'nenhuma gravação em andamento\n' >&2; return 1; }
+    file=$(head -n 1 "$INFO_FILE")
+
+    kill -INT "$pid"
+    # espera o wf-recorder fechar o container mp4
+    local i
+    for i in $(seq 50); do
+        kill -0 "$pid" 2>/dev/null || break
+        sleep 0.1
+    done
+    rm -f "$PID_FILE" "$INFO_FILE"
+    refresh_waybar
+
+    if [[ -s "$file" ]]; then
+        notify 'Gravação salva' "$file"
+        printf '%s\n' "$file"
+    else
+        notify -u critical 'Gravação vazia' "$file"
+    fi
+}
+
+cmd_toggle() {
+    if recording_pid >/dev/null; then cmd_stop; else cmd_start "$@"; fi
+}
+
+elapsed() {
+    local start
+    start=$(sed -n 2p "$INFO_FILE")
+    printf '%s' $(( $(date +%s) - start ))
+}
+
+cmd_status() {
+    if recording_pid >/dev/null; then
+        printf 'recording %s\n' "$(elapsed)"
+    else
+        printf 'idle\n'
+    fi
+}
+
+cmd_waybar() {
+    if recording_pid >/dev/null; then
+        local s; s=$(elapsed)
+        printf '{"text":"%s %02d:%02d","alt":"recording","class":"recording","tooltip":"Gravando a tela · clique para parar"}\n' \
+            "$ICON" $(( s / 60 )) $(( s % 60 ))
+    else
+        # texto vazio = a waybar esconde o módulo
+        printf '{"text":"","alt":"idle","class":"idle","tooltip":""}\n'
+    fi
+}
+
+case "${1:-status}" in
+    toggle) shift; cmd_toggle "$@" ;;
+    start)  shift; cmd_start "$@" ;;
+    stop)   cmd_stop ;;
+    status) cmd_status ;;
+    waybar) cmd_waybar ;;
+    *)
+        printf 'uso: %s {toggle [alvo]|start [alvo]|stop|status|waybar}\n' "${0##*/}" >&2
+        exit 1
+        ;;
+esac
