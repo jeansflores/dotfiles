@@ -16,6 +16,7 @@
         "temperature",
         "custom/docker",
         "backlight",
+        "pulseaudio#mic",
         "pulseaudio",
         "custom/powerprofile",
         "battery",
@@ -119,6 +120,21 @@
         "on-scroll-up": "brightnessctl set 5%+",
         "on-scroll-down": "brightnessctl set 5%-",
         "tooltip": false
+    },
+
+    // Microfone padrão: branquinho quando ativo, vermelho com X quando mudo
+    // (Fn+F4 dispara XF86AudioMicMute → pactl set-source-mute, ver sway/config).
+    // Segunda instância do módulo pulseaudio mostrando só o {format_source}.
+    // Glyphs em escape \u (nf-fa-microphone / microphone_slash) pra não
+    // sumirem em copy-paste de caracteres de uso privado.
+    // Clique = alterna o mute · botão direito = pavucontrol.
+    "pulseaudio#mic": {
+        "format": "{format_source}",
+        "format-source": "\uf130",
+        "format-source-muted": "\uf131",
+        "tooltip-format": "Microfone: {desc}",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "on-click-right": "pavucontrol -t 4"
     },
 
     "pulseaudio": {

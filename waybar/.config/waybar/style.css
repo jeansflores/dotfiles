@@ -98,6 +98,7 @@ window#waybar.hidden {
 #temperature,
 #custom-docker,
 #backlight,
+#pulseaudio.mic,
 #pulseaudio,
 #custom-powerprofile,
 #battery,
@@ -148,6 +149,10 @@ window#waybar.empty #window {
 
 #backlight   { color: @yellow; }
 #pulseaudio  { color: @cyan; }
+
+/* Microfone — branquinho ativo, vermelho quando mudo (Fn+F4) */
+#pulseaudio.mic               { color: @fg; }
+#pulseaudio.mic.source-muted  { color: @red; font-weight: bold; }
 #battery     { color: @green; }
 
 /* Perfil de energia — a cor diz qual está ativo sem precisar do tooltip */
