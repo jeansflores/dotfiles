@@ -1,21 +1,20 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    "ellisonleao/gruvbox.nvim",
     lazy = false,
     priority = 1000,
     opts = {
-      -- Mesma variante do Ghostty/Waybar: TokyoNight Night
-      style = "night",
-      light_style = "day",
-      transparent = false,
+      -- Mesma variante do Ghostty/Waybar: Gruvbox Dark Hard
+      contrast = "hard",
       terminal_colors = true,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-        functions = {},
-        variables = {},
-        sidebars = "dark", -- explorer, trouble, etc.
-        floats = "dark", -- janelas flutuantes (picker, lazy, mason)
+      transparent_mode = false,
+      bold = true,
+      italic = {
+        comments = true,
+        emphasis = true,
+        folds = true,
+        operators = false,
+        strings = false,
       },
     },
   },
@@ -23,7 +22,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      colorscheme = "gruvbox",
     },
   },
 }

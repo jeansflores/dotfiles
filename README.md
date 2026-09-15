@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, tema **Tokyo Night**.
+Configuração de uma sessão **Sway** no CachyOS, tema **Gruvbox**.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -52,11 +52,28 @@ stow -D waybar               # remove
 
 ## Aparência
 
-- **Tema:** Tokyo Night (variante *Night*, fundo `#1a1b26`)
+- **Tema:** Gruvbox (variante *Dark Hard*, fundo `#1d2021`)
 - **Monoespaçada:** JetBrainsMono Nerd Font
 - **Interface:** Noto Sans
 - **Ícones:** Papirus-Dark
 - **GTK:** Adwaita em modo escuro
+
+A paleta é a mesma em todos os pacotes; na waybar e no swaync ela vive num bloco
+`@define-color` no topo do `style.css`, e é de lá que sai o resto do tema:
+
+| | | | |
+| --- | --- | --- | --- |
+| `bg_dark` `#1d2021` | `bg` `#282828` | `bg_hl` `#3c3836` | `fg` `#ebdbb2` |
+| `fg_dim` `#bdae93` | `comment` `#928374` | `blue` `#83a598` | `aqua` `#8ec07c` |
+| `green` `#b8bb26` | `yellow` `#fabd2f` | `orange` `#fe8019` | `red` `#fb4934` |
+
+O `tmux` e o `herdr` **não** têm cor própria: o tmux usa nomes (`blue`,
+`brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem a
+paleta do Ghostty sozinhos — trocar o `theme` do terminal troca os três.
+
+O fundo da área de trabalho é uma cor lisa (`output * bg #1d2021 solid_color`),
+e não o wallpaper que vem com o Sway. Para voltar a usar uma imagem, o exemplo
+comentado está logo acima da linha no config.
 
 O modo escuro do GTK3 vem de `gtk-application-prefer-dark-theme`, e **não** de um
 tema chamado `Adwaita-dark` — esse nome só existe no GTK4. Apontar o

@@ -1,14 +1,14 @@
-/* SwayNC — Tokyo Night (Night) */
+/* SwayNC — Gruvbox (Dark Hard) */
 
-@define-color bg        #1a1b26;
-@define-color bg_dark   #16161e;
-@define-color bg_hl     #292e42;
-@define-color fg        #c0caf5;
-@define-color fg_dim    #a9b1d6;
-@define-color comment   #565f89;
-@define-color blue      #7aa2f7;
-@define-color magenta   #bb9af7;
-@define-color red       #f7768e;
+@define-color bg        #282828;
+@define-color bg_dark   #1d2021;
+@define-color bg_hl     #3c3836;
+@define-color fg        #ebdbb2;
+@define-color fg_dim    #bdae93;
+@define-color comment   #928374;
+@define-color blue      #83a598;
+@define-color magenta   #d3869b;
+@define-color red       #fb4934;
 
 * {
     font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;

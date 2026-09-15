@@ -1,25 +1,25 @@
-/* Waybar — Tokyo Night (Night)
- * Paleta: bg #1a1b26 · bg-dark #16161e · highlight #292e42 · fg #c0caf5
- *         blue #7aa2f7 · cyan #7dcfff · magenta #bb9af7 · green #9ece6a
- *         yellow #e0af68 · orange #ff9e64 · red #f7768e · comment #565f89
+/* Waybar — Gruvbox (Dark Hard)
+ * Paleta: bg #282828 · bg-dark #1d2021 · highlight #3c3836 · fg #ebdbb2
+ *         blue #83a598 · aqua #8ec07c · purple #d3869b · green #b8bb26
+ *         yellow #fabd2f · orange #fe8019 · red #fb4934 · gray #928374
  */
 
-@define-color bg        #1a1b26;
-@define-color bg_dark   #16161e;
-@define-color bg_hl     #292e42;
-@define-color fg        #c0caf5;
-@define-color fg_dim    #a9b1d6;
-@define-color comment   #565f89;
-@define-color blue      #7aa2f7;
-@define-color blue1     #2ac3de;
-@define-color cyan      #7dcfff;
-@define-color magenta   #bb9af7;
-@define-color purple    #9d7cd8;
-@define-color green     #9ece6a;
-@define-color yellow    #e0af68;
-@define-color orange    #ff9e64;
-@define-color red       #f7768e;
-@define-color teal      #1abc9c;
+@define-color bg        #282828;
+@define-color bg_dark   #1d2021;
+@define-color bg_hl     #3c3836;
+@define-color fg        #ebdbb2;
+@define-color fg_dim    #bdae93;
+@define-color comment   #928374;
+@define-color blue      #83a598;
+@define-color blue1     #458588;
+@define-color cyan      #8ec07c;
+@define-color magenta   #d3869b;
+@define-color purple    #b16286;
+@define-color green     #b8bb26;
+@define-color yellow    #fabd2f;
+@define-color orange    #fe8019;
+@define-color red       #fb4934;
+@define-color teal      #689d6a;
 
 * {
     /* Texto em sans de verdade; os glyphs de ícone caem no Symbols Nerd Font */

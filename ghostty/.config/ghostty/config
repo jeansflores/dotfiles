@@ -1,9 +1,9 @@
-# Ghostty — Tokyo Night
+# Ghostty — Gruvbox
 # Referência completa: `ghostty +show-config --default --docs | less`
 # Temas disponíveis:  `ghostty +list-themes`
 
-# Variantes: "TokyoNight Night" (mais escura) | "TokyoNight Storm" | "TokyoNight Moon" | "TokyoNight Day"
-theme = TokyoNight Night
+# Variantes: "Gruvbox Dark Hard" (mais escura) | "Gruvbox Dark" | "Gruvbox Material Dark" | "Gruvbox Light"
+theme = Gruvbox Dark Hard
 
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 11

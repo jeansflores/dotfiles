@@ -47,7 +47,7 @@ recording_pid() {
 geometry_for() {
     case "${1:-region}" in
         region)
-            slurp -d -b '#1a1b2680' -c '#f7768eff' -s '#00000000' -w 2
+            slurp -d -b '#1d202180' -c '#fb4934ff' -s '#00000000' -w 2
             ;;
         screen)
             swaymsg -t get_outputs \

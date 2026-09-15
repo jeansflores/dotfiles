@@ -1,8 +1,8 @@
-/* Wofi — Tokyo Night (Night) */
+/* Wofi — Gruvbox (Dark Hard) */
 
 window {
-    background-color: #16161e;
-    border: 1px solid #292e42;
+    background-color: #1d2021;
+    border: 1px solid #3c3836;
     border-radius: 12px;
     font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;
     font-size: 14px;
@@ -13,16 +13,16 @@ window {
 }
 
 #input {
-    background-color: #1a1b26;
-    color: #c0caf5;
-    border: 1px solid #292e42;
+    background-color: #282828;
+    color: #ebdbb2;
+    border: 1px solid #3c3836;
     border-radius: 8px;
     padding: 8px 10px;
     margin-bottom: 8px;
 }
 
 #input:focus {
-    border: 1px solid #7aa2f7;
+    border: 1px solid #83a598;
 }
 
 #scroll {
@@ -36,12 +36,12 @@ window {
 #entry {
     padding: 8px 10px;
     border-radius: 8px;
-    color: #a9b1d6;
+    color: #bdae93;
 }
 
 #entry:selected {
-    background-color: #7aa2f7;
-    color: #16161e;
+    background-color: #83a598;
+    color: #1d2021;
 }
 
 #text {
@@ -49,5 +49,5 @@ window {
 }
 
 #text:selected {
-    color: #16161e;
+    color: #1d2021;
 }
