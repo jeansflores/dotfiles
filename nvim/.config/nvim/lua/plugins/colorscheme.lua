@@ -31,6 +31,7 @@ return {
   },
   { "wtfox/jellybeans.nvim", lazy = true },
   { "rebelot/kanagawa.nvim", lazy = true },
+  { "Mofiqul/dracula.nvim", lazy = true },
 
   { "LazyVim/LazyVim", opts = { colorscheme = active() } },
 }

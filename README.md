@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, com oito temas trocáveis pela barra.
+Configuração de uma sessão **Sway** no CachyOS, com nove temas trocáveis pela barra.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -51,7 +51,7 @@ stow -D waybar               # remove
 
 ## Temas
 
-A sessão tem oito temas, trocáveis pelo ícone de paleta na barra — clique abre
+A sessão tem nove temas, trocáveis pelo ícone de paleta na barra — clique abre
 um menu, botão direito cicla. Pela linha de comando:
 
 ```bash
@@ -67,6 +67,7 @@ theme doctor          # confere se algum arquivo gerado sumiu
 | `gruvbox-hard` | |
 | `tokyo-night` | |
 | `jellybeans-muted` `jellybeans-mono` `jellybeans-hc` | |
+| `dracula` | |
 | `kanagawa-wave` `kanagawa-dragon` | |
 
 ### Como funciona
@@ -91,23 +92,33 @@ vendorizados de `WTFox/jellybeans.nvim`).
 O `tmux` não tem cor própria: usa nomes (`blue`, `brightblack`) e segue o
 ghostty sozinho.
 
-O **herdr** é diferente, e por um motivo que vale registrar. Ele tem 18 temas
-próprios, e também um modo `terminal` que deriva dos 16 ANSI. O modo `terminal`
-parece a escolha óbvia — segue o tema da sessão de graça — mas ele põe o *texto*
-sobre a *cor de acento*, e em paleta escura os dois são tons claros. O contraste
-fica entre **1.4:1 e 2.8:1** nos nossos oito temas, quando o mínimo WCAG AA para
-texto é 4.5:1. Não dá para consertar de fora: nós só entregamos os 16 ANSI, o
-pareamento é decisão do herdr.
+O **herdr** é caso à parte, e vale registrar por quê. Ele tem 18 temas próprios
+e um modo `terminal` que deriva dos 16 ANSI. O `terminal` parece a escolha óbvia
+— segue a sessão de graça — mas ele põe o *texto* sobre a *cor de acento*, e em
+paleta escura os dois são tons claros. O contraste fica entre **1.4:1 e 2.8:1**,
+quando o mínimo WCAG AA para texto é 4.5:1.
 
-Então o manifesto escolhe um tema do próprio herdr sempre que existe
-equivalente, e só cai no `terminal` quando não existe:
+O herdr **não aceita registrar temas nomeados novos** — o seletor dele só lista
+os 18 embutidos, não há diretório de temas do usuário. O que ele aceita é uma
+tabela `[theme.custom]` de nove chaves, que sobrescreve cor por cor o tema
+ativo. Repare que não existe chave de cor de *texto* ali — e é justamente por
+isso que dá para consertar: basta os fundos deixarem de ser acento.
 
-| nosso slug | herdr |
-| --- | --- |
-| `tokyo-night` | `tokyo-night` |
-| `gruvbox-hard`, `gruvbox-material` | `gruvbox` |
-| `kanagawa-wave`, `kanagawa-dragon` | `kanagawa` |
-| os três `jellybeans` | `terminal` |
+```toml
+[theme]
+name = "terminal"          # base: o texto segue o fg do ghostty
+
+[theme.custom]
+sidebar_bg    = bg_dark    # os nossos três níveis escuros
+panel_bg      = bg_dark
+active_row_bg = bg
+selection_bg  = bg_hl
+accent = blue   green = green   blue = blue   red = red   yellow = yellow
+```
+
+Com os fundos escuros, o texto passa a sentar sobre escuro: **6.4:1 a 16.3:1**
+nos nove temas. O campo `herdr_theme` do manifesto continua existindo, então
+trocar a base de um tema é uma linha.
 
 O `config.toml` do herdr é gerado inteiro (os atalhos vão no template), porque o
 herdr reescreve o próprio config de vez em quando — fora do repositório, isso

@@ -126,10 +126,23 @@ test_slug() {
     want_herdr=$(grep -m1 '^herdr_theme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d'"' -f2)
     got_herdr=$(grep -m1 '^name = ' "$HOME/.config/herdr/config.toml" 2>/dev/null | cut -d'"' -f2)
     [[ "$got_herdr" == "$want_herdr" ]] && ok "herdr em $want_herdr" || bad "herdr em '$got_herdr', esperava '$want_herdr'"
-    if herdr config check 2>&1 | grep -qi 'unknown theme'; then
-        bad "o herdr não reconhece o tema '$want_herdr'"
+    if herdr config check 2>&1 | grep -qiE 'unknown theme|unknown config key'; then
+        bad "o herdr rejeitou algo: $(herdr config check 2>&1 | tail -1)"
     else
-        ok "herdr config check aceita o tema"
+        ok "herdr config check aceita tema e chaves de cor"
+    fi
+    # As cores do [theme.custom] têm que ser as do manifesto. É o que conserta o
+    # contraste: os fundos do herdr passam a ser os nossos três níveis escuros.
+    local hc_sel hc_acc
+    hc_sel=$(grep -m1 '^selection_bg' "$HOME/.config/herdr/config.toml" | cut -d'"' -f2)
+    hc_acc=$(grep -m1 '^accent' "$HOME/.config/herdr/config.toml" | cut -d'"' -f2)
+    local m_hl m_blue
+    m_hl=$(grep -m1 '^bg_hl=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+    m_blue=$(grep -m1 '^blue=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+    if [[ "$hc_sel" == "$m_hl" && "$hc_acc" == "$m_blue" ]]; then
+        ok "herdr theme.custom com as cores do tema (selection $hc_sel, accent $hc_acc)"
+    else
+        bad "herdr theme.custom divergente: selection $hc_sel (esperava $m_hl), accent $hc_acc (esperava $m_blue)"
     fi
 
     # O style.css do wofi NÃO pode ter referência @nome nenhuma — nem @import,

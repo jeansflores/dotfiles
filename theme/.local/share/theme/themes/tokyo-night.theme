@@ -5,7 +5,7 @@ ghostty_file=""
 ghostty_extra=""
 
 nvim_colorscheme="tokyonight-night"
-herdr_theme="tokyo-night"
+herdr_theme="terminal"
 btop_theme="tokyo-night"
 
 bg_dark=#16161e

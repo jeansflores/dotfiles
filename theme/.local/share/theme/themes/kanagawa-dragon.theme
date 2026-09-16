@@ -5,7 +5,7 @@ ghostty_file=""
 ghostty_extra=""
 
 nvim_colorscheme="kanagawa-dragon"
-herdr_theme="kanagawa"
+herdr_theme="terminal"
 btop_theme="kanagawa-dragon"
 
 # dragonBlack1/3/4 para os fundos; dragonWhite e dragonGray para o texto.

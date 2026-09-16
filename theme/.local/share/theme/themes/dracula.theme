@@ -1,0 +1,31 @@
+label="Dracula"
+
+ghostty_theme="Dracula"
+ghostty_file=""
+ghostty_extra=""
+
+nvim_colorscheme="dracula"
+herdr_theme="terminal"
+btop_theme="dracula"
+
+# O Dracula define um único foreground, então o fg_dim é escolha minha: um tom
+# claro e levemente frio, entre o fg #f8f8f2 e o comment #6272a4.
+#
+# Cuidado com o azul: no Dracula o slot ANSI de azul é roxo (#bd93f9). O roxo é
+# a assinatura do tema, então ele fica no papel de acento primário.
+bg_dark=#21222c
+bg=#282a36
+bg_hl=#44475a
+fg=#f8f8f2
+fg_dim=#c5c8d6
+comment=#6272a4
+blue=#bd93f9
+blue1=#bd93f9
+cyan=#8be9fd
+magenta=#ff79c6
+purple=#bd93f9
+green=#50fa7b
+yellow=#f1fa8c
+orange=#ffb86c
+red=#ff5555
+teal=#8be9fd

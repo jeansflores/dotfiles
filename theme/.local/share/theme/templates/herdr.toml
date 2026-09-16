@@ -17,6 +17,24 @@ status_indicators = "symbols"
 name = "@herdr_theme@"
 auto_switch = false
 
+# O tema "terminal" do herdr deriva dos 16 ANSI e acaba pondo o texto sobre a
+# cor de acento. Em paleta escura os dois são tons claros: o contraste fica em
+# 1.4-2.8:1, longe do mínimo 4.5:1 do WCAG AA. Não dá para consertar de fora —
+# nós entregamos os ANSI, o pareamento é decisão do herdr.
+#
+# Estas chaves consertam: os fundos passam a ser os nossos três níveis escuros,
+# e o texto (que segue o fg do ghostty) senta sobre escuro. Dá 6.4-16.3:1.
+[theme.custom]
+sidebar_bg    = "@bg_dark@"
+panel_bg      = "@bg_dark@"
+active_row_bg = "@bg@"
+selection_bg  = "@bg_hl@"
+accent = "@blue@"
+green  = "@green@"
+blue   = "@blue@"
+red    = "@red@"
+yellow = "@yellow@"
+
 # Direct chords (no prefix). The prefix bindings keep working alongside.
 # alt+hjkl        -> move between panes/agents in the current Space
 # alt+shift+j/k   -> next/previous Space

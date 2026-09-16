@@ -64,9 +64,11 @@ load() {
     done
 }
 
-# render <template> <destino> — substitui @papel@ e move atomicamente.
+# render <template> <destino> [marcador valor]... — substitui @papel@ (e os
+# pares extras, para o que não é cor) e move atomicamente.
 render() {
     local tpl="$TEMPLATES_DIR/$1" dest=$2 tmp
+    shift 2
     [[ -r "$tpl" ]] || die "template faltando: $tpl"
 
     # Cada papel vira dois marcadores: @papel@ com a cerquilha e @papel_raw@ sem
@@ -77,6 +79,10 @@ render() {
     for role in "${ROLES[@]}"; do
         sed_args+=(-e "s|@${role}@|${!role}|g")
         sed_args+=(-e "s|@${role}_raw@|${!role#\#}|g")
+    done
+    while [[ $# -ge 2 ]]; do
+        sed_args+=(-e "s|@$1@|$2|g")
+        shift 2
     done
 
     tmp=$(mktemp)
@@ -126,12 +132,7 @@ apply_btop() {
 # do mínimo 4.5:1. Por isso o manifesto escolhe um tema do próprio herdr sempre
 # que existe equivalente.
 render_herdr() {
-    local tpl="$TEMPLATES_DIR/herdr.toml" dest="$CONFIG_DIR/herdr/config.toml" tmp
-    [[ -r "$tpl" ]] || die "template faltando: $tpl"
-    tmp=$(mktemp)
-    sed -e "s|@herdr_theme@|${herdr_theme:-terminal}|g" "$tpl" > "$tmp"
-    mkdir -p "$(dirname "$dest")"
-    mv "$tmp" "$dest"
+    render herdr.toml "$CONFIG_DIR/herdr/config.toml" herdr_theme "${herdr_theme:-terminal}"
     herdr server reload-config >/dev/null 2>&1 || true
 }
 

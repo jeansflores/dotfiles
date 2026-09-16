@@ -5,7 +5,7 @@ ghostty_file=""
 ghostty_extra=""
 
 nvim_colorscheme="gruvbox"
-herdr_theme="gruvbox"
+herdr_theme="terminal"
 btop_theme="gruvbox_dark"
 
 bg_dark=#1d2021
