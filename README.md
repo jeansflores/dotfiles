@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, tema **Gruvbox Material**.
+Configuração de uma sessão **Sway** no CachyOS, com oito temas trocáveis pela barra.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -38,7 +38,6 @@ stow -D waybar               # remove
 | `sway` | compositor, atalhos, autostarts, cores das bordas |
 | `waybar` | barra superior e seu tema |
 | `swaync` | daemon e centro de notificações |
-| `swaylock` | tela de bloqueio |
 | `ghostty` | terminal |
 | `wofi` | tema do menu (usado pelo seletor de perfil de energia) |
 | `gtk` | fonte, modo escuro e ícones das aplicações GTK 3 e 4 |
@@ -47,53 +46,78 @@ stow -D waybar               # remove
 | `screenrec` | gravação de tela (wf-recorder) com indicador na barra |
 | `nvim` | Neovim (LazyVim) |
 | `btop` | monitor de sistema aberto pela barra |
+| `theme` | os temas da sessão e o trocador na barra |
 | `herdr` | herdr (workspace de terminais) |
 | `tmux` | tmux |
 | `gitconfig` | git |
 
-## Aparência
+## Temas
 
-- **Tema:** Gruvbox Material (variante *Dark*, fundo *hard* `#1d2021`)
+A sessão tem oito temas, trocáveis pelo ícone de paleta na barra — clique abre
+um menu, botão direito cicla. Pela linha de comando:
+
+```bash
+theme list            # os slugs disponíveis
+theme set kanagawa-dragon
+theme cycle
+theme doctor          # confere se algum arquivo gerado sumiu
+```
+
+| slug | |
+| --- | --- |
+| `gruvbox-material` | padrão |
+| `gruvbox-hard` | |
+| `tokyo-night` | |
+| `jellybeans-muted` `jellybeans-mono` `jellybeans-hc` | |
+| `kanagawa-wave` `kanagawa-dragon` | |
+
+### Como funciona
+
+Cada tema é um manifesto em `theme/.local/share/theme/themes/<slug>.theme`: os
+16 papéis de cor escritos à mão, mais os nomes que o ghostty, o Neovim e o btop
+usam para o mesmo tema. O `theme set` renderiza um template por app e escreve
+**fora do repositório** — em `~/.config` e `~/.local/state`. É por isso que
+trocar de tema nunca suja o `git status`.
+
+```
+themes/<slug>.theme  ─┐
+templates/*          ─┴─► theme set ──► ~/.config/{waybar,sway,swaync,wofi,
+                                          swaylock,ghostty,btop}/…
+                                        ~/.local/state/theme{,.env,-nvim}
+```
+
+Adicionar um tema é escrever um manifesto — mais o arquivo de paleta do
+ghostty, quando o ghostty não traz aquele tema (é o caso dos três jellybeans,
+vendorizados de `WTFox/jellybeans.nvim`).
+
+O `tmux` e o `herdr` não têm cor própria: o tmux usa nomes (`blue`,
+`brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem o
+ghostty sozinhos.
+
+### O que troca na hora e o que não troca
+
+Sway, waybar e swaync trocam ao vivo. Wofi, swaylock e btop pegam o tema novo
+na próxima vez que abrem. **Ghostty e Neovim já abertos ficam com a paleta
+antiga** — no ghostty, `ctrl+shift+,` recarrega; no Neovim, só a próxima
+instância.
+
+### Quando algo sai sem cor
+
+Se a waybar ou o wofi subirem **sem estilo nenhum** e sem mensagem de erro, é um
+arquivo gerado faltando: o GTK descarta um `@import` quebrado em silêncio.
+`theme doctor` diz qual, e `theme set <slug>` reconstrói.
+
+### Fonte e ícones
+
 - **Monoespaçada:** JetBrainsMono Nerd Font
 - **Interface:** Noto Sans
 - **Ícones:** Papirus-Dark
 - **GTK:** Adwaita em modo escuro
 
-A paleta é a mesma em todos os pacotes; na waybar e no swaync ela vive num bloco
-`@define-color` no topo do `style.css`, e é de lá que sai o resto do tema:
-
-| | | | |
-| --- | --- | --- | --- |
-| `bg_dark` `#1d2021` | `bg` `#282828` | `bg_hl` `#3c3836` | `fg` `#d4be98` |
-| `fg_dim` `#a89984` | `comment` `#7c6f64` | `blue` `#7daea3` | `aqua` `#89b482` |
-| `green` `#a9b665` | `yellow` `#d8a657` | `orange` `#e78a4e` | `red` `#ea6962` |
-
-O Material tem um azul e um aqua só — onde o Gruvbox clássico tinha dois tons
-de cada, `blue1` repete `blue` e `teal` repete `cyan`. Nenhum par de módulos
-vizinhos na barra cai na mesma cor.
-
-No Ghostty, o tema chamado apenas **"Gruvbox Material"** *não* é o Material:
-traz outra paleta (azul `#6da3ec`, vermelho `#ea6926`). O correto é o **"Gruvbox
-Material Dark"** — que vem com o fundo *medium* `#282828`, daí o `background =
-#1d2021` logo abaixo do `theme` no config, para casar com o resto da sessão.
-
-O `btop` é a exceção que não segue esse bloco: ele traz os temas embutidos, e o
-`btop.conf` aponta para o `gruvbox_material_dark` que vem com o pacote. Repare
-que **o btop reescreve o `btop.conf` inteiro ao sair** — então abrir o monitor
-pela barra costuma deixar o repositório sujo, mesmo sem você ter mudado nada.
-Um `git checkout btop` resolve quando a diferença for só ruído.
-
-O `tmux` e o `herdr` **não** têm cor própria: o tmux usa nomes (`blue`,
-`brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem a
-paleta do Ghostty sozinhos — trocar o `theme` do terminal troca os três.
-
-O fundo da área de trabalho é uma cor lisa (`output * bg #1d2021 solid_color`),
-e não o wallpaper que vem com o Sway. Para voltar a usar uma imagem, o exemplo
-comentado está logo acima da linha no config.
-
 O modo escuro do GTK3 vem de `gtk-application-prefer-dark-theme`, e **não** de um
 tema chamado `Adwaita-dark` — esse nome só existe no GTK4. Apontar o
-`gtk-theme-name` para ele faz o GTK3 não encontrar o tema e cair no claro.
+`gtk-theme-name` para ele faz o GTK3 não encontrar o tema e cair no claro. O GTK
+não acompanha a troca de tema: fica sempre no escuro do Adwaita.
 
 ## Atalhos
 
@@ -124,7 +148,7 @@ bloqueada (`--locked`).
 
 Da esquerda para a direita: workspaces, título da janela, relógio ao centro e,
 à direita, indicador de gravação (só enquanto grava), inibidor de suspensão,
-CPU, memória, temperatura, Docker, brilho, microfone, volume, perfil de
+CPU, memória, temperatura, Docker, brilho, microfone, volume, tema, perfil de
 energia, bateria, bandeja e notificações.
 
 Rede e bluetooth **não** têm módulo próprio: ficam na bandeja, a cargo do

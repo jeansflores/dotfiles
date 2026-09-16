@@ -100,6 +100,12 @@ if [[ "${1:-}" == "--stow" ]]; then
     # apps que escrevem em ~/.config/gtk-3.0 e afins não sujam o repositório.
     stow --no-folding btop gitconfig ghostty gtk herdr nvim powerprofile screenrec \
                       sway swaync theme tmux wofi waybar xdg-portal
+
+    echo
+    echo "==> Aplicando o tema padrão"
+    # Sem isto, uma instalação limpa sobe sem os arquivos de cor gerados, e a
+    # waybar e o wofi aparecem sem estilo nenhum — sem mensagem de erro.
+    "$HOME/.local/bin/theme" set gruvbox-material
 fi
 
 echo

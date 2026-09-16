@@ -173,6 +173,27 @@ cmd_menu() {
     done
 }
 
+# Existe por causa do modo de falha calado: se um arquivo gerado sumir, a waybar
+# e o wofi sobem SEM estilo nenhum, sem erro em lugar nenhum.
+cmd_doctor() {
+    local cur rc=0 f
+    cur=$(cmd_get)
+    printf 'tema ativo: %s\n\n' "$cur"
+    for f in "$CONFIG_DIR/waybar/colors.css" "$CONFIG_DIR/sway/colors.conf" \
+             "$CONFIG_DIR/swaync/colors.css" "$CONFIG_DIR/wofi/colors.css" \
+             "$CONFIG_DIR/swaylock/config" "$CONFIG_DIR/ghostty/theme.conf" \
+             "$STATE_DIR/theme.env" "$STATE_DIR/theme-nvim"; do
+        if [[ -s "$f" ]]; then
+            printf '  ok        %s\n' "$f"
+        else
+            printf '  FALTANDO  %s\n' "$f"
+            rc=1
+        fi
+    done
+    [[ $rc -eq 0 ]] || printf '\nrode: theme set %s\n' "$cur"
+    return $rc
+}
+
 cmd_set() {
     local slug=${1:-}
     [[ -n "$slug" ]] || die "uso: theme set <slug>"
@@ -207,5 +228,6 @@ case "${1:-get}" in
     waybar) cmd_waybar ;;
     cycle)  cmd_cycle ;;
     menu)   cmd_menu ;;
-    *)    printf 'uso: %s {get|set <slug>|list|cycle|menu|waybar}\n' "$(basename "$0")" >&2; exit 1 ;;
+    doctor) cmd_doctor ;;
+    *)    printf 'uso: %s {get|set <slug>|list|cycle|menu|waybar|doctor}\n' "$(basename "$0")" >&2; exit 1 ;;
 esac
