@@ -182,6 +182,22 @@ slugs=("$@")
 # há trabalho em andamento não commitado.
 before_status=$(git -C "$REPO" status --porcelain)
 
+# A bateria troca de tema dezenas de vezes. Guarda o que estava ativo e devolve
+# no fim, inclusive se interromperem com Ctrl+C — ninguém quer descobrir que
+# rodar o teste trocou o tema da sessão.
+tema_inicial=$("$THEME" get)
+restaura_tema() {
+    local atual
+    atual=$("$THEME" get)
+    if [[ "$atual" != "$tema_inicial" ]]; then
+        printf '\n\033[1m== restaurando ==\033[0m\n'
+        "$THEME" set "$tema_inicial" >/dev/null 2>&1 \
+            && ok "tema devolvido para $tema_inicial" \
+            || printf '  aviso: não consegui devolver o tema para %s\n' "$tema_inicial"
+    fi
+}
+trap restaura_tema EXIT
+
 for s in "${slugs[@]}"; do test_slug "$s"; done
 
 printf '\n\033[1m== ambiente da barra ==\033[0m\n'
