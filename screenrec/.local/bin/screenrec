@@ -14,6 +14,14 @@
 #
 set -euo pipefail
 
+# Cores do tema ativo. Este source injeta os 16 papéis como variáveis globais
+# (bg_dark, bg, bg_hl, fg, fg_dim, comment, blue, blue1, cyan, magenta, purple,
+# green, yellow, orange, red, teal) — não use esses nomes para outra coisa aqui.
+# Sem o arquivo, o slurp cai nos defaults da própria linha.
+THEME_ENV="${XDG_STATE_HOME:-$HOME/.local/state}/theme.env"
+# shellcheck source=/dev/null
+[[ -r "$THEME_ENV" ]] && source "$THEME_ENV"
+
 OUT_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}/Screencasts"
 RUN_DIR="${XDG_RUNTIME_DIR:-/tmp}/screenrec"
 PID_FILE="$RUN_DIR/pid"
@@ -47,7 +55,7 @@ recording_pid() {
 geometry_for() {
     case "${1:-region}" in
         region)
-            slurp -d -b '#1d202180' -c '#ea6962ff' -s '#00000000' -w 2
+            slurp -d -b "${bg_dark:-#1d2021}80" -c "${red:-#ea6962}ff" -s '#00000000' -w 2
             ;;
         screen)
             swaymsg -t get_outputs \

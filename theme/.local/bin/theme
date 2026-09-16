@@ -140,6 +140,11 @@ cmd_set() {
     mkdir -p "$STATE_DIR"
     printf '%s\n' "$slug" > "$STATE_FILE"
 
+    # Para scripts que precisam das cores em runtime (screenrec).
+    { local role
+      for role in "${ROLES[@]}"; do printf '%s=%s\n' "$role" "${!role}"; done
+    } > "$STATE_DIR/theme.env"
+
     reload
 }
 

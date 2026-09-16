@@ -70,6 +70,15 @@ test_slug() {
     assert_colors_defined "$HOME/.config/swaync/style.css" "$HOME/.config/swaync/colors.css"
     assert_colors_defined "$HOME/.config/wofi/style.css"   "$HOME/.config/wofi/colors.css"
 
+    # O theme.env precisa ser fonte válida para scripts (screenrec).
+    local env_file="$STATE/theme.env"
+    assert_file "$env_file"
+    if ( set -a; . "$env_file"; set +a; [[ "${bg_dark:-}" =~ ^#[0-9a-fA-F]{6}$ && "${red:-}" =~ ^#[0-9a-fA-F]{6}$ ]] ); then
+        ok "theme.env dá source e define bg_dark e red"
+    else
+        bad "theme.env não é fonte válida ou falta papel"
+    fi
+
     # O btop tem que estar no tema que o manifesto pediu — ou em "current",
     # quando o manifesto deixa btop_theme vazio e nós geramos o arquivo.
     local want_btop got_btop
