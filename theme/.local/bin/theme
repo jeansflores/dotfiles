@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+#
+# theme — troca o tema da sessão Sway.
+#
+#   theme get             slug ativo
+#   theme set <slug>      aplica e recarrega
+#   theme list            slugs disponíveis
+#
+# Os temas ficam em ~/.local/share/theme/themes/<slug>.theme e os templates em
+# ~/.local/share/theme/templates/. Tudo que este script escreve mora fora do
+# repositório de dotfiles — trocar de tema nunca deve sujar o git.
+set -euo pipefail
+
+DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/theme"
+THEMES_DIR="$DATA_DIR/themes"
+TEMPLATES_DIR="$DATA_DIR/templates"
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
+STATE_FILE="$STATE_DIR/theme"
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+DEFAULT_THEME=gruvbox-material
+
+# Os 16 papéis que todo manifesto precisa ter.
+ROLES=(bg_dark bg bg_hl fg fg_dim comment blue blue1 cyan magenta purple
+       green yellow orange red teal)
+
+die() { printf 'theme: %s\n' "$*" >&2; exit 1; }
+
+cmd_list() {
+    local f
+    for f in "$THEMES_DIR"/*.theme; do
+        [[ -e "$f" ]] || continue
+        basename "$f" .theme
+    done
+}
+
+cmd_get() {
+    local slug=""
+    [[ -r "$STATE_FILE" ]] && slug=$(tr -d '[:space:]' < "$STATE_FILE")
+    [[ -n "$slug" ]] || slug=$DEFAULT_THEME
+    printf '%s\n' "$slug"
+}
+
+# load <slug> — valida e dá source no manifesto, deixando os papéis globais.
+load() {
+    local slug=$1 manifest="$THEMES_DIR/$1.theme"
+    [[ -r "$manifest" ]] || {
+        printf 'theme: tema desconhecido: %s\n\ndisponíveis:\n' "$slug" >&2
+        cmd_list | sed 's/^/  /' >&2
+        exit 2
+    }
+    # shellcheck source=/dev/null
+    source "$manifest"
+
+    local role
+    for role in "${ROLES[@]}"; do
+        [[ -n "${!role:-}" ]] || die "manifesto $slug não define o papel '$role'"
+    done
+}
+
+# render <template> <destino> — substitui @papel@ e move atomicamente.
+render() {
+    local tpl="$TEMPLATES_DIR/$1" dest=$2 tmp
+    [[ -r "$tpl" ]] || die "template faltando: $tpl"
+
+    local -a sed_args=()
+    local role
+    for role in "${ROLES[@]}"; do
+        sed_args+=(-e "s|@${role}@|${!role}|g")
+    done
+
+    tmp=$(mktemp)
+    sed "${sed_args[@]}" "$tpl" > "$tmp"
+    mkdir -p "$(dirname "$dest")"
+    mv "$tmp" "$dest"
+}
+
+reload() {
+    # A waybar sobe por `swaybar_command` no config do sway, então o reload do
+    # sway já mata e respawna ela com config e CSS novos. Nada de SIGUSR2 aqui:
+    # é redundante, e disputar o controle da barra com o sway só cria corrida.
+    swaymsg reload    >/dev/null 2>&1 || true
+    swaync-client -rs >/dev/null 2>&1 || true
+}
+
+cmd_set() {
+    local slug=${1:-}
+    [[ -n "$slug" ]] || die "uso: theme set <slug>"
+    load "$slug"
+
+    render waybar.css "$CONFIG_DIR/waybar/colors.css"
+
+    mkdir -p "$STATE_DIR"
+    printf '%s\n' "$slug" > "$STATE_FILE"
+
+    reload
+}
+
+case "${1:-get}" in
+    get)  cmd_get ;;
+    list) cmd_list ;;
+    set)  shift; cmd_set "$@" ;;
+    *)    printf 'uso: %s {get|set <slug>|list}\n' "$(basename "$0")" >&2; exit 1 ;;
+esac
