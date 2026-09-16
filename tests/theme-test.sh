@@ -120,6 +120,18 @@ test_slug() {
     got_btop=$(grep -m1 '^color_theme = ' "$HOME/.config/btop/btop.conf" | cut -d'"' -f2)
     [[ "$got_btop" == "$want_btop" ]] && ok "btop em $want_btop" || bad "btop em '$got_btop', esperava '$want_btop'"
 
+    # O herdr tem que estar no tema que o manifesto pediu, e o próprio herdr
+    # tem que aceitar o config — ele valida e reclama de nome inválido.
+    local want_herdr got_herdr
+    want_herdr=$(grep -m1 '^herdr_theme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d'"' -f2)
+    got_herdr=$(grep -m1 '^name = ' "$HOME/.config/herdr/config.toml" 2>/dev/null | cut -d'"' -f2)
+    [[ "$got_herdr" == "$want_herdr" ]] && ok "herdr em $want_herdr" || bad "herdr em '$got_herdr', esperava '$want_herdr'"
+    if herdr config check 2>&1 | grep -qi 'unknown theme'; then
+        bad "o herdr não reconhece o tema '$want_herdr'"
+    else
+        ok "herdr config check aceita o tema"
+    fi
+
     # O style.css do wofi NÃO pode ter referência @nome nenhuma — nem @import,
     # nem @cor. O wofi carrega CSS por conteúdo, sem caminho base, então um
     # @import relativo resolve contra o diretório de trabalho de quem lançou o

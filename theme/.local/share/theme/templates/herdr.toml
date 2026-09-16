@@ -1,3 +1,10 @@
+# Gerado por `theme set`. Não edite aqui: os atalhos vivem no template em
+# ~/.local/share/theme/templates/herdr.toml, e o tema sai do manifesto.
+#
+# O herdr reescreve este arquivo sozinho às vezes. Como ele mora fora do
+# repositório, isso não suja mais o git — mas uma troca de tema pela UI do
+# herdr é desfeita no próximo `theme set`.
+
 onboarding = false
 
 [ui.toast]
@@ -7,7 +14,7 @@ delivery = "system"
 status_indicators = "symbols"
 
 [theme]
-name = "terminal"
+name = "@herdr_theme@"
 auto_switch = false
 
 # Direct chords (no prefix). The prefix bindings keep working alongside.

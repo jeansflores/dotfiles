@@ -120,6 +120,21 @@ apply_btop() {
     sed -i -E "s|^color_theme = \".*\"|color_theme = \"$name\"|" "$conf"
 }
 
+# O herdr tem temas próprios, desenhados com o pareamento certo. O tema
+# "terminal" dele deriva dos 16 ANSI e acaba pondo o fg sobre o acento — em
+# paleta escura os dois são tons claros, e o contraste fica em 1.4-2.8:1, longe
+# do mínimo 4.5:1. Por isso o manifesto escolhe um tema do próprio herdr sempre
+# que existe equivalente.
+render_herdr() {
+    local tpl="$TEMPLATES_DIR/herdr.toml" dest="$CONFIG_DIR/herdr/config.toml" tmp
+    [[ -r "$tpl" ]] || die "template faltando: $tpl"
+    tmp=$(mktemp)
+    sed -e "s|@herdr_theme@|${herdr_theme:-terminal}|g" "$tpl" > "$tmp"
+    mkdir -p "$(dirname "$dest")"
+    mv "$tmp" "$dest"
+    herdr server reload-config >/dev/null 2>&1 || true
+}
+
 reload() {
     # A waybar sobe por `swaybar_command` no config do sway, então o reload do
     # sway já mata e respawna ela com config e CSS novos. Nada de SIGUSR2 aqui:
@@ -181,6 +196,7 @@ cmd_doctor() {
     for f in "$CONFIG_DIR/waybar/colors.css" "$CONFIG_DIR/sway/colors.conf" \
              "$CONFIG_DIR/swaync/colors.css" "$CONFIG_DIR/wofi/style.css" \
              "$CONFIG_DIR/swaylock/config" "$CONFIG_DIR/ghostty/theme.conf" \
+             "$CONFIG_DIR/herdr/config.toml" \
              "$STATE_DIR/theme.env" "$STATE_DIR/theme-nvim"; do
         if [[ -s "$f" ]]; then
             printf '  ok        %s\n' "$f"
@@ -206,6 +222,7 @@ cmd_set() {
     render wofi.css   "$CONFIG_DIR/wofi/style.css"
     render swaylock.conf "$CONFIG_DIR/swaylock/config"
     render_ghostty
+    render_herdr
     apply_btop
 
     mkdir -p "$STATE_DIR"

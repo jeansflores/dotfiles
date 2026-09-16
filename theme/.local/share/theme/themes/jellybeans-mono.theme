@@ -5,6 +5,7 @@ ghostty_file="jellybeans-mono"
 ghostty_extra=""
 
 nvim_colorscheme="jellybeans-mono"
+herdr_theme="terminal"
 btop_theme=""
 
 # Flavour monocromático: fora do azul e do vermelho, tudo é tom de cinza. Os

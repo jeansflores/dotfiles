@@ -5,6 +5,7 @@ ghostty_file=""
 ghostty_extra=""
 
 nvim_colorscheme="kanagawa-wave"
+herdr_theme="kanagawa"
 btop_theme="kanagawa-wave"
 
 # sumiInk0/1/2 para os fundos; fujiWhite e oldWhite para o texto.

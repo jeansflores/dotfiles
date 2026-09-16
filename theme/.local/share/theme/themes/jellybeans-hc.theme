@@ -5,6 +5,7 @@ ghostty_file="jellybeans-hc"
 ghostty_extra=""
 
 nvim_colorscheme="jellybeans-hc"
+herdr_theme="terminal"
 btop_theme=""
 
 bg_dark=#000000

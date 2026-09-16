@@ -46,7 +46,6 @@ stow -D waybar               # remove
 | `nvim` | Neovim (LazyVim) |
 | `btop` | monitor de sistema aberto pela barra |
 | `theme` | os temas da sessão e o trocador na barra |
-| `herdr` | herdr (workspace de terminais) |
 | `tmux` | tmux |
 | `gitconfig` | git |
 
@@ -89,9 +88,31 @@ Adicionar um tema é escrever um manifesto — mais o arquivo de paleta do
 ghostty, quando o ghostty não traz aquele tema (é o caso dos três jellybeans,
 vendorizados de `WTFox/jellybeans.nvim`).
 
-O `tmux` e o `herdr` não têm cor própria: o tmux usa nomes (`blue`,
-`brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem o
-ghostty sozinhos.
+O `tmux` não tem cor própria: usa nomes (`blue`, `brightblack`) e segue o
+ghostty sozinho.
+
+O **herdr** é diferente, e por um motivo que vale registrar. Ele tem 18 temas
+próprios, e também um modo `terminal` que deriva dos 16 ANSI. O modo `terminal`
+parece a escolha óbvia — segue o tema da sessão de graça — mas ele põe o *texto*
+sobre a *cor de acento*, e em paleta escura os dois são tons claros. O contraste
+fica entre **1.4:1 e 2.8:1** nos nossos oito temas, quando o mínimo WCAG AA para
+texto é 4.5:1. Não dá para consertar de fora: nós só entregamos os 16 ANSI, o
+pareamento é decisão do herdr.
+
+Então o manifesto escolhe um tema do próprio herdr sempre que existe
+equivalente, e só cai no `terminal` quando não existe:
+
+| nosso slug | herdr |
+| --- | --- |
+| `tokyo-night` | `tokyo-night` |
+| `gruvbox-hard`, `gruvbox-material` | `gruvbox` |
+| `kanagawa-wave`, `kanagawa-dragon` | `kanagawa` |
+| os três `jellybeans` | `terminal` |
+
+O `config.toml` do herdr é gerado inteiro (os atalhos vão no template), porque o
+herdr reescreve o próprio config de vez em quando — fora do repositório, isso
+deixou de sujar o `git status`. O preço é que trocar o tema pela UI do herdr é
+desfeito no próximo `theme set`.
 
 ### O que troca na hora e o que não troca
 

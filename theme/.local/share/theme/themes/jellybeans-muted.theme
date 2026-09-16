@@ -5,6 +5,7 @@ ghostty_file="jellybeans-muted"
 ghostty_extra=""
 
 nvim_colorscheme="jellybeans-muted"
+herdr_theme="terminal"
 btop_theme=""
 
 # O btop não traz tema jellybeans; o script gera um dos 16 papéis abaixo.
