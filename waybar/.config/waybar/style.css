@@ -1,25 +1,28 @@
-/* Waybar — Gruvbox (Dark Hard)
- * Paleta: bg #282828 · bg-dark #1d2021 · highlight #3c3836 · fg #ebdbb2
- *         blue #83a598 · aqua #8ec07c · purple #d3869b · green #b8bb26
- *         yellow #fabd2f · orange #fe8019 · red #fb4934 · gray #928374
+/* Waybar — Gruvbox Material (Dark, fundo hard)
+ * Paleta: bg #282828 · bg-dark #1d2021 · highlight #3c3836 · fg #d4be98
+ *         blue #7daea3 · aqua #89b482 · purple #d3869b · green #a9b665
+ *         yellow #d8a657 · orange #e78a4e · red #ea6962 · gray #7c6f64
+ *
+ * O Material tem um azul e um aqua só, então blue1 = blue e teal = cyan.
+ * Nenhum par de modulos vizinhos na barra cai na mesma cor.
  */
 
 @define-color bg        #282828;
 @define-color bg_dark   #1d2021;
 @define-color bg_hl     #3c3836;
-@define-color fg        #ebdbb2;
-@define-color fg_dim    #bdae93;
-@define-color comment   #928374;
-@define-color blue      #83a598;
-@define-color blue1     #458588;
-@define-color cyan      #8ec07c;
+@define-color fg        #d4be98;
+@define-color fg_dim    #a89984;
+@define-color comment   #7c6f64;
+@define-color blue      #7daea3;
+@define-color blue1     #7daea3;
+@define-color cyan      #89b482;
 @define-color magenta   #d3869b;
-@define-color purple    #b16286;
-@define-color green     #b8bb26;
-@define-color yellow    #fabd2f;
-@define-color orange    #fe8019;
-@define-color red       #fb4934;
-@define-color teal      #689d6a;
+@define-color purple    #d3869b;
+@define-color green     #a9b665;
+@define-color yellow    #d8a657;
+@define-color orange    #e78a4e;
+@define-color red       #ea6962;
+@define-color teal      #89b482;
 
 * {
     /* Texto em sans de verdade; os glyphs de ícone caem no Symbols Nerd Font */

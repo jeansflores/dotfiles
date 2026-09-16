@@ -1,4 +1,4 @@
-/* Wofi — Gruvbox (Dark Hard) */
+/* Wofi — Gruvbox Material (Dark, fundo hard) */
 
 window {
     background-color: #1d2021;
@@ -14,7 +14,7 @@ window {
 
 #input {
     background-color: #282828;
-    color: #ebdbb2;
+    color: #d4be98;
     border: 1px solid #3c3836;
     border-radius: 8px;
     padding: 8px 10px;
@@ -22,7 +22,7 @@ window {
 }
 
 #input:focus {
-    border: 1px solid #83a598;
+    border: 1px solid #7daea3;
 }
 
 #scroll {
@@ -36,11 +36,11 @@ window {
 #entry {
     padding: 8px 10px;
     border-radius: 8px;
-    color: #bdae93;
+    color: #a89984;
 }
 
 #entry:selected {
-    background-color: #83a598;
+    background-color: #7daea3;
     color: #1d2021;
 }
 

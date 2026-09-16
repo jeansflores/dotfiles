@@ -15,12 +15,12 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term ghostty
-# Your preferred application launcher (cores Gruvbox)
-set $menu wmenu-run -i -f "Noto Sans 11" -N '#1d2021' -n '#ebdbb2' -M '#d3869b' -m '#1d2021' -S '#83a598' -s '#1d2021'
+# Your preferred application launcher (cores Gruvbox Material)
+set $menu wmenu-run -i -f "Noto Sans 11" -N '#1d2021' -n '#d4be98' -M '#d3869b' -m '#1d2021' -S '#7daea3' -s '#1d2021'
 
 ### Output configuration
 #
-# Fundo liso na cor de base do Gruvbox (bg0 hard). Para uma imagem:
+# Fundo liso na cor de base do Gruvbox Material (bg0 hard). Para uma imagem:
 # output * bg /caminho/para/wallpaper.png fill
 output * bg #1d2021 solid_color
 #
@@ -262,13 +262,13 @@ bindsym $mod+r mode "resize"
     bindsym $mod+Shift+n exec swaync-client -d -sw
 
 #
-# Aparência — Gruvbox (Dark Hard)
+# Aparência — Gruvbox Material (Dark, fundo hard)
 #
 # Cores das bordas:      borda    fundo    texto    indicador  borda-filho
-client.focused           #83a598  #83a598  #1d2021  #d3869b    #83a598
-client.focused_inactive  #3c3836  #3c3836  #bdae93  #3c3836    #3c3836
-client.unfocused         #282828  #282828  #928374  #282828    #3c3836
-client.urgent            #fb4934  #fb4934  #1d2021  #fb4934    #fb4934
+client.focused           #7daea3  #7daea3  #1d2021  #d3869b    #7daea3
+client.focused_inactive  #3c3836  #3c3836  #a89984  #3c3836    #3c3836
+client.unfocused         #282828  #282828  #7c6f64  #282828    #3c3836
+client.urgent            #ea6962  #ea6962  #1d2021  #ea6962    #ea6962
 client.background        #1d2021
 
 font pango:Noto Sans 10

@@ -1,4 +1,4 @@
-# Swaylock — Gruvbox (Dark Hard)
+# Swaylock — Gruvbox Material (Dark, fundo hard)
 
 daemonize
 ignore-empty-password
@@ -15,12 +15,12 @@ inside-ver-color=1d2021
 inside-wrong-color=1d2021
 
 ring-color=504945
-ring-clear-color=fabd2f
-ring-ver-color=83a598
-ring-wrong-color=fb4934
+ring-clear-color=d8a657
+ring-ver-color=7daea3
+ring-wrong-color=ea6962
 
 key-hl-color=d3869b
-bs-hl-color=fe8019
+bs-hl-color=e78a4e
 
 line-color=00000000
 line-clear-color=00000000
@@ -28,10 +28,10 @@ line-ver-color=00000000
 line-wrong-color=00000000
 separator-color=00000000
 
-text-color=ebdbb2
-text-clear-color=fabd2f
-text-ver-color=83a598
-text-wrong-color=fb4934
+text-color=d4be98
+text-clear-color=d8a657
+text-ver-color=7daea3
+text-wrong-color=ea6962
 
 font=Noto Sans
 font-size=20

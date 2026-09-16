@@ -1,9 +1,15 @@
-# Ghostty — Gruvbox
+# Ghostty — Gruvbox Material
 # Referência completa: `ghostty +show-config --default --docs | less`
 # Temas disponíveis:  `ghostty +list-themes`
 
-# Variantes: "Gruvbox Dark Hard" (mais escura) | "Gruvbox Dark" | "Gruvbox Material Dark" | "Gruvbox Light"
-theme = Gruvbox Dark Hard
+# Variantes: "Gruvbox Material Dark" | "Gruvbox Dark Hard" | "Gruvbox Dark" | "Gruvbox Material Light"
+# Cuidado: o tema chamado só "Gruvbox Material" não é o Material — traz outra
+# paleta (azul #6da3ec, vermelho #ea6926). O certo é o "Gruvbox Material Dark".
+theme = Gruvbox Material Dark
+
+# O tema embutido vem com o fundo medium (#282828); o resto da sessão usa o
+# hard, então sobrescrevo aqui.
+background = #1d2021
 
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 11

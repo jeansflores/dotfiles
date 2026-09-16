@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, tema **Gruvbox**.
+Configuração de uma sessão **Sway** no CachyOS, tema **Gruvbox Material**.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -52,7 +52,7 @@ stow -D waybar               # remove
 
 ## Aparência
 
-- **Tema:** Gruvbox (variante *Dark Hard*, fundo `#1d2021`)
+- **Tema:** Gruvbox Material (variante *Dark*, fundo *hard* `#1d2021`)
 - **Monoespaçada:** JetBrainsMono Nerd Font
 - **Interface:** Noto Sans
 - **Ícones:** Papirus-Dark
@@ -63,9 +63,18 @@ A paleta é a mesma em todos os pacotes; na waybar e no swaync ela vive num bloc
 
 | | | | |
 | --- | --- | --- | --- |
-| `bg_dark` `#1d2021` | `bg` `#282828` | `bg_hl` `#3c3836` | `fg` `#ebdbb2` |
-| `fg_dim` `#bdae93` | `comment` `#928374` | `blue` `#83a598` | `aqua` `#8ec07c` |
-| `green` `#b8bb26` | `yellow` `#fabd2f` | `orange` `#fe8019` | `red` `#fb4934` |
+| `bg_dark` `#1d2021` | `bg` `#282828` | `bg_hl` `#3c3836` | `fg` `#d4be98` |
+| `fg_dim` `#a89984` | `comment` `#7c6f64` | `blue` `#7daea3` | `aqua` `#89b482` |
+| `green` `#a9b665` | `yellow` `#d8a657` | `orange` `#e78a4e` | `red` `#ea6962` |
+
+O Material tem um azul e um aqua só — onde o Gruvbox clássico tinha dois tons
+de cada, `blue1` repete `blue` e `teal` repete `cyan`. Nenhum par de módulos
+vizinhos na barra cai na mesma cor.
+
+No Ghostty, o tema chamado apenas **"Gruvbox Material"** *não* é o Material:
+traz outra paleta (azul `#6da3ec`, vermelho `#ea6926`). O correto é o **"Gruvbox
+Material Dark"** — que vem com o fundo *medium* `#282828`, daí o `background =
+#1d2021` logo abaixo do `theme` no config, para casar com o resto da sessão.
 
 O `tmux` e o `herdr` **não** têm cor própria: o tmux usa nomes (`blue`,
 `brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem a
