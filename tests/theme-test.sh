@@ -79,6 +79,10 @@ test_slug() {
         bad "theme.env não é fonte válida ou falta papel"
     fi
 
+    local want_dark want_bg
+    want_dark=$(grep -m1 '^bg_dark=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+    want_bg=$(grep -m1 '^bg=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+
     # O módulo da barra precisa devolver JSON válido, com o glyph certo.
     local json
     json=$("$THEME" waybar 2>/dev/null)
@@ -93,11 +97,21 @@ test_slug() {
         bad "glyph errado ou virou caractere de substituição"
     fi
 
-    # O nvim tem que abrir no colorscheme que o manifesto pediu.
-    local want_nvim got_nvim
+    # O nvim tem que abrir na VARIANTE certa. Comparar vim.g.colors_name com o
+    # manifesto não serve: o kanagawa reporta "kanagawa" tanto no wave quanto no
+    # dragon. O que distingue variante é o fundo que ele resolve, então exigimos
+    # as duas coisas — o nome pedido tem que começar pelo colors_name, e o fundo
+    # tem que ser um dos fundos do tema.
+    local want_nvim got_nvim got_nvim_bg
     want_nvim=$(grep -m1 '^nvim_colorscheme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d'"' -f2)
-    got_nvim=$(nvim --headless -c 'lua io.write(vim.g.colors_name or "?")' -c qa 2>&1 | tail -1 | tr -d '\r')
-    [[ "$got_nvim" == "$want_nvim" ]] && ok "nvim em $want_nvim" || bad "nvim em '$got_nvim', esperava '$want_nvim'"
+    read -r got_nvim got_nvim_bg < <(nvim --headless -c 'lua local n=vim.api.nvim_get_hl(0,{name="Normal"}) io.write((vim.g.colors_name or "?").." #"..string.format("%06x", n.bg or 0))' -c qa 2>&1 | tail -1 | tr -d '\r')
+    if [[ "$want_nvim" != "$got_nvim"* ]]; then
+        bad "nvim em '$got_nvim', que não corresponde a '$want_nvim'"
+    elif [[ "$got_nvim_bg" == "$want_dark" || "$got_nvim_bg" == "$want_bg" ]]; then
+        ok "nvim em $want_nvim, fundo $got_nvim_bg"
+    else
+        bad "nvim em $want_nvim mas com fundo $got_nvim_bg; o tema usa $want_dark / $want_bg"
+    fi
 
     # O btop tem que estar no tema que o manifesto pediu — ou em "current",
     # quando o manifesto deixa btop_theme vazio e nós geramos o arquivo.
@@ -109,10 +123,8 @@ test_slug() {
 
     # O fundo que o ghostty resolve tem que ser um dos fundos do tema. Se não
     # for, o terminal está numa cor que o resto da sessão não usa.
-    local got want_dark want_bg
+    local got
     got=$(ghostty +show-config 2>/dev/null | grep -m1 '^background = ' | awk '{print tolower($3)}')
-    want_dark=$(grep -m1 '^bg_dark=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
-    want_bg=$(grep -m1 '^bg=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
     if [[ -z "$got" ]]; then
         bad "ghostty não resolveu nenhum background"
     elif [[ "$got" == "$want_dark" || "$got" == "$want_bg" ]]; then

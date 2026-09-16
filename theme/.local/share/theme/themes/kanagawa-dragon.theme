@@ -1,0 +1,26 @@
+label="Kanagawa Dragon"
+
+ghostty_theme="Kanagawa Dragon"
+ghostty_file=""
+ghostty_extra=""
+
+nvim_colorscheme="kanagawa-dragon"
+btop_theme="kanagawa-dragon"
+
+# dragonBlack1/3/4 para os fundos; dragonWhite e dragonGray para o texto.
+bg_dark=#12120f
+bg=#181616
+bg_hl=#282727
+fg=#c5c9c5
+fg_dim=#a6a69c
+comment=#7a8382
+blue=#8ba4b0
+blue1=#949fb5
+cyan=#8ea4a2
+magenta=#a292a3
+purple=#8992a7
+green=#87a987
+yellow=#c4b28a
+orange=#b6927b
+red=#c4746e
+teal=#8a9a7b

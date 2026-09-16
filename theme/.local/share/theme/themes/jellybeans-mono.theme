@@ -1,0 +1,27 @@
+label="Jellybeans Mono"
+
+ghostty_theme=""
+ghostty_file="jellybeans-mono"
+ghostty_extra=""
+
+nvim_colorscheme="jellybeans-mono"
+btop_theme=""
+
+# Flavour monocromático: fora do azul e do vermelho, tudo é tom de cinza. Os
+# acentos ficam nos módulos que mais importam ler de relance.
+bg_dark=#0e0e0e
+bg=#151515
+bg_hl=#222222
+fg=#e8e8d3
+fg_dim=#b8b8ae
+comment=#888888
+blue=#7a8aa6
+blue1=#a0a8b0
+cyan=#556779
+magenta=#c7c7c7
+purple=#c7c7c7
+green=#afd787
+yellow=#b39066
+orange=#ccc5c4
+red=#c95c5c
+teal=#556779

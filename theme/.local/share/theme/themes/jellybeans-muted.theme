@@ -1,0 +1,26 @@
+label="Jellybeans Muted"
+
+ghostty_theme=""
+ghostty_file="jellybeans-muted"
+ghostty_extra=""
+
+nvim_colorscheme="jellybeans-muted"
+btop_theme=""
+
+# O btop não traz tema jellybeans; o script gera um dos 16 papéis abaixo.
+bg_dark=#0a0a0a
+bg=#101010
+bg_hl=#1c1c1c
+fg=#dad6c8
+fg_dim=#b0aca0
+comment=#7a7a7a
+blue=#7a8aa6
+blue1=#83adc3
+cyan=#7db7cc
+magenta=#b8aed3
+purple=#b8aed3
+green=#98b67c
+yellow=#e8c88c
+orange=#d8a16c
+red=#cc4d4d
+teal=#617b87

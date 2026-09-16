@@ -1,0 +1,25 @@
+label="Jellybeans HC"
+
+ghostty_theme=""
+ghostty_file="jellybeans-hc"
+ghostty_extra=""
+
+nvim_colorscheme="jellybeans-hc"
+btop_theme=""
+
+bg_dark=#000000
+bg=#060606
+bg_hl=#1a1a1a
+fg=#f8f8f0
+fg_dim=#c8c8c0
+comment=#909090
+blue=#98b0e0
+blue1=#aad4f8
+cyan=#aad4f8
+magenta=#d8c8ff
+purple=#d8c8ff
+green=#8cd468
+yellow=#ffe080
+orange=#ffc060
+red=#ff5050
+teal=#78a0b8

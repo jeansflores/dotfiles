@@ -1,0 +1,26 @@
+label="Kanagawa Wave"
+
+ghostty_theme="Kanagawa Wave"
+ghostty_file=""
+ghostty_extra=""
+
+nvim_colorscheme="kanagawa-wave"
+btop_theme="kanagawa-wave"
+
+# sumiInk0/1/2 para os fundos; fujiWhite e oldWhite para o texto.
+bg_dark=#16161d
+bg=#1f1f28
+bg_hl=#2a2a37
+fg=#dcd7ba
+fg_dim=#c8c093
+comment=#727169
+blue=#7e9cd8
+blue1=#7fb4ca
+cyan=#7aa89f
+magenta=#d27e99
+purple=#957fb8
+green=#98bb6c
+yellow=#e6c384
+orange=#ffa066
+red=#e46876
+teal=#6a9589

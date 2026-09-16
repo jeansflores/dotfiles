@@ -1,0 +1,25 @@
+label="Tokyo Night"
+
+ghostty_theme="TokyoNight Night"
+ghostty_file=""
+ghostty_extra=""
+
+nvim_colorscheme="tokyonight-night"
+btop_theme="tokyo-night"
+
+bg_dark=#16161e
+bg=#1a1b26
+bg_hl=#292e42
+fg=#c0caf5
+fg_dim=#a9b1d6
+comment=#565f89
+blue=#7aa2f7
+blue1=#2ac3de
+cyan=#7dcfff
+magenta=#bb9af7
+purple=#9d7cd8
+green=#9ece6a
+yellow=#e0af68
+orange=#ff9e64
+red=#f7768e
+teal=#1abc9c

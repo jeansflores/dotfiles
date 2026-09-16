@@ -22,10 +22,6 @@ CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 DEFAULT_THEME=gruvbox-material
 
-# Precisa bater com "signal" no módulo da waybar. O 8 é do powerprofile e o 9 é
-# do custom/recording.
-WAYBAR_SIGNAL=10
-
 # Ícone de paleta, nf-md-palette (U+F03D8). Escrito como escape de propósito:
 # caractere Nerd Font cru dentro de heredoc já quebrou neste repositório.
 ICON=$'\U000f03d8'
@@ -130,7 +126,10 @@ reload() {
     # é redundante, e disputar o controle da barra com o sway só cria corrida.
     swaymsg reload    >/dev/null 2>&1 || true
     swaync-client -rs >/dev/null 2>&1 || true
-    pkill -RTMIN+$WAYBAR_SIGNAL waybar >/dev/null 2>&1 || true
+    # Nada de sinal para a waybar aqui. O reload do sway já a respawna, e o
+    # módulo re-executa junto; mandar RTMIN+N por cima pega o processo recém
+    # nascido antes de ele instalar o handler, e o default do sinal é terminar.
+    # Foi assim que a barra sumiu 1 em 5 trocas.
 }
 
 # label_of <slug> — o nome legível do manifesto, ou o próprio slug.
