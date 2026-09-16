@@ -13,6 +13,17 @@ cd ~/dotfiles
 ./install-deps.sh --stow
 ```
 
+Numa máquina zerada, isto é o último passo de um roteiro maior — chave SSH, yay,
+Chrome, Slack, grupo do Docker e o acerto de teclado no GRUB estão num
+[gist à parte](https://gist.github.com/jeansflores/77b80c867a276d5c27a9bfbb401f9903).
+O que precisa casar entre os dois é só isto:
+
+> **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
+> `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
+> tentaria stowar `docs/` e `tests/`, largando `~/superpowers` e três `.sh` na
+> sua home. O `install-deps.sh --stow` usa `--no-folding`, aplica só os 13
+> pacotes de verdade e termina aplicando um tema.
+
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços, aplica os symlinks
 e **aplica um tema** — este último passo importa, porque sem ele os arquivos de
