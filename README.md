@@ -39,7 +39,6 @@ stow -D waybar               # remove
 | `waybar` | barra superior e seu tema |
 | `swaync` | daemon e centro de notificações |
 | `ghostty` | terminal |
-| `wofi` | tema do menu (usado pelo seletor de perfil de energia) |
 | `gtk` | fonte, modo escuro e ícones das aplicações GTK 3 e 4 |
 | `xdg-portal` | qual backend do xdg-desktop-portal atende cada função |
 | `powerprofile` | seletor de perfil de energia e seu serviço systemd |
@@ -103,9 +102,16 @@ instância.
 
 ### Quando algo sai sem cor
 
-Se a waybar ou o wofi subirem **sem estilo nenhum** e sem mensagem de erro, é um
-arquivo gerado faltando: o GTK descarta um `@import` quebrado em silêncio.
-`theme doctor` diz qual, e `theme set <slug>` reconstrói.
+Se a waybar subir **sem estilo nenhum** e sem mensagem de erro, é um arquivo
+gerado faltando: o GTK descarta um `@import` quebrado em silêncio. `theme
+doctor` diz qual, e `theme set <slug>` reconstrói.
+
+O **wofi** é caso à parte, e por isso o `style.css` dele é gerado inteiro, com as
+cores literais. O wofi carrega o CSS por *conteúdo*, não por caminho — então um
+`@import "colors.css"` resolve contra o diretório de trabalho de quem lançou o
+wofi, e não contra `~/.config/wofi`. Lançado pela barra, o import falha calado e
+os menus de tema e de perfil de energia saem **transparentes**. Nada de `@` no
+CSS do wofi; o teste tem uma asserção só para isso.
 
 ### Fonte e ícones
 

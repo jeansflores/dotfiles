@@ -519,6 +519,12 @@ feat(theme): move sway, swaync and wofi colors into the theme package
 
 ---
 
+> **Correção aplicada depois da Task 10.** Os passos da Task 2 abaixo mandam o
+> wofi usar `@import "colors.css"`. Isso deixa os menus transparentes: o wofi
+> carrega CSS por conteúdo, e o import relativo resolve contra o diretório de
+> trabalho errado. O correto é gerar o `style.css` do wofi inteiro, com cor
+> literal, e remover o pacote stow `wofi`. Ver a correção na seção 5.4 do spec.
+
 ### Task 3: swaylock gerado
 
 Entrega: o `swaylock/config` vira arquivo gerado e o pacote stow `swaylock` some.

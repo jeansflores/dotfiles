@@ -99,7 +99,7 @@ if [[ "${1:-}" == "--stow" ]]; then
     # --no-folding cria symlink por arquivo, nunca do diretório inteiro: assim
     # apps que escrevem em ~/.config/gtk-3.0 e afins não sujam o repositório.
     stow --no-folding btop gitconfig ghostty gtk herdr nvim powerprofile screenrec \
-                      sway swaync theme tmux wofi waybar xdg-portal
+                      sway swaync theme tmux waybar xdg-portal
 
     echo
     echo "==> Aplicando o tema padrão"

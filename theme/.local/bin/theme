@@ -179,7 +179,7 @@ cmd_doctor() {
     cur=$(cmd_get)
     printf 'tema ativo: %s\n\n' "$cur"
     for f in "$CONFIG_DIR/waybar/colors.css" "$CONFIG_DIR/sway/colors.conf" \
-             "$CONFIG_DIR/swaync/colors.css" "$CONFIG_DIR/wofi/colors.css" \
+             "$CONFIG_DIR/swaync/colors.css" "$CONFIG_DIR/wofi/style.css" \
              "$CONFIG_DIR/swaylock/config" "$CONFIG_DIR/ghostty/theme.conf" \
              "$STATE_DIR/theme.env" "$STATE_DIR/theme-nvim"; do
         if [[ -s "$f" ]]; then
@@ -201,7 +201,9 @@ cmd_set() {
     render waybar.css "$CONFIG_DIR/waybar/colors.css"
     render sway.conf  "$CONFIG_DIR/sway/colors.conf"
     render swaync.css "$CONFIG_DIR/swaync/colors.css"
-    render wofi.css   "$CONFIG_DIR/wofi/colors.css"
+    # style.css inteiro, não um colors.css importado: o wofi carrega CSS por
+    # conteúdo e um @import relativo falha calado. Ver o cabeçalho do template.
+    render wofi.css   "$CONFIG_DIR/wofi/style.css"
     render swaylock.conf "$CONFIG_DIR/swaylock/config"
     render_ghostty
     apply_btop

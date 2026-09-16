@@ -45,7 +45,7 @@ GENERATED=(
     "$HOME/.config/waybar/colors.css"
     "$HOME/.config/sway/colors.conf"
     "$HOME/.config/swaync/colors.css"
-    "$HOME/.config/wofi/colors.css"
+    "$HOME/.config/wofi/style.css"
     "$HOME/.config/swaylock/config"
     "$HOME/.config/ghostty/theme.conf"
 )
@@ -68,7 +68,6 @@ test_slug() {
     # Se faltar, o GTK descarta a regra calado e o app sobe sem estilo.
     assert_colors_defined "$HOME/.config/waybar/style.css" "$HOME/.config/waybar/colors.css"
     assert_colors_defined "$HOME/.config/swaync/style.css" "$HOME/.config/swaync/colors.css"
-    assert_colors_defined "$HOME/.config/wofi/style.css"   "$HOME/.config/wofi/colors.css"
 
     # O theme.env precisa ser fonte válida para scripts (screenrec).
     local env_file="$STATE/theme.env"
@@ -120,6 +119,23 @@ test_slug() {
     [[ -z "$want_btop" ]] && want_btop=current
     got_btop=$(grep -m1 '^color_theme = ' "$HOME/.config/btop/btop.conf" | cut -d'"' -f2)
     [[ "$got_btop" == "$want_btop" ]] && ok "btop em $want_btop" || bad "btop em '$got_btop', esperava '$want_btop'"
+
+    # O style.css do wofi NÃO pode ter referência @nome nenhuma — nem @import,
+    # nem @cor. O wofi carrega CSS por conteúdo, sem caminho base, então um
+    # @import relativo resolve contra o diretório de trabalho de quem lançou o
+    # wofi e falha calado: as cores ficam indefinidas, o GTK descarta as regras
+    # e a janela sai transparente. Cor literal é a única forma segura aqui.
+    # Os comentários do arquivo falam sobre @import de propósito, então eles
+    # saem antes da checagem — o que importa são as regras.
+    local refs
+    refs=$(sed 's|/\*|\n&|g' "$HOME/.config/wofi/style.css" 2>/dev/null \
+           | sed '/\/\*/,/\*\//d' \
+           | grep -oE '@[a-z_-]+' | sort -u | tr '\n' ' ')
+    if [[ -z "$refs" ]]; then
+        ok "wofi/style.css só tem cor literal, sem @import nem @cor"
+    else
+        bad "wofi/style.css tem referência @ que o wofi não resolve: $refs"
+    fi
 
     # O fundo que o ghostty resolve tem que ser um dos fundos do tema. Se não
     # for, o terminal está numa cor que o resto da sessão não usa.

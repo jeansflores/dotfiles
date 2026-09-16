@@ -149,13 +149,22 @@ Tudo fora do repositório:
 | `~/.config/waybar/colors.css` | os 16 `@define-color` |
 | `~/.config/sway/colors.conf` | `client.*`, `set $menu`, `output * bg` |
 | `~/.config/swaync/colors.css` | os `@define-color` que o swaync usa |
-| `~/.config/wofi/colors.css` | idem para o wofi |
+| `~/.config/wofi/style.css` | o arquivo **inteiro** — ver a correção abaixo |
 | `~/.config/swaylock/config` | o arquivo inteiro — swaylock não tem `include` |
 | `~/.config/ghostty/theme.conf` | `theme = …` ou o arquivo vendorizado, mais o `ghostty_extra` |
 | `~/.config/btop/themes/current.theme` | só quando `btop_theme` está vazio |
 | `~/.local/state/theme` | o slug ativo |
 | `~/.local/state/theme.env` | os 16 papéis como variáveis, para o `screenrec` |
 | `~/.local/state/theme-nvim` | uma linha: o nome do colorscheme |
+
+> **Correção, descoberta na implementação.** O wofi estava previsto para usar
+> `@import` como a waybar e o swaync. Não funciona: o wofi carrega o CSS por
+> *conteúdo* (`<data>`), não por caminho, então um `@import` relativo resolve
+> contra o diretório de trabalho de quem lançou o wofi. Lançado pela barra, o
+> import falha calado, as cores ficam indefinidas, o GTK descarta as regras e os
+> menus saem **transparentes**. O `style.css` do wofi passou a ser gerado
+> inteiro, com cor literal, e o pacote stow `wofi` foi removido como o
+> `swaylock`. A waybar e o swaync carregam por caminho e continuam com `@import`.
 
 ### 5.5 Tema de btop gerado
 

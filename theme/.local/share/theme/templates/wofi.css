@@ -1,8 +1,59 @@
-/* Gerado por `theme set`. Não edite: mexa no manifesto do tema. */
+/* Gerado por `theme set`. Não edite: mexa no manifesto do tema.
+ *
+ * As cores vão literais aqui de propósito. O wofi carrega o CSS por CONTEÚDO,
+ * não por caminho, então um @import relativo resolve contra o diretório de
+ * trabalho de quem lançou o wofi — e falha calado, deixando a janela
+ * transparente. Nada de @import neste arquivo.
+ */
 
-@define-color bg        @bg@;
-@define-color bg_dark   @bg_dark@;
-@define-color bg_hl     @bg_hl@;
-@define-color fg        @fg@;
-@define-color fg_dim    @fg_dim@;
-@define-color blue      @blue@;
+window {
+    background-color: @bg_dark@;
+    border: 1px solid @bg_hl@;
+    border-radius: 12px;
+    font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;
+    font-size: 14px;
+}
+
+#outer-box {
+    padding: 10px;
+}
+
+#input {
+    background-color: @bg@;
+    color: @fg@;
+    border: 1px solid @bg_hl@;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+}
+
+#input:focus {
+    border: 1px solid @blue@;
+}
+
+#scroll {
+    margin: 0;
+}
+
+#inner-box {
+    background-color: transparent;
+}
+
+#entry {
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: @fg_dim@;
+}
+
+#entry:selected {
+    background-color: @blue@;
+    color: @bg_dark@;
+}
+
+#text {
+    color: inherit;
+}
+
+#text:selected {
+    color: @bg_dark@;
+}
