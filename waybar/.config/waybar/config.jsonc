@@ -19,6 +19,7 @@
         "backlight",
         "pulseaudio#mic",
         "pulseaudio",
+        "custom/theme",
         "custom/powerprofile",
         "battery",
         "tray",
@@ -166,6 +167,18 @@
 
     // Perfil de energia do power-profiles-daemon.
     // Clique = menu wofi · botão direito = cicla · o ícone segue o perfil.
+    // Trocador de tema. O "signal" tem que bater com WAYBAR_SIGNAL no script.
+    // Clique abre o menu wofi; botão direito cicla.
+    "custom/theme": {
+        "exec": "$HOME/.local/bin/theme waybar",
+        "return-type": "json",
+        "interval": 30,
+        "signal": 10,
+        "format": "{}",
+        "on-click": "$HOME/.local/bin/theme menu",
+        "on-click-right": "$HOME/.local/bin/theme cycle"
+    },
+
     // O "signal" abaixo tem que bater com WAYBAR_SIGNAL no script.
     "custom/powerprofile": {
         "exec": "$HOME/.local/bin/powerprofile waybar",

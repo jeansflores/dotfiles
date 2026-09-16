@@ -22,6 +22,14 @@ CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 DEFAULT_THEME=gruvbox-material
 
+# Precisa bater com "signal" no módulo da waybar. O 8 é do powerprofile e o 9 é
+# do custom/recording.
+WAYBAR_SIGNAL=10
+
+# Ícone de paleta, nf-md-palette (U+F03D8). Escrito como escape de propósito:
+# caractere Nerd Font cru dentro de heredoc já quebrou neste repositório.
+ICON=$'\U000f03d8'
+
 # Os 16 papéis que todo manifesto precisa ter.
 ROLES=(bg_dark bg bg_hl fg fg_dim comment blue blue1 cyan magenta purple
        green yellow orange red teal)
@@ -122,6 +130,47 @@ reload() {
     # é redundante, e disputar o controle da barra com o sway só cria corrida.
     swaymsg reload    >/dev/null 2>&1 || true
     swaync-client -rs >/dev/null 2>&1 || true
+    pkill -RTMIN+$WAYBAR_SIGNAL waybar >/dev/null 2>&1 || true
+}
+
+# label_of <slug> — o nome legível do manifesto, ou o próprio slug.
+label_of() {
+    local slug=$1
+    ( source "$THEMES_DIR/$slug.theme" 2>/dev/null; printf '%s' "${label:-$slug}" )
+}
+
+cmd_waybar() {
+    local cur; cur=$(cmd_get)
+    printf '{"text":"%s","tooltip":"Tema: %s","class":"%s"}\n' \
+        "$ICON" "$(label_of "$cur")" "$cur"
+}
+
+cmd_cycle() {
+    local cur next
+    cur=$(cmd_get)
+    next=$(cmd_list | awk -v c="$cur" '
+        {a[NR]=$0}
+        END {
+            for (i = 1; i <= NR; i++) if (a[i] == c) { print a[i % NR + 1]; exit }
+            print a[1]
+        }')
+    cmd_set "$next"
+}
+
+cmd_menu() {
+    local cur chosen slug
+    cur=$(cmd_get)
+    chosen=$(cmd_list | while read -r slug; do
+                 if [[ "$slug" == "$cur" ]]; then printf '● %s\n' "$(label_of "$slug")"
+                 else                             printf '   %s\n' "$(label_of "$slug")"
+                 fi
+             done | wofi --dmenu --prompt 'Tema' --width 320 --height 320 \
+                         --style "$CONFIG_DIR/wofi/style.css" 2>/dev/null) || return 0
+    chosen=${chosen#● }
+    chosen=${chosen#   }
+    for slug in $(cmd_list); do
+        [[ "$(label_of "$slug")" == "$chosen" ]] && { cmd_set "$slug"; return 0; }
+    done
 }
 
 cmd_set() {
@@ -155,5 +204,8 @@ case "${1:-get}" in
     get)  cmd_get ;;
     list) cmd_list ;;
     set)  shift; cmd_set "$@" ;;
-    *)    printf 'uso: %s {get|set <slug>|list}\n' "$(basename "$0")" >&2; exit 1 ;;
+    waybar) cmd_waybar ;;
+    cycle)  cmd_cycle ;;
+    menu)   cmd_menu ;;
+    *)    printf 'uso: %s {get|set <slug>|list|cycle|menu|waybar}\n' "$(basename "$0")" >&2; exit 1 ;;
 esac

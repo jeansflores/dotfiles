@@ -79,6 +79,20 @@ test_slug() {
         bad "theme.env não é fonte válida ou falta papel"
     fi
 
+    # O módulo da barra precisa devolver JSON válido, com o glyph certo.
+    local json
+    json=$("$THEME" waybar 2>/dev/null)
+    if printf '%s' "$json" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["class"] and d["text"] and d["tooltip"]' 2>/dev/null; then
+        ok "theme waybar devolve JSON completo"
+    else
+        bad "theme waybar não devolveu JSON válido: $json"
+    fi
+    if printf '%s' "$json" | grep -q $'\U000f03d8'; then
+        ok "o glyph de paleta chegou inteiro no JSON"
+    else
+        bad "glyph errado ou virou caractere de substituição"
+    fi
+
     # O nvim tem que abrir no colorscheme que o manifesto pediu.
     local want_nvim got_nvim
     want_nvim=$(grep -m1 '^nvim_colorscheme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d'"' -f2)
