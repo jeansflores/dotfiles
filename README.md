@@ -46,6 +46,7 @@ stow -D waybar               # remove
 | `powerprofile` | seletor de perfil de energia e seu serviço systemd |
 | `screenrec` | gravação de tela (wf-recorder) com indicador na barra |
 | `nvim` | Neovim (LazyVim) |
+| `btop` | monitor de sistema aberto pela barra |
 | `herdr` | herdr (workspace de terminais) |
 | `tmux` | tmux |
 | `gitconfig` | git |
@@ -75,6 +76,12 @@ No Ghostty, o tema chamado apenas **"Gruvbox Material"** *não* é o Material:
 traz outra paleta (azul `#6da3ec`, vermelho `#ea6926`). O correto é o **"Gruvbox
 Material Dark"** — que vem com o fundo *medium* `#282828`, daí o `background =
 #1d2021` logo abaixo do `theme` no config, para casar com o resto da sessão.
+
+O `btop` é a exceção que não segue esse bloco: ele traz os temas embutidos, e o
+`btop.conf` aponta para o `gruvbox_material_dark` que vem com o pacote. Repare
+que **o btop reescreve o `btop.conf` inteiro ao sair** — então abrir o monitor
+pela barra costuma deixar o repositório sujo, mesmo sem você ter mudado nada.
+Um `git checkout btop` resolve quando a diferença for só ruído.
 
 O `tmux` e o `herdr` **não** têm cor própria: o tmux usa nomes (`blue`,
 `brightblack`) e o herdr está em `theme.name = "terminal"`. Os dois seguem a
