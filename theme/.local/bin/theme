@@ -91,6 +91,9 @@ cmd_set() {
     load "$slug"
 
     render waybar.css "$CONFIG_DIR/waybar/colors.css"
+    render sway.conf  "$CONFIG_DIR/sway/colors.conf"
+    render swaync.css "$CONFIG_DIR/swaync/colors.css"
+    render wofi.css   "$CONFIG_DIR/wofi/colors.css"
 
     mkdir -p "$STATE_DIR"
     printf '%s\n' "$slug" > "$STATE_FILE"

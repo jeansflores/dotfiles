@@ -1,8 +1,9 @@
-/* Wofi — Gruvbox Material (Dark, fundo hard) */
+/* Wofi — as cores vêm do tema ativo, gerado por `theme set`. */
+@import "colors.css";
 
 window {
-    background-color: #1d2021;
-    border: 1px solid #3c3836;
+    background-color: @bg_dark;
+    border: 1px solid @bg_hl;
     border-radius: 12px;
     font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;
     font-size: 14px;
@@ -13,16 +14,16 @@ window {
 }
 
 #input {
-    background-color: #282828;
-    color: #d4be98;
-    border: 1px solid #3c3836;
+    background-color: @bg;
+    color: @fg;
+    border: 1px solid @bg_hl;
     border-radius: 8px;
     padding: 8px 10px;
     margin-bottom: 8px;
 }
 
 #input:focus {
-    border: 1px solid #7daea3;
+    border: 1px solid @blue;
 }
 
 #scroll {
@@ -36,12 +37,12 @@ window {
 #entry {
     padding: 8px 10px;
     border-radius: 8px;
-    color: #a89984;
+    color: @fg_dim;
 }
 
 #entry:selected {
-    background-color: #7daea3;
-    color: #1d2021;
+    background-color: @blue;
+    color: @bg_dark;
 }
 
 #text {
@@ -49,5 +50,5 @@ window {
 }
 
 #text:selected {
-    color: #1d2021;
+    color: @bg_dark;
 }

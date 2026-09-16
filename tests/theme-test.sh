@@ -24,8 +24,28 @@ assert_no_placeholder() {
     if [[ -z "$hits" ]]; then ok "sem marcador sobrando: $1"; else bad "marcador não substituído em $1: $hits"; fi
 }
 
+# assert_colors_defined <style.css> <colors.css>
+assert_colors_defined() {
+    local style=$1 colors=$2 missing=""
+    [[ -r "$style" && -r "$colors" ]] || { bad "não consegui ler $style ou $colors"; return; }
+    local name
+    while read -r name; do
+        grep -q "^@define-color $name " "$colors" || missing+=" @$name"
+    done < <(grep -oE '@[a-z_][a-z0-9_]*' "$style" \
+             | grep -vE '^@(import|define-color|media|keyframes|charset)$' \
+             | sed 's/^@//' | sort -u)
+    if [[ -z "$missing" ]]; then
+        ok "todo @nome de $(basename "$(dirname "$style")")/style.css está definido"
+    else
+        bad "$(basename "$(dirname "$style")")/style.css usa cor não definida:$missing"
+    fi
+}
+
 GENERATED=(
     "$HOME/.config/waybar/colors.css"
+    "$HOME/.config/sway/colors.conf"
+    "$HOME/.config/swaync/colors.css"
+    "$HOME/.config/wofi/colors.css"
 )
 
 test_slug() {
@@ -41,6 +61,12 @@ test_slug() {
         assert_file "$f"
         assert_no_placeholder "$f"
     done
+
+    # Todo @nome usado no style.css tem que estar definido no colors.css gerado.
+    # Se faltar, o GTK descarta a regra calado e o app sobe sem estilo.
+    assert_colors_defined "$HOME/.config/waybar/style.css" "$HOME/.config/waybar/colors.css"
+    assert_colors_defined "$HOME/.config/swaync/style.css" "$HOME/.config/swaync/colors.css"
+    assert_colors_defined "$HOME/.config/wofi/style.css"   "$HOME/.config/wofi/colors.css"
 }
 
 slugs=("$@")

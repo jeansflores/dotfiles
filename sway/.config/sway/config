@@ -15,14 +15,15 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term ghostty
-# Your preferred application launcher (cores Gruvbox Material)
-set $menu wmenu-run -i -f "Noto Sans 11" -N '#1d2021' -n '#d4be98' -M '#d3869b' -m '#1d2021' -S '#7daea3' -s '#1d2021'
+# Cores das bordas, wallpaper e o lançador vêm do tema ativo (`theme set`),
+# que gera este arquivo. O include precisa vir ANTES do primeiro uso de $menu,
+# lá no `bindsym $mod+d`: o sway resolve variáveis na hora do parse.
+include ~/.config/sway/colors.conf
 
 ### Output configuration
 #
-# Fundo liso na cor de base do Gruvbox Material (bg0 hard). Para uma imagem:
-# output * bg /caminho/para/wallpaper.png fill
-output * bg #1d2021 solid_color
+# O fundo é definido no colors.conf, gerado pelo tema ativo. Para usar uma
+# imagem em vez da cor lisa, troque o template em ~/.local/share/theme/.
 #
 # Example configuration:
 #
@@ -262,15 +263,8 @@ bindsym $mod+r mode "resize"
     bindsym $mod+Shift+n exec swaync-client -d -sw
 
 #
-# Aparência — Gruvbox Material (Dark, fundo hard)
+# Aparência — as cores vêm do colors.conf, incluído lá em cima.
 #
-# Cores das bordas:      borda    fundo    texto    indicador  borda-filho
-client.focused           #7daea3  #7daea3  #1d2021  #d3869b    #7daea3
-client.focused_inactive  #3c3836  #3c3836  #a89984  #3c3836    #3c3836
-client.unfocused         #282828  #282828  #7c6f64  #282828    #3c3836
-client.urgent            #ea6962  #ea6962  #1d2021  #ea6962    #ea6962
-client.background        #1d2021
-
 font pango:Noto Sans 10
 
 default_border pixel 2
