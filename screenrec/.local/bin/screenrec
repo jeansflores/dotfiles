@@ -32,6 +32,12 @@ VAAPI_DEV=/dev/dri/renderD128
 # Precisa bater com "signal" no módulo da waybar
 WAYBAR_SIGNAL=9
 
+# Janela pra decidir se o encoder subiu. Dá só pra flagrar o que morre sozinho
+# (encoder indisponível) — ver o comentário do launch sobre o que NÃO dá.
+LAUNCH_TRIES=6
+LAUNCH_INTERVAL=0.25
+MIN_VALID_BYTES=1024           # abaixo disso o mp4 é só cabeçalho, sem frame
+
 # nf-fa-circle, em escape pra não sumir em copy-paste de uso privado
 ICON=$'\uf111'
 
@@ -43,11 +49,47 @@ notify() {
     notify-send -a screenrec -i camera-video -t 3000 "$@" 2>/dev/null || true
 }
 
+# Vivo de verdade. Um filho já morto e ainda não colhido responde ao kill -0
+# como zumbi, e isso faria o reap escalar até o SIGKILL sem necessidade.
+alive() {
+    local pid=$1 state
+    kill -0 "$pid" 2>/dev/null || return 1
+    state=$(sed -n 's/^State:[[:space:]]*\(.\).*/\1/p' "/proc/$pid/status" 2>/dev/null)
+    [[ $state != Z ]]
+}
+
+# Encerra o wf-recorder e só volta quando ele realmente morreu. SIGINT primeiro,
+# para ele fechar o container mp4; se travou no grafo de filtros ele captura o
+# sinal e não age, então escalamos para SIGTERM e SIGKILL. Sem escalar, a parada
+# apagava o estado e deixava o processo órfão girando em 100% de um núcleo.
+# Deixa em REAP_SIGNAL o sinal que de fato o derrubou (vazio se já estava morto).
+REAP_SIGNAL=''
+reap() {
+    local pid=$1; shift
+    local sigs=("$@") sig i waits
+    (( ${#sigs[@]} )) || sigs=(INT TERM KILL)
+    REAP_SIGNAL=''
+    for sig in "${sigs[@]}"; do
+        alive "$pid" || break
+        # o SIGINT leva folga pro wf-recorder fechar o moov do mp4; depois dele
+        # já sabemos que o processo não está colaborando, então não vale esperar
+        [[ $sig == INT ]] && waits=50 || waits=20
+        REAP_SIGNAL=$sig
+        kill -"$sig" "$pid" 2>/dev/null || true
+        for i in $(seq "$waits"); do
+            alive "$pid" || break 2
+            sleep 0.1
+        done
+    done
+    wait "$pid" 2>/dev/null || true     # colhe o zumbi, se for nosso filho
+    ! alive "$pid"
+}
+
 recording_pid() {
     local pid
     [[ -r "$PID_FILE" ]] || return 1
     pid=$(<"$PID_FILE")
-    [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null || { rm -f "$PID_FILE" "$INFO_FILE"; return 1; }
+    [[ -n "$pid" ]] && alive "$pid" || { rm -f "$PID_FILE" "$INFO_FILE"; return 1; }
     printf '%s' "$pid"
 }
 
@@ -71,19 +113,30 @@ geometry_for() {
     esac
 }
 
-# Sobe o wf-recorder com os argumentos extras dados; retorna 1 se ele morrer
-# no primeiro segundo (tipicamente encoder indisponível).
+# Sobe o wf-recorder com os argumentos extras dados; retorna 1 se ele morrer na
+# janela de checagem, deixando o processo já colhido — nunca solto.
+#
+# Só o encoder indisponível dá pra flagrar aqui. Um encoder que trava DENTRO do
+# grafo de filtros é indistinguível de uma gravação saudável neste ponto: medido
+# nesta máquina, com a tela parada o muxer do mp4 fica no cabeçalho por 2-4s
+# antes de descarregar 256KB de uma vez, e o processo saudável consome 0,5-1,3
+# núcleo — os mesmos sinais do travado. Quem cobre o travamento é o cmd_stop,
+# que agora sempre consegue matar, e o indicador da waybar, que agora nunca
+# desaparece com o processo vivo.
 launch() {
     local geom=$1 file=$2; shift 2
     wf-recorder -g "$geom" -f "$file" "$@" >/dev/null 2>"$RUN_DIR/log" &
     local pid=$!
-    sleep 1
-    if kill -0 "$pid" 2>/dev/null; then
-        printf '%s' "$pid"
-        return 0
-    fi
-    wait "$pid" 2>/dev/null || true
-    return 1
+
+    local i
+    for i in $(seq "$LAUNCH_TRIES"); do
+        sleep "$LAUNCH_INTERVAL"
+        if ! alive "$pid"; then
+            reap "$pid" KILL || true    # colhe o zumbi antes de devolver falha
+            return 1
+        fi
+    done
+    printf '%s' "$pid"
 }
 
 cmd_start() {
@@ -120,22 +173,30 @@ cmd_stop() {
     pid=$(recording_pid) || { printf 'nenhuma gravação em andamento\n' >&2; return 1; }
     file=$(head -n 1 "$INFO_FILE")
 
-    kill -INT "$pid"
-    # espera o wf-recorder fechar o container mp4
-    local i
-    for i in $(seq 50); do
-        kill -0 "$pid" 2>/dev/null || break
-        sleep 0.1
-    done
+    if ! reap "$pid"; then
+        # nem o SIGKILL pegou: preserva o estado pra não perder o rastro do PID
+        notify -u critical 'Não consegui parar a gravação' "PID $pid ainda vivo"
+        printf 'PID %s não morreu; estado preservado\n' "$pid" >&2
+        return 1
+    fi
+
     rm -f "$PID_FILE" "$INFO_FILE"
     refresh_waybar
 
-    if [[ -s "$file" ]]; then
-        notify 'Gravação salva' "$file"
-        printf '%s\n' "$file"
-    else
+    local size
+    size=$(stat -c %s "$file" 2>/dev/null || printf 0)
+    if (( size < MIN_VALID_BYTES )); then
+        # só o cabeçalho do mp4: isso passava no [[ -s ]] e anunciava "salva"
         notify -u critical 'Gravação vazia' "$file"
+        return 1
     fi
+
+    if [[ $REAP_SIGNAL == KILL ]]; then
+        notify -u critical 'Gravação truncada' "$file · precisou de SIGKILL"
+    else
+        notify 'Gravação salva' "$file"
+    fi
+    printf '%s\n' "$file"
 }
 
 cmd_toggle() {
