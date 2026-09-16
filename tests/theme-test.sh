@@ -70,6 +70,14 @@ test_slug() {
     assert_colors_defined "$HOME/.config/swaync/style.css" "$HOME/.config/swaync/colors.css"
     assert_colors_defined "$HOME/.config/wofi/style.css"   "$HOME/.config/wofi/colors.css"
 
+    # O btop tem que estar no tema que o manifesto pediu — ou em "current",
+    # quando o manifesto deixa btop_theme vazio e nós geramos o arquivo.
+    local want_btop got_btop
+    want_btop=$(grep -m1 '^btop_theme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2 | tr -d '"')
+    [[ -z "$want_btop" ]] && want_btop=current
+    got_btop=$(grep -m1 '^color_theme = ' "$HOME/.config/btop/btop.conf" | cut -d'"' -f2)
+    [[ "$got_btop" == "$want_btop" ]] && ok "btop em $want_btop" || bad "btop em '$got_btop', esperava '$want_btop'"
+
     # O fundo que o ghostty resolve tem que ser um dos fundos do tema. Se não
     # for, o terminal está numa cor que o resto da sessão não usa.
     local got want_dark want_bg

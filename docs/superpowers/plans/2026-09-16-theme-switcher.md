@@ -17,6 +17,7 @@
 - Renderizar sempre para `mktemp` e só então `mv`. Nenhuma escrita parcial em arquivo de config.
 - O sinal da waybar para o módulo de tema é **10**. O 8 é do `powerprofile` e o 9 é do `custom/recording`.
 - **Todo arquivo novo no pacote `theme` pede `stow --no-folding theme` de novo.** O `--no-folding` cria um symlink por arquivo, então template criado depois do último stow simplesmente não existe em `~/.local/share/theme/` e o `theme set` morre com "template faltando".
+- **Nunca rode `sed -i` num caminho dentro de `~/.local/share/theme/` ou `~/.config/`.** São symlinks do stow, e o `sed -i` troca o symlink por arquivo comum, quebrando a ligação com o repositório. Edite o arquivo no repo e restaure com `git checkout`.
 - **Não mande `SIGUSR2` para a waybar.** Ela sobe por `swaybar_command`; o `swaymsg reload` já a respawna. Mandar sinal por cima disputa o controle com o sway.
 - Glyph Nerd Font dentro de JSON vai escrito como `\uXXXX` e é conferido com `xxd`. Caractere literal em heredoc já quebrou neste repo.
 - Commits em inglês, Conventional Commits (`feat(scope): …`), mesmo o resto sendo pt-BR.

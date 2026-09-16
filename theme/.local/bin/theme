@@ -104,6 +104,18 @@ render_ghostty() {
     mv "$tmp" "$dest"
 }
 
+# O btop traz temas prontos para a maioria dos nossos slugs; quando não traz
+# (jellybeans), geramos um a partir dos 16 papéis.
+apply_btop() {
+    local conf="$CONFIG_DIR/btop/btop.conf" name="${btop_theme:-}"
+    if [[ -z "$name" ]]; then
+        render btop.theme "$CONFIG_DIR/btop/themes/current.theme"
+        name=current
+    fi
+    [[ -f "$conf" ]] || return 0
+    sed -i -E "s|^color_theme = \".*\"|color_theme = \"$name\"|" "$conf"
+}
+
 reload() {
     # A waybar sobe por `swaybar_command` no config do sway, então o reload do
     # sway já mata e respawna ela com config e CSS novos. Nada de SIGUSR2 aqui:
@@ -123,6 +135,7 @@ cmd_set() {
     render wofi.css   "$CONFIG_DIR/wofi/colors.css"
     render swaylock.conf "$CONFIG_DIR/swaylock/config"
     render_ghostty
+    apply_btop
 
     mkdir -p "$STATE_DIR"
     printf '%s\n' "$slug" > "$STATE_FILE"
