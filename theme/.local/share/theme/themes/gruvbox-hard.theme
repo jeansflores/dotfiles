@@ -11,6 +11,7 @@ btop_theme="gruvbox_dark"
 bg_dark=#1d2021
 bg=#282828
 bg_hl=#3c3836
+bg_sel=#504945
 fg=#ebdbb2
 fg_dim=#bdae93
 comment=#928374

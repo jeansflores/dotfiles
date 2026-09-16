@@ -73,7 +73,7 @@ theme doctor          # confere se algum arquivo gerado sumiu
 ### Como funciona
 
 Cada tema é um manifesto em `theme/.local/share/theme/themes/<slug>.theme`: os
-16 papéis de cor escritos à mão, mais os nomes que o ghostty, o Neovim e o btop
+17 papéis de cor escritos à mão, mais os nomes que o ghostty, o Neovim e o btop
 usam para o mesmo tema. O `theme set` renderiza um template por app e escreve
 **fora do repositório** — em `~/.config` e `~/.local/state`. É por isso que
 trocar de tema nunca suja o `git status`.
@@ -119,6 +119,17 @@ accent = blue   green = green   blue = blue   red = red   yellow = yellow
 Com os fundos escuros, o texto passa a sentar sobre escuro: **6.4:1 a 16.3:1**
 nos nove temas. O campo `herdr_theme` do manifesto continua existindo, então
 trocar a base de um tema é uma linha.
+
+O destaque de linha não usa `bg` nem `bg_hl`, e sim um papel próprio, o
+**`bg_sel`**. A razão é que `bg`, `bg_hl` e `bg_dark` foram escolhidos para
+*superfícies* — janela, painel, borda — e a separação entre eles fica em
+**1.04:1 a 1.11:1**: o olho não distingue. O `bg_sel` é escolhido para ser visto,
+com dois alvos que o `tests/palette-contrast.sh` cobra de todo tema:
+
+| | alvo | por quê |
+| --- | --- | --- |
+| `bg_sel` contra `bg_dark` | ≥ 1.5:1 | dá para ver que a linha está destacada |
+| `fg` sobre `bg_sel` | ≥ 4.5:1 | o texto continua legível (WCAG AA) |
 
 O `config.toml` do herdr é gerado inteiro (os atalhos vão no template), porque o
 herdr reescreve o próprio config de vez em quando — fora do repositório, isso

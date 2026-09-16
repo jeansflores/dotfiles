@@ -12,6 +12,7 @@ btop_theme=""
 bg_dark=#0a0a0a
 bg=#101010
 bg_hl=#1c1c1c
+bg_sel=#3a3a3a
 fg=#dad6c8
 fg_dim=#b0aca0
 comment=#7a7a7a

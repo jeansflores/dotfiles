@@ -12,6 +12,7 @@ btop_theme="kanagawa-dragon"
 bg_dark=#12120f
 bg=#181616
 bg_hl=#282727
+bg_sel=#393836
 fg=#c5c9c5
 fg_dim=#a6a69c
 comment=#7a8382

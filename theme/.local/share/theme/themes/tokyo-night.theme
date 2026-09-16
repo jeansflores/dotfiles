@@ -11,6 +11,7 @@ btop_theme="tokyo-night"
 bg_dark=#16161e
 bg=#1a1b26
 bg_hl=#292e42
+bg_sel=#3b4261
 fg=#c0caf5
 fg_dim=#a9b1d6
 comment=#565f89

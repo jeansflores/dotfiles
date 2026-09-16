@@ -27,7 +27,11 @@ DEFAULT_THEME=gruvbox-material
 ICON=$'\U000f03d8'
 
 # Os 16 papéis que todo manifesto precisa ter.
-ROLES=(bg_dark bg bg_hl fg fg_dim comment blue blue1 cyan magenta purple
+# bg_sel é o destaque de linha selecionada. Não é mais um nível de superfície:
+# bg/bg_hl foram escolhidos para janela, painel e borda, e a separação entre eles
+# fica em 1.04-1.11 — invisível. bg_sel é escolhido para ser visto, com alvo de
+# 1.5:1 contra bg_dark mantendo o texto acima de 4.5:1.
+ROLES=(bg_dark bg bg_hl bg_sel fg fg_dim comment blue blue1 cyan magenta purple
        green yellow orange red teal)
 
 die() { printf 'theme: %s\n' "$*" >&2; exit 1; }

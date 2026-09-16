@@ -27,8 +27,8 @@ auto_switch = false
 [theme.custom]
 sidebar_bg    = "@bg_dark@"
 panel_bg      = "@bg_dark@"
-active_row_bg = "@bg@"
-selection_bg  = "@bg_hl@"
+active_row_bg = "@bg_sel@"
+selection_bg  = "@bg_sel@"
 accent = "@blue@"
 green  = "@green@"
 blue   = "@blue@"
