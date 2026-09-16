@@ -145,6 +145,9 @@ cmd_set() {
       for role in "${ROLES[@]}"; do printf '%s=%s\n' "$role" "${!role}"; done
     } > "$STATE_DIR/theme.env"
 
+    # O nvim lê isto na inicialização para escolher o colorscheme.
+    printf '%s\n' "${nvim_colorscheme:-gruvbox-material}" > "$STATE_DIR/theme-nvim"
+
     reload
 }
 

@@ -79,6 +79,12 @@ test_slug() {
         bad "theme.env não é fonte válida ou falta papel"
     fi
 
+    # O nvim tem que abrir no colorscheme que o manifesto pediu.
+    local want_nvim got_nvim
+    want_nvim=$(grep -m1 '^nvim_colorscheme=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d'"' -f2)
+    got_nvim=$(nvim --headless -c 'lua io.write(vim.g.colors_name or "?")' -c qa 2>&1 | tail -1 | tr -d '\r')
+    [[ "$got_nvim" == "$want_nvim" ]] && ok "nvim em $want_nvim" || bad "nvim em '$got_nvim', esperava '$want_nvim'"
+
     # O btop tem que estar no tema que o manifesto pediu — ou em "current",
     # quando o manifesto deixa btop_theme vazio e nós geramos o arquivo.
     local want_btop got_btop
