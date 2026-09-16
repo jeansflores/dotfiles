@@ -41,6 +41,7 @@ PKGS=(
     wf-recorder                 # (+) gravação de tela (script screenrec)
     wl-clipboard
     jq                          #     usado no bind de screenshot da janela em foco
+    libnotify                   # (+) notify-send, usado pelo screenrec e pelo powerprofile
     btop                        # (+) monitor aberto pelo clique na CPU/RAM da barra
 
     # Áudio e bluetooth
@@ -66,10 +67,22 @@ PKGS=(
 
     # Dotfiles
     stow
+
+    # Gerenciador das ferramentas que não vêm do pacman (ver abaixo)
+    mise                        # (+) instala herdr, neovim e lazydocker
 )
+
+# Ferramentas que o mise instala, e não o pacman. Só as que estes dotfiles
+# realmente usam — o resto do seu toolchain fica por sua conta.
+#
+#   herdr       Mod+Alt+Return, e o pacote `theme` gera o config de cor dele
+#   neovim      o pacote `nvim`
+#   lazydocker  abre no clique do módulo Docker da barra
+MISE_TOOLS=(herdr neovim lazydocker)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"
+    printf 'mise use -g %s\n' "$(printf '%s@latest ' "${MISE_TOOLS[@]}")"
 }
 
 case "${1:-}" in
@@ -87,6 +100,16 @@ command -v pacman >/dev/null || { echo "Este script é para Arch/CachyOS." >&2; 
 
 echo "==> Instalando pacotes"
 sudo pacman -S --needed "${PKGS[@]}"
+
+echo
+echo "==> Instalando as ferramentas do mise"
+if command -v mise >/dev/null; then
+    for tool in "${MISE_TOOLS[@]}"; do
+        mise use -g "$tool@latest"
+    done
+else
+    echo "    (pulei: mise não encontrado)"
+fi
 
 echo
 echo "==> Habilitando serviços do sistema"

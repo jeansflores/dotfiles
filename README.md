@@ -13,12 +13,44 @@ cd ~/dotfiles
 ./install-deps.sh --stow
 ```
 
-O script instala os pacotes, habilita os serviços e aplica os symlinks. Para
-apenas obter a lista de pacotes — útil para colar em outro lugar:
+O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
+ferramentas que não existem no pacman, habilita os serviços, aplica os symlinks
+e **aplica um tema** — este último passo importa, porque sem ele os arquivos de
+cor não existem e a waybar e o wofi sobem sem estilo nenhum, sem erro nenhum.
+
+Para só ver o que seria instalado:
 
 ```bash
 ./install-deps.sh --print
 ```
+
+### O que vem de onde
+
+Nem tudo é pacote do pacman, e a diferença importa numa máquina nova:
+
+| | vem de | por quê |
+| --- | --- | --- |
+| sway, waybar, wofi, swaync, swaylock, ghostty, btop, … | `pacman` | estão em `PKGS` no script |
+| **herdr**, **neovim**, **lazydocker** | `mise` | não existem nos repositórios; estão em `MISE_TOOLS` |
+
+O `mise` instala os binários em `~/.local/share/mise/`, e os **shims não estão
+no `PATH` de processos subidos pelo Sway** — a waybar não tem shell de login. Por
+isso tudo que chama essas ferramentas fora de um terminal usa caminho absoluto
+do shim: o `Mod+Alt+Return` do herdr, o clique do Docker na barra, e o reload do
+herdr dentro do script `theme`. Se um dia uma dessas chamadas parar de funcionar
+"só pela barra", é aqui que se olha — o `tests/theme-test.sh` tem uma checagem só
+para isso.
+
+### Depois de instalar
+
+Três coisas continuam manuais:
+
+1. **Reinicie a sessão do Sway.** O `exec` do config só roda no login, não no
+   `swaymsg reload` — os autostarts (polkit, swaync, swayidle) não sobem sozinhos.
+2. **Abra o Neovim uma vez.** O lazy.nvim instala os plugins no primeiro
+   arranque, incluindo os seis colorschemes.
+3. **Confira com `theme doctor`.** Ele lista os arquivos que o tema gera e diz
+   se algum está faltando.
 
 Para aplicar (ou remover) um pacote isolado:
 
@@ -282,3 +314,29 @@ named 'gi'` mesmo com o `python-gobject` instalado.
   aplicações como o blueman pedirem senha em janela. Sem ele, o `pkexec` tenta o
   prompt textual e falha por não haver TTY.
 - O locale `pt_BR` **não** está gerado; por isso o relógio usa data numérica.
+- **O `PATH` do Sway não tem o mise.** Processos subidos pelo Sway (waybar,
+  swaync, e o que a barra lança no clique) não passam por shell de login. Quem
+  chama `herdr`, `nvim` ou `lazydocker` de lá precisa do caminho absoluto do
+  shim, `~/.local/share/mise/shims/<tool>`.
+
+## Testes
+
+Três scripts, todos rodando contra a sessão viva — não há mock:
+
+```bash
+./tests/theme-test.sh              # todos os temas, ponta a ponta
+./tests/theme-test.sh dracula      # só um
+./tests/palette-collision.sh       # módulos vizinhos da barra com a mesma cor
+./tests/palette-contrast.sh        # destaque de seleção visível e legível
+```
+
+O `theme-test.sh` aplica cada tema e confere, para todos eles: que os arquivos
+gerados existem e não têm marcador por substituir; que todo `@nome` citado num
+`style.css` está definido; que ghostty, Neovim, btop e herdr ficaram no tema
+certo; que o CSS do wofi não tem `@import`; e que **trocar de tema não mexeu no
+repositório**. Fecha com os caminhos de erro — slug inexistente e manifesto
+incompleto não podem deixar arquivo pela metade — e com uma troca de tema
+rodando no `PATH` da waybar, sem o mise.
+
+Pedem `python3` além do que a sessão já usa. Rodam em alguns minutos, porque
+abrem o Neovim uma vez por tema.

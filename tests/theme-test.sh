@@ -184,6 +184,42 @@ before_status=$(git -C "$REPO" status --porcelain)
 
 for s in "${slugs[@]}"; do test_slug "$s"; done
 
+printf '\n\033[1m== ambiente da barra ==\033[0m\n'
+
+# A waybar é subida pelo Sway, sem shell de login, e não herda o PATH do mise —
+# de onde vêm o herdr e o nvim. Trocar o tema pela barra roda nesse ambiente, e
+# qualquer binário resolvido só por PATH falharia calado ali.
+wpid=$(pgrep -x waybar | head -1)
+if [[ -z "$wpid" ]]; then
+    ok "waybar não está rodando; pulei a checagem de ambiente"
+else
+    bar_path=$(tr '\0' '\n' < "/proc/$wpid/environ" | grep '^PATH=' | cut -d= -f2-)
+    if printf '%s' "$bar_path" | grep -q mise; then
+        ok "o PATH da barra já tem o mise"
+    else
+        sentinela=$(grep -m1 '^selection_bg' "$HOME/.config/herdr/config.toml" | cut -d'"' -f2)
+        outro=$([[ "$(cat "$STATE/theme")" == dracula ]] && echo tokyo-night || echo dracula)
+        if env -i HOME="$HOME" PATH="$bar_path" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-}" \
+               SWAYSOCK="${SWAYSOCK:-}" "$THEME" set "$outro" >/dev/null 2>&1; then
+            depois=$(grep -m1 '^selection_bg' "$HOME/.config/herdr/config.toml" | cut -d'"' -f2)
+            [[ "$depois" != "$sentinela" ]] \
+                && ok "theme set funciona no PATH da barra (herdr foi de $sentinela para $depois)" \
+                || bad "theme set no PATH da barra não mexeu no config do herdr"
+        else
+            bad "theme set falhou rodando com o PATH da barra"
+        fi
+        # o reload do herdr precisa rodar de verdade, não só o render
+        shim="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims/herdr"
+        if [[ -x "$shim" ]]; then
+            if env -i HOME="$HOME" PATH="$bar_path" "$shim" server reload-config 2>&1 | grep -q '"status":"applied"'; then
+                ok "o reload do herdr aplica sem o PATH do mise"
+            else
+                bad "o reload do herdr não aplicou sem o PATH do mise"
+            fi
+        fi
+    fi
+fi
+
 printf '\n\033[1m== erros ==\033[0m\n'
 
 WAYBAR_CSS="$HOME/.config/waybar/colors.css"

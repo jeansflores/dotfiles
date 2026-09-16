@@ -137,7 +137,15 @@ apply_btop() {
 # que existe equivalente.
 render_herdr() {
     render herdr.toml "$CONFIG_DIR/herdr/config.toml" herdr_theme "${herdr_theme:-terminal}"
-    herdr server reload-config >/dev/null 2>&1 || true
+
+    # O herdr vem do mise. A waybar é subida pelo Sway, sem shell de login, e
+    # não herda o PATH do mise — então trocar o tema pela barra não acharia o
+    # binário e o reload falharia calado. Cai no shim por caminho absoluto.
+    local herdr_bin
+    herdr_bin=$(command -v herdr 2>/dev/null) \
+        || herdr_bin="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims/herdr"
+    [[ -x "$herdr_bin" ]] && "$herdr_bin" server reload-config >/dev/null 2>&1
+    return 0
 }
 
 reload() {
