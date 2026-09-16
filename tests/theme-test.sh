@@ -47,6 +47,7 @@ GENERATED=(
     "$HOME/.config/swaync/colors.css"
     "$HOME/.config/wofi/colors.css"
     "$HOME/.config/swaylock/config"
+    "$HOME/.config/ghostty/theme.conf"
 )
 
 test_slug() {
@@ -68,6 +69,20 @@ test_slug() {
     assert_colors_defined "$HOME/.config/waybar/style.css" "$HOME/.config/waybar/colors.css"
     assert_colors_defined "$HOME/.config/swaync/style.css" "$HOME/.config/swaync/colors.css"
     assert_colors_defined "$HOME/.config/wofi/style.css"   "$HOME/.config/wofi/colors.css"
+
+    # O fundo que o ghostty resolve tem que ser um dos fundos do tema. Se não
+    # for, o terminal está numa cor que o resto da sessão não usa.
+    local got want_dark want_bg
+    got=$(ghostty +show-config 2>/dev/null | grep -m1 '^background = ' | awk '{print tolower($3)}')
+    want_dark=$(grep -m1 '^bg_dark=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+    want_bg=$(grep -m1 '^bg=' "$HOME/.local/share/theme/themes/$slug.theme" | cut -d= -f2)
+    if [[ -z "$got" ]]; then
+        bad "ghostty não resolveu nenhum background"
+    elif [[ "$got" == "$want_dark" || "$got" == "$want_bg" ]]; then
+        ok "ghostty em $got, que é um fundo do tema"
+    else
+        bad "ghostty em $got, mas o tema usa $want_dark / $want_bg"
+    fi
 }
 
 slugs=("$@")

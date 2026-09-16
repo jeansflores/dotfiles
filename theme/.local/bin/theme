@@ -81,6 +81,29 @@ render() {
     mv "$tmp" "$dest"
 }
 
+# O ghostty tem paleta própria: ou aponta para um tema que ele já traz, ou para
+# um arquivo de paleta que vendorizamos (caso dos jellybeans). Por isso não passa
+# pelo render genérico dos 16 papéis.
+render_ghostty() {
+    local dest="$CONFIG_DIR/ghostty/theme.conf" tmp
+    tmp=$(mktemp)
+    {
+        printf '# Gerado por `theme set`. Nao edite: mexa no manifesto do tema.\n'
+        if [[ -n "${ghostty_theme:-}" ]]; then
+            printf 'theme = %s\n' "$ghostty_theme"
+        elif [[ -n "${ghostty_file:-}" ]]; then
+            local pal="$DATA_DIR/ghostty/$ghostty_file"
+            [[ -r "$pal" ]] || die "paleta de ghostty faltando: $pal"
+            cat "$pal"
+        else
+            die "manifesto sem ghostty_theme nem ghostty_file"
+        fi
+        [[ -n "${ghostty_extra:-}" ]] && printf '%s\n' "$ghostty_extra"
+    } > "$tmp"
+    mkdir -p "$(dirname "$dest")"
+    mv "$tmp" "$dest"
+}
+
 reload() {
     # A waybar sobe por `swaybar_command` no config do sway, então o reload do
     # sway já mata e respawna ela com config e CSS novos. Nada de SIGUSR2 aqui:
@@ -99,6 +122,7 @@ cmd_set() {
     render swaync.css "$CONFIG_DIR/swaync/colors.css"
     render wofi.css   "$CONFIG_DIR/wofi/colors.css"
     render swaylock.conf "$CONFIG_DIR/swaylock/config"
+    render_ghostty
 
     mkdir -p "$STATE_DIR"
     printf '%s\n' "$slug" > "$STATE_FILE"
