@@ -9,8 +9,9 @@
 #   screenrec status          imprime "recording <segundos>" ou "idle"
 #   screenrec waybar          JSON para o módulo custom/recording
 #
-# Codifica por GPU (h264_vaapi no Radeon) e cai para libx264 por CPU se a
-# VA-API falhar ao subir. O arquivo vai para ~/Videos/Screencasts.
+# Tela cheia codifica por GPU (h264_vaapi no Radeon) e cai para libx264 por CPU
+# se a VA-API não subir. Região vai sempre de CPU — ver is_fullscreen. O arquivo
+# vai para ~/Videos/Screencasts.
 #
 set -euo pipefail
 
@@ -93,6 +94,19 @@ recording_pid() {
     printf '%s' "$pid"
 }
 
+# A captura de REGIÃO com h264_vaapi está quebrada nesta pilha (wf-recorder
+# 0.6.0): o grafo de filtros recusa o frame ("Changing video frame properties on
+# the fly", csp gbr vs unknown), nada é gravado, o processo gira em 100% de um
+# núcleo e não responde a SIGINT. Tela cheia pela GPU funciona normalmente, e
+# região por CPU também — num recorte pequeno o libx264 custa quase nada.
+# Medido em 2026-09-16; se o wf-recorder consertar isso, some com esta função.
+# Falha de swaymsg/jq cai no lado seguro (CPU).
+is_fullscreen() {
+    swaymsg -t get_outputs \
+        | jq -e --arg g "$1" '[.[] | .rect | "\(.x),\(.y) \(.width)x\(.height)"] | index($g)' \
+        >/dev/null 2>&1
+}
+
 # Geometria "X,Y WxH" do alvo pedido
 geometry_for() {
     case "${1:-region}" in
@@ -151,10 +165,13 @@ cmd_start() {
 
     mkdir -p "$OUT_DIR" "$RUN_DIR"
     local file="$OUT_DIR/$(date +'%Y-%m-%d_%H-%M-%S').mp4"
-    local pid encoder=GPU
+    local pid encoder=CPU
 
-    if ! pid=$(launch "$geom" "$file" -c h264_vaapi -d "$VAAPI_DEV"); then
-        encoder=CPU
+    # Tela cheia tenta a GPU e cai pra CPU se a VA-API não subir; região vai
+    # direto de CPU, porque h264_vaapi em recorte trava (ver is_fullscreen).
+    if is_fullscreen "$geom" && pid=$(launch "$geom" "$file" -c h264_vaapi -d "$VAAPI_DEV"); then
+        encoder=GPU
+    else
         rm -f "$file"
         pid=$(launch "$geom" "$file" -c libx264 -p preset=veryfast) || {
             notify -u critical 'Gravação falhou' "$(tail -n 3 "$RUN_DIR/log")"
