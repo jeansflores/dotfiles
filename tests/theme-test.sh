@@ -46,6 +46,7 @@ GENERATED=(
     "$HOME/.config/sway/colors.conf"
     "$HOME/.config/swaync/colors.css"
     "$HOME/.config/wofi/colors.css"
+    "$HOME/.config/swaylock/config"
 )
 
 test_slug() {

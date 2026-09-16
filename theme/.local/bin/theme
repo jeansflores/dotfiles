@@ -65,10 +65,14 @@ render() {
     local tpl="$TEMPLATES_DIR/$1" dest=$2 tmp
     [[ -r "$tpl" ]] || die "template faltando: $tpl"
 
+    # Cada papel vira dois marcadores: @papel@ com a cerquilha e @papel_raw@ sem
+    # ela, que é o que o swaylock exige. Explícito no template, em vez de um sed
+    # depois adivinhando quais linhas mexer.
     local -a sed_args=()
     local role
     for role in "${ROLES[@]}"; do
         sed_args+=(-e "s|@${role}@|${!role}|g")
+        sed_args+=(-e "s|@${role}_raw@|${!role#\#}|g")
     done
 
     tmp=$(mktemp)
@@ -94,6 +98,7 @@ cmd_set() {
     render sway.conf  "$CONFIG_DIR/sway/colors.conf"
     render swaync.css "$CONFIG_DIR/swaync/colors.css"
     render wofi.css   "$CONFIG_DIR/wofi/colors.css"
+    render swaylock.conf "$CONFIG_DIR/swaylock/config"
 
     mkdir -p "$STATE_DIR"
     printf '%s\n' "$slug" > "$STATE_FILE"
