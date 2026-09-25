@@ -13,7 +13,7 @@ local function active()
 end
 
 return {
-  -- Os cinco plugins cobrem os oito temas. Todos lazy: o LazyVim carrega só o
+  -- Os sete plugins cobrem os onze temas. Todos lazy: o LazyVim carrega só o
   -- que o colorscheme pedir.
   { "folke/tokyonight.nvim", lazy = true, opts = { style = "night" } },
   { "ellisonleao/gruvbox.nvim", lazy = true, opts = { contrast = "hard", terminal_colors = true } },
@@ -32,6 +32,9 @@ return {
   { "wtfox/jellybeans.nvim", lazy = true },
   { "rebelot/kanagawa.nvim", lazy = true },
   { "Mofiqul/dracula.nvim", lazy = true },
+  -- O repositório se chama "neovim"; sem o name, o lazy instalaria o plugin
+  -- com esse nome genérico.
+  { "rose-pine/neovim", name = "rose-pine", lazy = true },
 
   { "LazyVim/LazyVim", opts = { colorscheme = active() } },
 }

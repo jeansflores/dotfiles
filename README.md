@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, com nove temas trocáveis pela barra.
+Configuração de uma sessão **Sway** no CachyOS, com onze temas trocáveis pela barra.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -59,7 +59,7 @@ Três coisas continuam manuais:
 1. **Reinicie a sessão do Sway.** O `exec` do config só roda no login, não no
    `swaymsg reload` — os autostarts (polkit, swaync, swayidle) não sobem sozinhos.
 2. **Abra o Neovim uma vez.** O lazy.nvim instala os plugins no primeiro
-   arranque, incluindo os seis colorschemes.
+   arranque, incluindo os sete colorschemes.
 3. **Confira com `theme doctor`.** Ele lista os arquivos que o tema gera e diz
    se algum está faltando.
 
@@ -94,7 +94,7 @@ stow -D waybar               # remove
 
 ## Temas
 
-A sessão tem nove temas, trocáveis pelo ícone de paleta na barra — clique abre
+A sessão tem onze temas, trocáveis pelo ícone de paleta na barra — clique abre
 um menu, botão direito cicla. Pela linha de comando:
 
 ```bash
@@ -111,6 +111,7 @@ theme doctor          # confere se algum arquivo gerado sumiu
 | `tokyo-night` | |
 | `jellybeans-muted` `jellybeans-mono` `jellybeans-hc` | |
 | `dracula` | |
+| `rose-pine` `rose-pine-moon` | |
 | `kanagawa-wave` `kanagawa-dragon` | |
 
 ### Como funciona
@@ -160,7 +161,7 @@ accent = blue   green = green   blue = blue   red = red   yellow = yellow
 ```
 
 Com os fundos escuros, o texto passa a sentar sobre escuro: **6.4:1 a 16.3:1**
-nos nove temas. O campo `herdr_theme` do manifesto continua existindo, então
+nos onze temas. O campo `herdr_theme` do manifesto continua existindo, então
 trocar a base de um tema é uma linha.
 
 O destaque de linha não usa `bg` nem `bg_hl`, e sim um papel próprio, o

@@ -1,0 +1,38 @@
+label="Rosé Pine"
+
+ghostty_theme="Rose Pine"
+ghostty_file=""
+ghostty_extra=""
+
+nvim_colorscheme="rose-pine-main"
+herdr_theme="terminal"
+btop_theme=""
+
+# O Rosé Pine tem só seis acentos (love, gold, rose, pine, foam, iris), então
+# alguns papéis dividem cor. Os fundos seguem a hierarquia do tema: base, surface
+# e overlay, clareando nessa ordem. A barra fica em surface, que é o fundo de
+# painel dele.
+#
+# O acento primário é o iris. O slot ANSI de azul é o foam, mas o iris é mais
+# distinto do texto. O orange é o gold porque, no Rosé Pine, gold é a cor de
+# warning, que é o papel do orange aqui.
+#
+# O green é o pine, que é o verde ANSI do tema. No main ele fica em 3.2:1 sobre a
+# barra; é característica da paleta. Se incomodar, foam no green resolve.
+bg_dark=#191724
+bg=#1f1d2e
+bg_hl=#26233a
+bg_sel=#403d52
+fg=#e0def4
+fg_dim=#908caa
+comment=#6e6a86
+blue=#c4a7e7
+blue1=#31748f
+cyan=#9ccfd8
+magenta=#ebbcba
+purple=#c4a7e7
+green=#31748f
+yellow=#f6c177
+orange=#f6c177
+red=#eb6f92
+teal=#9ccfd8
