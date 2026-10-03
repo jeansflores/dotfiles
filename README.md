@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuração de uma sessão **Sway** no CachyOS, com onze temas trocáveis pela barra.
+Configuração de uma sessão **Sway** no CachyOS, toda na paleta **Jellybeans HC**.
 
 Os arquivos são organizados em pacotes [GNU Stow](https://www.gnu.org/software/stow/):
 cada diretório do primeiro nível replica a hierarquia a partir do `$HOME`.
@@ -20,14 +20,11 @@ O que precisa casar entre os dois é só isto:
 
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
-> tentaria stowar `docs/` e `tests/`, largando `~/superpowers` e três `.sh` na
-> sua home. O `install-deps.sh --stow` usa `--no-folding`, aplica só os 13
-> pacotes de verdade e termina aplicando um tema.
+> tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 14 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
-ferramentas que não existem no pacman, habilita os serviços, aplica os symlinks
-e **aplica um tema** — este último passo importa, porque sem ele os arquivos de
-cor não existem e a waybar e o wofi sobem sem estilo nenhum, sem erro nenhum.
+ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
 
 Para só ver o que seria instalado:
 
@@ -41,27 +38,23 @@ Nem tudo é pacote do pacman, e a diferença importa numa máquina nova:
 
 | | vem de | por quê |
 | --- | --- | --- |
-| sway, waybar, wofi, swaync, swaylock, ghostty, btop, … | `pacman` | estão em `PKGS` no script |
+| sway, waybar, wofi, swaync, swaylock, alacritty, btop, … | `pacman` | estão em `PKGS` no script |
 | **herdr**, **neovim**, **lazydocker** | `mise` | não existem nos repositórios; estão em `MISE_TOOLS` |
 
 O `mise` instala os binários em `~/.local/share/mise/`, e os **shims não estão
 no `PATH` de processos subidos pelo Sway** — a waybar não tem shell de login. Por
 isso tudo que chama essas ferramentas fora de um terminal usa caminho absoluto
-do shim: o `Mod+Alt+Return` do herdr, o clique do Docker na barra, e o reload do
-herdr dentro do script `theme`. Se um dia uma dessas chamadas parar de funcionar
-"só pela barra", é aqui que se olha — o `tests/theme-test.sh` tem uma checagem só
-para isso.
+do shim: o `Mod+Alt+Return` do herdr e o clique do Docker na barra. Se um dia
+uma dessas chamadas parar de funcionar "só pela barra", é aqui que se olha.
 
 ### Depois de instalar
 
-Três coisas continuam manuais:
+Duas coisas continuam manuais:
 
 1. **Reinicie a sessão do Sway.** O `exec` do config só roda no login, não no
    `swaymsg reload` — os autostarts (polkit, swaync, swayidle) não sobem sozinhos.
 2. **Abra o Neovim uma vez.** O lazy.nvim instala os plugins no primeiro
-   arranque, incluindo os sete colorschemes.
-3. **Confira com `theme doctor`.** Ele lista os arquivos que o tema gera e diz
-   se algum está faltando.
+   arranque, incluindo o colorscheme.
 
 Para aplicar (ou remover) um pacote isolado:
 
@@ -78,127 +71,74 @@ stow -D waybar               # remove
 
 | Pacote | O que cobre |
 | --- | --- |
-| `sway` | compositor, atalhos, autostarts, cores das bordas |
+| `sway` | compositor, atalhos, autostarts, paleta e cores das bordas |
 | `waybar` | barra superior e seu tema |
 | `swaync` | daemon e centro de notificações |
-| `ghostty` | terminal |
+| `wofi` | menus (perfil de energia) |
+| `swaylock` | tela de bloqueio |
+| `alacritty` | terminal |
+| `herdr` | multiplexador de agentes (`Mod+Alt+Return`) |
 | `gtk` | fonte, modo escuro e ícones das aplicações GTK 3 e 4 |
 | `xdg-portal` | qual backend do xdg-desktop-portal atende cada função |
 | `powerprofile` | seletor de perfil de energia e seu serviço systemd |
 | `screenrec` | gravação de tela (wf-recorder) com indicador na barra |
 | `nvim` | Neovim (LazyVim) |
 | `btop` | monitor de sistema aberto pela barra |
-| `theme` | os temas da sessão e o trocador na barra |
-| `tmux` | tmux |
 | `gitconfig` | git |
 
-## Temas
+## Paleta
 
-A sessão tem onze temas, trocáveis pelo ícone de paleta na barra — clique abre
-um menu, botão direito cicla. Pela linha de comando:
+Uma paleta só, **Jellybeans HC** (de `WTFox/jellybeans.nvim`), escrita à mão em
+cada app — sem script gerador, sem arquivo fora do repositório.
 
-```bash
-theme list            # os slugs disponíveis
-theme set kanagawa-dragon
-theme cycle
-theme doctor          # confere se algum arquivo gerado sumiu
-```
-
-| slug | |
+| arquivo | o que tem |
 | --- | --- |
-| `gruvbox-material` | padrão |
-| `gruvbox-hard` | |
-| `tokyo-night` | |
-| `jellybeans-muted` `jellybeans-mono` `jellybeans-hc` | |
-| `dracula` | |
-| `rose-pine` `rose-pine-moon` | |
-| `kanagawa-wave` `kanagawa-dragon` | |
+| `sway/.config/sway/config` | bloco `set $bg …` no topo; bordas, fundo e lançador usam as variáveis |
+| `waybar/.config/waybar/colors.css` | `@define-color`, importado pelo `style.css` |
+| `swaync/.config/swaync/colors.css` | idem |
+| `wofi/.config/wofi/style.css` | cores literais (ver abaixo) |
+| `swaylock/.config/swaylock/config` | cores sem `#`, como o swaylock exige |
+| `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor |
+| `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
+| `btop/.config/btop/themes/jellybeans-hc.theme` | tema do btop |
+| `nvim/…/plugins/colorscheme.lua` | `jellybeans-hc` |
 
-### Como funciona
+| papel | hex | | papel | hex |
+| --- | --- | --- | --- | --- |
+| `bg_dark` | `#000000` | | `blue` | `#98b0e0` |
+| `bg` | `#060606` | | `cyan` | `#aad4f8` |
+| `bg_hl` | `#1a1a1a` | | `magenta` | `#d8c8ff` |
+| `bg_sel` | `#363636` | | `green` | `#8cd468` |
+| `fg` | `#f8f8f0` | | `yellow` | `#ffe080` |
+| `fg_dim` | `#c8c8c0` | | `orange` | `#ffc060` |
+| `comment` | `#909090` | | `red` | `#ff5050` |
+| | | | `teal` | `#78a0b8` |
 
-Cada tema é um manifesto em `theme/.local/share/theme/themes/<slug>.theme`: os
-17 papéis de cor escritos à mão, mais os nomes que o ghostty, o Neovim e o btop
-usam para o mesmo tema. O `theme set` renderiza um template por app e escreve
-**fora do repositório** — em `~/.config` e `~/.local/state`. É por isso que
-trocar de tema nunca suja o `git status`.
+### Levando para o i3
 
-```
-themes/<slug>.theme  ─┐
-templates/*          ─┴─► theme set ──► ~/.config/{waybar,sway,swaync,wofi,
-                                          swaylock,ghostty,btop}/…
-                                        ~/.local/state/theme{,.env,-nvim}
-```
+O config do sway foi escrito para ser portável: a paleta é um bloco de
+`set $nome valor` no topo, e as linhas `client.*`, `font`, `default_border`,
+`smart_borders` e `gaps` têm a mesma sintaxe no i3 (gaps desde a 4.22). Copie a
+paleta, as variáveis e a seção **Aparência**; o que é só do sway está marcado
+nos comentários (`output * bg`, `titlebar_padding`, e o `wmenu-run` — que tem a
+linha equivalente de `dmenu_run` comentada ao lado).
 
-Adicionar um tema é escrever um manifesto — mais o arquivo de paleta do
-ghostty, quando o ghostty não traz aquele tema (é o caso dos três jellybeans,
-vendorizados de `WTFox/jellybeans.nvim`).
+### herdr
 
-O `tmux` não tem cor própria: usa nomes (`blue`, `brightblack`) e segue o
-ghostty sozinho.
+O tema `terminal` do herdr deriva dos 16 ANSI do alacritty, mas põe o *texto*
+sobre a *cor de acento* — em paleta escura os dois são tons claros e o
+contraste cai para 1.4-2.8:1. A tabela `[theme.custom]` troca os fundos pelos
+níveis escuros da paleta e o texto volta a sentar sobre escuro.
 
-O **herdr** é caso à parte, e vale registrar por quê. Ele tem 18 temas próprios
-e um modo `terminal` que deriva dos 16 ANSI. O `terminal` parece a escolha óbvia
-— segue a sessão de graça — mas ele põe o *texto* sobre a *cor de acento*, e em
-paleta escura os dois são tons claros. O contraste fica entre **1.4:1 e 2.8:1**,
-quando o mínimo WCAG AA para texto é 4.5:1.
-
-O herdr **não aceita registrar temas nomeados novos** — o seletor dele só lista
-os 18 embutidos, não há diretório de temas do usuário. O que ele aceita é uma
-tabela `[theme.custom]` de nove chaves, que sobrescreve cor por cor o tema
-ativo. Repare que não existe chave de cor de *texto* ali — e é justamente por
-isso que dá para consertar: basta os fundos deixarem de ser acento.
-
-```toml
-[theme]
-name = "terminal"          # base: o texto segue o fg do ghostty
-
-[theme.custom]
-sidebar_bg    = bg_dark    # os nossos três níveis escuros
-panel_bg      = bg_dark
-active_row_bg = bg
-selection_bg  = bg_hl
-accent = blue   green = green   blue = blue   red = red   yellow = yellow
-```
-
-Com os fundos escuros, o texto passa a sentar sobre escuro: **6.4:1 a 16.3:1**
-nos onze temas. O campo `herdr_theme` do manifesto continua existindo, então
-trocar a base de um tema é uma linha.
-
-O destaque de linha não usa `bg` nem `bg_hl`, e sim um papel próprio, o
-**`bg_sel`**. A razão é que `bg`, `bg_hl` e `bg_dark` foram escolhidos para
-*superfícies* — janela, painel, borda — e a separação entre eles fica em
-**1.04:1 a 1.11:1**: o olho não distingue. O `bg_sel` é escolhido para ser visto,
-com dois alvos que o `tests/palette-contrast.sh` cobra de todo tema:
-
-| | alvo | por quê |
-| --- | --- | --- |
-| `bg_sel` contra `bg_dark` | ≥ 1.5:1 | dá para ver que a linha está destacada |
-| `fg` sobre `bg_sel` | ≥ 4.5:1 | o texto continua legível (WCAG AA) |
-
-O `config.toml` do herdr é gerado inteiro (os atalhos vão no template), porque o
-herdr reescreve o próprio config de vez em quando — fora do repositório, isso
-deixou de sujar o `git status`. O preço é que trocar o tema pela UI do herdr é
-desfeito no próximo `theme set`.
-
-### O que troca na hora e o que não troca
-
-Sway, waybar e swaync trocam ao vivo. Wofi, swaylock e btop pegam o tema novo
-na próxima vez que abrem. **Ghostty e Neovim já abertos ficam com a paleta
-antiga** — no ghostty, `ctrl+shift+,` recarrega; no Neovim, só a próxima
-instância.
+O herdr às vezes reescreve o próprio `config.toml`. Se o `git status` acusar
+mudança nele, foi isso.
 
 ### Quando algo sai sem cor
 
-Se a waybar subir **sem estilo nenhum** e sem mensagem de erro, é um arquivo
-gerado faltando: o GTK descarta um `@import` quebrado em silêncio. `theme
-doctor` diz qual, e `theme set <slug>` reconstrói.
-
-O **wofi** é caso à parte, e por isso o `style.css` dele é gerado inteiro, com as
-cores literais. O wofi carrega o CSS por *conteúdo*, não por caminho — então um
+O **wofi** carrega o CSS por *conteúdo*, não por caminho — então um
 `@import "colors.css"` resolve contra o diretório de trabalho de quem lançou o
 wofi, e não contra `~/.config/wofi`. Lançado pela barra, o import falha calado e
-os menus de tema e de perfil de energia saem **transparentes**. Nada de `@` no
-CSS do wofi; o teste tem uma asserção só para isso.
+o menu sai **transparente**. Por isso o `style.css` dele tem as cores literais.
 
 ### Fonte e ícones
 
@@ -209,8 +149,10 @@ CSS do wofi; o teste tem uma asserção só para isso.
 
 O modo escuro do GTK3 vem de `gtk-application-prefer-dark-theme`, e **não** de um
 tema chamado `Adwaita-dark` — esse nome só existe no GTK4. Apontar o
-`gtk-theme-name` para ele faz o GTK3 não encontrar o tema e cair no claro. O GTK
-não acompanha a troca de tema: fica sempre no escuro do Adwaita.
+`gtk-theme-name` para ele faz o GTK3 não encontrar o tema e cair no claro.
+
+O alacritty não faz ligaduras de fonte (o ghostty fazia): `->` e `!=` aparecem
+como caracteres separados.
 
 ## Atalhos
 
@@ -219,7 +161,7 @@ por `Mod+hjkl`, workspaces por `Mod+1..0` e o modo `resize` seguem o default.
 
 | Atalho | Ação |
 | --- | --- |
-| `Mod+Return` | terminal (ghostty) |
+| `Mod+Return` | terminal (alacritty) |
 | `Mod+Alt+Return` | terminal com herdr (sessão persistente) |
 | `Mod+d` | lançador (wmenu-run) |
 | `Mod+Shift+q` | fecha a janela |
@@ -241,8 +183,9 @@ bloqueada (`--locked`).
 
 Da esquerda para a direita: workspaces, título da janela, relógio ao centro e,
 à direita, indicador de gravação (só enquanto grava), inibidor de suspensão,
-CPU, memória, temperatura, Docker, brilho, microfone, volume, tema, perfil de
-energia, bateria, bandeja e notificações.
+CPU, memória, temperatura, Docker, brilho, volume e bateria — os que mostram
+valor — e, por último, os que são só ícone: perfil de energia (colado na
+bateria), microfone, bandeja e notificações.
 
 Rede e bluetooth **não** têm módulo próprio: ficam na bandeja, a cargo do
 `nm-applet` e do `blueman-applet`, subidos por `exec` no config do Sway. Sem
@@ -330,25 +273,3 @@ named 'gi'` mesmo com o `python-gobject` instalado.
   swaync, e o que a barra lança no clique) não passam por shell de login. Quem
   chama `herdr`, `nvim` ou `lazydocker` de lá precisa do caminho absoluto do
   shim, `~/.local/share/mise/shims/<tool>`.
-
-## Testes
-
-Três scripts, todos rodando contra a sessão viva — não há mock:
-
-```bash
-./tests/theme-test.sh              # todos os temas, ponta a ponta
-./tests/theme-test.sh dracula      # só um
-./tests/palette-collision.sh       # módulos vizinhos da barra com a mesma cor
-./tests/palette-contrast.sh        # destaque de seleção visível e legível
-```
-
-O `theme-test.sh` aplica cada tema e confere, para todos eles: que os arquivos
-gerados existem e não têm marcador por substituir; que todo `@nome` citado num
-`style.css` está definido; que ghostty, Neovim, btop e herdr ficaram no tema
-certo; que o CSS do wofi não tem `@import`; e que **trocar de tema não mexeu no
-repositório**. Fecha com os caminhos de erro — slug inexistente e manifesto
-incompleto não podem deixar arquivo pela metade — e com uma troca de tema
-rodando no `PATH` da waybar, sem o mise.
-
-Pedem `python3` além do que a sessão já usa. Rodam em alguns minutos, porque
-abrem o Neovim uma vez por tema.

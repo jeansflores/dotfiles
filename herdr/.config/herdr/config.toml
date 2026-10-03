@@ -1,0 +1,49 @@
+# herdr — paleta Jellybeans HC.
+#
+# Aviso: o herdr às vezes reescreve este arquivo sozinho (troca de tema pela UI,
+# por exemplo). Se o `git status` acusar mudança aqui, foi ele.
+
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[ui]
+status_indicators = "symbols"
+
+[theme]
+# "terminal" deriva dos 16 ANSI do alacritty — o texto segue o fg dele.
+name = "terminal"
+auto_switch = false
+
+# O tema "terminal" sozinho põe o texto sobre a cor de acento; em paleta escura
+# os dois são tons claros e o contraste cai para 1.4-2.8:1. Com os fundos
+# escuros abaixo o texto senta sobre escuro e fica acima de 4.5:1.
+[theme.custom]
+sidebar_bg    = "#000000"
+panel_bg      = "#000000"
+active_row_bg = "#363636"
+selection_bg  = "#363636"
+accent = "#98b0e0"
+green  = "#8cd468"
+blue   = "#98b0e0"
+red    = "#ff5050"
+yellow = "#ffe080"
+
+# Direct chords (no prefix). The prefix bindings keep working alongside.
+# alt+hjkl        -> move between panes/agents in the current Space
+# alt+shift+j/k   -> next/previous Space
+# alt+shift+h/l   -> previous/next tab
+# alt+n/p         -> next/previous agent (across Spaces, via the agent panel)
+# Heads-up: LazyVim uses alt+j/k to move lines; herdr now consumes them first.
+[keys]
+focus_pane_left = ["prefix+h", "alt+h"]
+focus_pane_down = ["prefix+j", "alt+j"]
+focus_pane_up = ["prefix+k", "alt+k"]
+focus_pane_right = ["prefix+l", "alt+l"]
+next_workspace = "alt+shift+j"
+previous_workspace = "alt+shift+k"
+previous_tab = ["prefix+p", "alt+shift+h"]
+next_tab = ["prefix+n", "alt+shift+l"]
+next_agent = "alt+n"
+previous_agent = "alt+p"

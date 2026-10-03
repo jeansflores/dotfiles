@@ -31,7 +31,7 @@ PKGS=(
     swaync                      # (+) daemon de notificações + centro de notificações
 
     # Terminal
-    ghostty
+    alacritty
 
     # Utilitários de sessão
     brightnessctl               # (+) controle de brilho pelas teclas de função
@@ -75,7 +75,7 @@ PKGS=(
 # Ferramentas que o mise instala, e não o pacman. Só as que estes dotfiles
 # realmente usam — o resto do seu toolchain fica por sua conta.
 #
-#   herdr       Mod+Alt+Return, e o pacote `theme` gera o config de cor dele
+#   herdr       Mod+Alt+Return (config no pacote `herdr`)
 #   neovim      o pacote `nvim`
 #   lazydocker  abre no clique do módulo Docker da barra
 MISE_TOOLS=(herdr neovim lazydocker)
@@ -121,14 +121,8 @@ if [[ "${1:-}" == "--stow" ]]; then
     cd "$(dirname "$(readlink -f "$0")")"
     # --no-folding cria symlink por arquivo, nunca do diretório inteiro: assim
     # apps que escrevem em ~/.config/gtk-3.0 e afins não sujam o repositório.
-    stow --no-folding btop gitconfig ghostty gtk nvim powerprofile screenrec \
-                      sway swaync theme tmux waybar xdg-portal
-
-    echo
-    echo "==> Aplicando o tema padrão"
-    # Sem isto, uma instalação limpa sobe sem os arquivos de cor gerados, e a
-    # waybar e o wofi aparecem sem estilo nenhum — sem mensagem de erro.
-    "$HOME/.local/bin/theme" set gruvbox-material
+    stow --no-folding alacritty btop gitconfig gtk herdr nvim powerprofile \
+                      screenrec sway swaylock swaync waybar wofi xdg-portal
 fi
 
 echo

@@ -1,4 +1,4 @@
-/* Gerado por `theme set`. Não edite: mexa no manifesto do tema.
+/* Wofi — paleta Jellybeans HC.
  *
  * As cores vão literais aqui de propósito. O wofi carrega o CSS por CONTEÚDO,
  * não por caminho, então um @import relativo resolve contra o diretório de
@@ -7,8 +7,8 @@
  */
 
 window {
-    background-color: @bg_dark@;
-    border: 1px solid @bg_hl@;
+    background-color: #000000;
+    border: 1px solid #1a1a1a;
     border-radius: 12px;
     font-family: "Noto Sans", "Symbols Nerd Font", sans-serif;
     font-size: 14px;
@@ -19,16 +19,16 @@ window {
 }
 
 #input {
-    background-color: @bg@;
-    color: @fg@;
-    border: 1px solid @bg_hl@;
+    background-color: #060606;
+    color: #f8f8f0;
+    border: 1px solid #1a1a1a;
     border-radius: 8px;
     padding: 8px 10px;
     margin-bottom: 8px;
 }
 
 #input:focus {
-    border: 1px solid @blue@;
+    border: 1px solid #98b0e0;
 }
 
 #scroll {
@@ -42,12 +42,12 @@ window {
 #entry {
     padding: 8px 10px;
     border-radius: 8px;
-    color: @fg_dim@;
+    color: #c8c8c0;
 }
 
 #entry:selected {
-    background-color: @blue@;
-    color: @bg_dark@;
+    background-color: #98b0e0;
+    color: #000000;
 }
 
 #text {
@@ -55,5 +55,5 @@ window {
 }
 
 #text:selected {
-    color: @bg_dark@;
+    color: #000000;
 }

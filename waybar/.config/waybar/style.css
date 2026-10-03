@@ -1,6 +1,4 @@
-/* Waybar — as cores vêm do tema ativo, gerado por `theme set`.
- * Paleta e temas: ~/.local/share/theme/
- */
+/* Waybar — a paleta (Jellybeans HC) fica em colors.css, ao lado. */
 @import "colors.css";
 
 * {
@@ -146,7 +144,6 @@ window#waybar.empty #window {
 #battery     { color: @green; }
 
 /* Perfil de energia — a cor diz qual está ativo sem precisar do tooltip */
-#custom-theme                     { color: @magenta; }
 #custom-powerprofile              { color: @blue; }
 #custom-powerprofile.power-saver  { color: @green; }
 #custom-powerprofile.balanced     { color: @blue; }

@@ -1,0 +1,37 @@
+# Swaylock — paleta Jellybeans HC (cores sem a cerquilha, como ele exige).
+
+daemonize
+ignore-empty-password
+show-failed-attempts
+indicator-caps-lock
+indicator-radius=100
+indicator-thickness=8
+
+color=000000
+
+inside-color=000000
+inside-clear-color=000000
+inside-ver-color=000000
+inside-wrong-color=000000
+
+ring-color=1a1a1a
+ring-clear-color=ffe080
+ring-ver-color=98b0e0
+ring-wrong-color=ff5050
+
+key-hl-color=d8c8ff
+bs-hl-color=ffc060
+
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+separator-color=00000000
+
+text-color=f8f8f0
+text-clear-color=ffe080
+text-ver-color=98b0e0
+text-wrong-color=ff5050
+
+font=Noto Sans
+font-size=20

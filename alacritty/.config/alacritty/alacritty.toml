@@ -1,0 +1,91 @@
+# Alacritty
+# Referência completa: `man 5 alacritty`
+
+[general]
+live_config_reload = true
+
+[font]
+size = 11
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+
+[window]
+padding = { x = 10, y = 8 }
+dynamic_padding = true
+# No Sway/i3 o título é desenhado pelo compositor
+decorations = "None"
+# Leve transparência — descomente se quiser (Sway não faz blur atrás)
+# opacity = 0.95
+
+[scrolling]
+history = 10000
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
+
+# ---------------------------------------------------------------------------
+# Jellybeans HC — vendorizado de WTFox/jellybeans.nvim (extras/ghostty)
+# ---------------------------------------------------------------------------
+[colors.primary]
+background = "#060606"
+foreground = "#f8f8f0"
+
+[colors.cursor]
+text = "#060606"
+cursor = "#c0e0ff"
+
+[colors.selection]
+text = "#f8f8f0"
+background = "#303030"
+
+[colors.normal]
+black = "#060606"
+red = "#ff5050"
+green = "#c0d880"
+yellow = "#ffe080"
+blue = "#98b0e0"
+magenta = "#d8c8ff"
+cyan = "#78a0b8"
+white = "#f8f8f0"
+
+[colors.bright]
+black = "#909090"
+red = "#b02020"
+green = "#8cd468"
+yellow = "#ffc060"
+blue = "#aad4f8"
+magenta = "#8800a8"
+cyan = "#aad4f8"
+white = "#f8f8f8"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#ff5050"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#ffc800"
+
+[[colors.indexed_colors]]
+index = 18
+color = "#0e0e0e"
+
+[[colors.indexed_colors]]
+index = 19
+color = "#282828"
+
+[[colors.indexed_colors]]
+index = 20
+color = "#686868"
+
+[[colors.indexed_colors]]
+index = 21
+color = "#d8d8d8"

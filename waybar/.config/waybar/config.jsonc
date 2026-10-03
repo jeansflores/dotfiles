@@ -9,6 +9,9 @@
 
     "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
     "modules-center": ["clock"],
+    // O inibidor de suspensão fica na ponta esquerda, à mão. Depois os módulos
+    // com valor (%, °C, contagem) e, por último, só ícones — o perfil de
+    // energia colado na bateria, abrindo esse grupo.
     "modules-right": [
         "custom/recording",
         "idle_inhibitor",
@@ -17,11 +20,10 @@
         "temperature",
         "custom/docker",
         "backlight",
-        "pulseaudio#mic",
         "pulseaudio",
-        "custom/theme",
-        "custom/powerprofile",
         "battery",
+        "custom/powerprofile",
+        "pulseaudio#mic",
         "tray",
         "custom/notification"
     ],
@@ -55,10 +57,10 @@
             "mode": "month",
             "on-scroll": 1,
             "format": {
-                "months":  "<span color='#d4be98'><b>{}</b></span>",
-                "days":    "<span color='#a89984'>{}</span>",
-                "weekdays":"<span color='#7daea3'><b>{}</b></span>",
-                "today":   "<span color='#e78a4e'><b><u>{}</u></b></span>"
+                "months":  "<span color='#f8f8f0'><b>{}</b></span>",
+                "days":    "<span color='#c8c8c0'>{}</span>",
+                "weekdays":"<span color='#98b0e0'><b>{}</b></span>",
+                "today":   "<span color='#ffc060'><b><u>{}</u></b></span>"
             }
         },
         "actions": {
@@ -93,14 +95,14 @@
     "cpu": {
         "interval": 5,
         "format": "  {usage}%",
-        "on-click": "ghostty -e btop"
+        "on-click": "alacritty -e btop"
     },
 
     "memory": {
         "interval": 5,
         "format": "  {percentage}%",
         "tooltip-format": "{used:0.1f}G / {total:0.1f}G em uso",
-        "on-click": "ghostty -e btop"
+        "on-click": "alacritty -e btop"
     },
 
     "temperature": {
@@ -124,7 +126,7 @@
         "return-type": "json",
         "interval": 5,
         "format": "{}",
-        "on-click": "ghostty -e $HOME/.local/share/mise/shims/lazydocker"
+        "on-click": "alacritty -e $HOME/.local/share/mise/shims/lazydocker"
     },
 
     "backlight": {
@@ -167,22 +169,6 @@
 
     // Perfil de energia do power-profiles-daemon.
     // Clique = menu wofi · botão direito = cicla · o ícone segue o perfil.
-    // Trocador de tema. Clique abre o menu wofi; botão direito cicla.
-    //
-    // Sem "signal", ao contrário do custom/powerprofile. O `theme set` dá
-    // swaymsg reload, e o reload respawna a waybar inteira — o módulo já
-    // re-executa aí. Mandar RTMIN por cima pega o processo recém nascido antes
-    // do handler existir, e o default do sinal é terminar: mediu 1 morte em 5
-    // trocas. O powerprofile pode mandar sinal porque ele não reloada o sway.
-    "custom/theme": {
-        "exec": "$HOME/.local/bin/theme waybar",
-        "return-type": "json",
-        "interval": 30,
-        "format": "{}",
-        "on-click": "$HOME/.local/bin/theme menu",
-        "on-click-right": "$HOME/.local/bin/theme cycle"
-    },
-
     // O "signal" abaixo tem que bater com WAYBAR_SIGNAL no script.
     "custom/powerprofile": {
         "exec": "$HOME/.local/bin/powerprofile waybar",

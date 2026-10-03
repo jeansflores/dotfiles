@@ -4,6 +4,29 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+### Paleta — Jellybeans HC
+#
+# Toda cor do config sai daqui. A sintaxe (`set $nome valor` e as linhas
+# `client.*` lá embaixo) é a mesma no i3: copie este bloco e a seção
+# "Aparência" para o ~/.config/i3/config e as bordas ficam iguais.
+# Os mesmos hex estão em waybar/swaync/wofi/swaylock/btop/alacritty/herdr —
+# trocar de paleta é trocar estes valores lá também.
+set $bg_dark  #000000
+set $bg       #060606
+set $bg_hl    #1a1a1a
+set $bg_sel   #363636
+set $fg       #f8f8f0
+set $fg_dim   #c8c8c0
+set $comment  #909090
+set $blue     #98b0e0
+set $cyan     #aad4f8
+set $magenta  #d8c8ff
+set $green    #8cd468
+set $yellow   #ffe080
+set $orange   #ffc060
+set $red      #ff5050
+set $teal     #78a0b8
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -14,16 +37,18 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term ghostty
-# Cores das bordas, wallpaper e o lançador vêm do tema ativo (`theme set`),
-# que gera este arquivo. O include precisa vir ANTES do primeiro uso de $menu,
-# lá no `bindsym $mod+d`: o sway resolve variáveis na hora do parse.
-include ~/.config/sway/colors.conf
+set $term alacritty
+# Fontes: $font_ui nas bordas e no lançador
+set $font_ui Noto Sans
+# Lançador. No i3, troque por dmenu_run com as mesmas cores:
+#   set $menu dmenu_run -i -fn "$font_ui-11" -nb "$bg_dark" -nf "$fg" -sb "$blue" -sf "$bg_dark"
+set $menu wmenu-run -i -f "$font_ui 11" -N "$bg_dark" -n "$fg" -M "$magenta" -m "$bg_dark" -S "$blue" -s "$bg_dark"
 
 ### Output configuration
 #
-# O fundo é definido no colors.conf, gerado pelo tema ativo. Para usar uma
-# imagem em vez da cor lisa, troque o template em ~/.local/share/theme/.
+# Fundo liso na cor da paleta (só sway; no i3 use `exec --no-startup-id
+# xsetroot -solid "$bg_dark"`). Para imagem: output * bg ~/caminho.png fill
+output * bg $bg_dark solid_color
 #
 # Example configuration:
 #
@@ -263,18 +288,28 @@ bindsym $mod+r mode "resize"
     bindsym $mod+Shift+n exec swaync-client -d -sw
 
 #
-# Aparência — as cores vêm do colors.conf, incluído lá em cima.
+# Aparência
 #
-font pango:Noto Sans 10
+font pango:$font_ui 10
+
+# Cores das bordas:      borda      fundo      texto      indicador  borda-filho
+client.focused           $blue      $blue      $bg_dark   $magenta   $blue
+client.focused_inactive  $bg_hl     $bg_hl     $fg_dim    $bg_hl     $bg_hl
+client.unfocused         $bg        $bg        $comment   $bg        $bg_hl
+client.urgent            $red       $red       $bg_dark   $red       $red
+client.background        $bg_dark
 
 default_border pixel 2
 default_floating_border pixel 2
-titlebar_padding 6 2
 smart_borders on
 
+# gaps existe no i3 desde a 4.22
 gaps inner 6
 gaps outer 2
 smart_gaps off
+
+# só sway — apague no i3
+titlebar_padding 6 2
 
 #
 # Status Bar:
