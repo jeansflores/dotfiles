@@ -26,7 +26,7 @@ PKGS=(
     power-profiles-daemon       #     backend dos perfis de energia do painel
 
     # Fontes
-    ttf-jetbrains-mono-nerd     #     monoespaçada do terminal
+    ttf-iosevkaterm-nerd        #     monoespaçada do terminal
 
     # Dotfiles
     stow

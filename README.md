@@ -121,5 +121,10 @@ mudança nele, foi isso.
 
 ### Fonte
 
-A monoespaçada do terminal é a **JetBrainsMono Nerd Font**. O alacritty não faz
-ligaduras de fonte: `->` e `!=` aparecem como caracteres separados.
+A monoespaçada do terminal é a **IosevkaTerm Nerd Font**: estreita, cabe mais
+código por linha e funciona bem com o nvim em splits. Use a variante sem
+"Mono" — na "Mono" os ícones são espremidos em uma célula e ficam minúsculos.
+
+Mesmo assim, os ícones ficam menores que no ghostty: o alacritty desenha cada
+glyph no tamanho que a fonte define, sem ampliá-lo para preencher a célula. Ele
+também não faz ligaduras: `->` e `!=` aparecem como caracteres separados.
