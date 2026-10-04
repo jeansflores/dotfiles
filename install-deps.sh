@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# install-deps.sh — dependências do setup Sway deste repositório (Arch/CachyOS)
+# install-deps.sh — dependências destes dotfiles (Arch/CachyOS com COSMIC)
 #
 #   ./install-deps.sh            instala os pacotes e habilita os serviços
 #   ./install-deps.sh --print    só imprime a linha do pacman, para colar num gist
@@ -11,74 +11,37 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 # Pacotes
 #
-# Os marcados com (+) foram adicionados por cima do que a ISO do CachyOS com
-# Sway já traz. Os demais vêm na ISO e estão listados só para o script
-# funcionar numa instalação limpa — o --needed pula o que já existe.
+# O desktop é o COSMIC "de fábrica" — painel, rede, bluetooth, notificações,
+# bloqueio de tela e perfil de energia vêm dele, sem config neste repositório.
+# Aqui ficam só as ferramentas que estes dotfiles configuram.
 # ---------------------------------------------------------------------------
 PKGS=(
-    # Compositor e sessão
-    sway
-    swayidle                    # (+) bloqueio e desligamento de tela por inatividade
-    swaylock                    # (+) tela de bloqueio
-    polkit-gnome                # (+) agente de autenticação; sem ele pkexec não abre janela
-    xdg-desktop-portal
-    xdg-desktop-portal-wlr      #     captura e compartilhamento de tela
-    xdg-desktop-portal-gtk      # (+) seletor de arquivos, tema, abrir URI
-
-    # Barra, menu e notificações
-    waybar
-    wofi
-    swaync                      # (+) daemon de notificações + centro de notificações
-
-    # Terminal
+    # Terminal e ferramentas
     alacritty
+    btop
+    wl-clipboard                #     área de transferência do Neovim no Wayland
 
-    # Utilitários de sessão
-    brightnessctl               # (+) controle de brilho pelas teclas de função
-    playerctl
-    grim                        #     screenshot
-    slurp                       #     seleção de região
-    wf-recorder                 # (+) gravação de tela (script screenrec)
-    wl-clipboard
-    jq                          #     usado no bind de screenshot da janela em foco
-    libnotify                   # (+) notify-send, usado pelo screenrec e pelo powerprofile
-    btop                        # (+) monitor aberto pelo clique na CPU/RAM da barra
-
-    # Áudio e bluetooth
-    pavucontrol
-    blueman                     #     GUI de bluetooth, chamada pelo ícone do tray
-
-    # Rede
-    networkmanager
-    network-manager-applet      # (+) nm-applet: ícone de tray com o menu de redes
-    nm-connection-editor        # (+) janela GTK de conexões
-
-    # Energia
-    power-profiles-daemon       #     backend dos perfis power-saver/balanced/performance
+    # Sistema
+    power-profiles-daemon       #     backend dos perfis de energia do painel
 
     # Fontes
-    ttf-jetbrains-mono-nerd     # (+) monoespaçada do terminal
-    ttf-nerd-fonts-symbols      #     glyphs de ícone da waybar
-    noto-fonts                  #     interface
-    noto-fonts-emoji
-
-    # Tema
-    papirus-icon-theme          # (+) ícones (variante Papirus-Dark)
+    ttf-jetbrains-mono-nerd     #     monoespaçada do terminal
 
     # Dotfiles
     stow
 
     # Gerenciador das ferramentas que não vêm do pacman (ver abaixo)
-    mise                        # (+) instala herdr, neovim e lazydocker
+    mise
 )
 
-# Ferramentas que o mise instala, e não o pacman. Só as que estes dotfiles
-# realmente usam — o resto do seu toolchain fica por sua conta.
+# Ferramentas que o mise instala, e não o pacman.
 #
-#   herdr       Mod+Alt+Return (config no pacote `herdr`)
+#   herdr       o pacote `herdr`
 #   neovim      o pacote `nvim`
-#   lazydocker  abre no clique do módulo Docker da barra
+#   lazydocker  TUI do Docker
 MISE_TOOLS=(herdr neovim lazydocker)
+
+STOW_PKGS=(alacritty btop gitconfig herdr nvim)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"
@@ -91,7 +54,7 @@ case "${1:-}" in
         exit 0
         ;;
     --help|-h)
-        sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'
+        sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
         exit 0
         ;;
 esac
@@ -113,6 +76,7 @@ fi
 
 echo
 echo "==> Habilitando serviços do sistema"
+# O applet de bluetooth e o de energia do painel do COSMIC dependem dos dois.
 sudo systemctl enable --now power-profiles-daemon.service bluetooth.service
 
 if [[ "${1:-}" == "--stow" ]]; then
@@ -120,18 +84,8 @@ if [[ "${1:-}" == "--stow" ]]; then
     echo "==> Aplicando os pacotes stow"
     cd "$(dirname "$(readlink -f "$0")")"
     # --no-folding cria symlink por arquivo, nunca do diretório inteiro: assim
-    # apps que escrevem em ~/.config/gtk-3.0 e afins não sujam o repositório.
-    stow --no-folding alacritty btop gitconfig gtk herdr nvim powerprofile \
-                      screenrec sway swaylock swaync waybar wofi xdg-portal
-fi
-
-echo
-echo "==> Habilitando o serviço de usuário do perfil de energia"
-if [[ -e "$HOME/.config/systemd/user/power-profile.service" ]]; then
-    systemctl --user daemon-reload
-    systemctl --user enable --now power-profile.service
-else
-    echo "    (pulei: rode o stow antes, ou use ./install-deps.sh --stow)"
+    # apps que escrevem no próprio diretório de config não sujam o repositório.
+    stow --no-folding "${STOW_PKGS[@]}"
 fi
 
 cat <<'EOF'
@@ -139,6 +93,6 @@ cat <<'EOF'
 ==> Pronto.
 
 Passos que continuam manuais:
-  - reinicie a sessão do Sway para os autostarts subirem (polkit, swaync, swayidle)
-  - o nm-applet e o blueman-applet sobem sozinhos via xdg-desktop-autostart.target
+  - abra o Neovim uma vez para o lazy.nvim instalar os plugins
+  - crie no COSMIC o atalho do terminal com herdr (ver README, seção Atalhos)
 EOF

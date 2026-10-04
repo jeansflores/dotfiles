@@ -14,9 +14,9 @@ bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
 [window]
 padding = { x = 10, y = 8 }
 dynamic_padding = true
-# No Sway/i3 o título é desenhado pelo compositor
+# Sem barra de título: no COSMIC a janela ainda move com Super+arrastar
 decorations = "None"
-# Leve transparência — descomente se quiser (Sway não faz blur atrás)
+# Leve transparência — descomente se quiser
 # opacity = 0.95
 
 [scrolling]
