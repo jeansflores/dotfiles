@@ -24,7 +24,7 @@ O que precisa casar entre os dois é só isto:
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
 > tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
-> `install-deps.sh --stow` usa `--no-folding` e aplica só os 5 pacotes de verdade.
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 6 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
@@ -73,6 +73,7 @@ stow -D nvim               # remove
 | `herdr` | multiplexador de agentes |
 | `nvim` | Neovim (LazyVim) |
 | `btop` | monitor de sistema |
+| `starship` | prompt do shell (ícone de branch no tamanho cheio) |
 | `gitconfig` | git |
 
 ## Atalhos

@@ -1,0 +1,7 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# O símbolo padrão do branch é o U+E0A0 do powerline, que é desenhado na altura
+# do texto e fica minúsculo no alacritty (o ghostty amplia ícones, o alacritty
+# não). O U+F418 (nf-oct-git_branch) é um ícone de verdade, no tamanho cheio.
+[git_branch]
+symbol = " "

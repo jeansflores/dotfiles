@@ -19,6 +19,7 @@ PKGS=(
     # Terminal e ferramentas
     alacritty
     btop
+    starship                    #     prompt do shell
     wl-clipboard                #     área de transferência do Neovim no Wayland
 
     # Sistema
@@ -41,7 +42,7 @@ PKGS=(
 #   lazydocker  TUI do Docker
 MISE_TOOLS=(herdr neovim lazydocker)
 
-STOW_PKGS=(alacritty btop gitconfig herdr nvim)
+STOW_PKGS=(alacritty btop gitconfig herdr nvim starship)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"
