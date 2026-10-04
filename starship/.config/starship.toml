@@ -5,3 +5,8 @@
 # não). O U+F418 (nf-oct-git_branch) é um ícone de verdade, no tamanho cheio.
 [git_branch]
 symbol = " "
+
+# Mesmo caso: o padrão é o emoji ☁️ (U+2601), que vem de outra fonte e fica
+# pequeno. O U+F11F6 (nf-md-google_cloud) é do Nerd Font.
+[gcloud]
+symbol = "󱇶 "
