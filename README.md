@@ -79,15 +79,20 @@ stow -D nvim               # remove
 
 ## Atalhos
 
-O COSMIC guarda os atalhos em `~/.config/cosmic`, fora deste repositório. O
-único personalizado é o do terminal com herdr, criado em **Configurações →
-Teclado → Atalhos de teclado → Atalhos personalizados**:
+O COSMIC guarda os atalhos em `~/.config/cosmic`, fora deste repositório. Dá
+para criá-los em **Configurações → Teclado → Atalhos de teclado → Atalhos
+personalizados**, ou editando direto
+`~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom` — o COSMIC
+lê o arquivo na hora.
 
 | Atalho | Comando |
 | --- | --- |
-| `Super+Alt+Return` | `alacritty -e /home/jean/.local/share/mise/shims/herdr` |
+| `Super+Return` | `kitty` |
+| `Super+Alt+Return` | `kitty /home/jean/.local/share/mise/shims/herdr` |
 
-No kitty o comando vai direto, sem `-e`: `kitty /home/jean/.local/share/mise/shims/herdr`.
+O terminal padrão do sistema fica em `system_actions`, no mesmo diretório
+(`Terminal: "kitty"`). No alacritty, o comando do herdr leva `-e`:
+`alacritty -e /home/jean/.local/share/mise/shims/herdr`.
 
 ## Paleta
 
