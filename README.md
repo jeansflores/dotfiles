@@ -24,7 +24,7 @@ O que precisa casar entre os dois é só isto:
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
 > tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
-> `install-deps.sh --stow` usa `--no-folding` e aplica só os 6 pacotes de verdade.
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 7 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
@@ -70,6 +70,7 @@ stow -D nvim               # remove
 | Pacote | O que cobre |
 | --- | --- |
 | `alacritty` | terminal |
+| `kitty` | terminal em teste, espelho do `alacritty` (mesma fonte, padding e paleta) |
 | `herdr` | multiplexador de agentes |
 | `nvim` | Neovim (LazyVim) |
 | `btop` | monitor de sistema |
@@ -86,6 +87,8 @@ Teclado → Atalhos de teclado → Atalhos personalizados**:
 | --- | --- |
 | `Super+Alt+Return` | `alacritty -e /home/jean/.local/share/mise/shims/herdr` |
 
+No kitty o comando vai direto, sem `-e`: `kitty /home/jean/.local/share/mise/shims/herdr`.
+
 ## Paleta
 
 Uma paleta só, **Jellybeans HC** (de `WTFox/jellybeans.nvim`), escrita à mão em
@@ -94,6 +97,7 @@ cada app — sem script gerador, sem arquivo fora do repositório.
 | arquivo | o que tem |
 | --- | --- |
 | `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor |
+| `kitty/.config/kitty/kitty.conf` | os mesmos hex do alacritty |
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
 | `btop/.config/btop/themes/jellybeans-hc.theme` | tema do btop |
 | `nvim/…/plugins/colorscheme.lua` | `jellybeans-hc` |

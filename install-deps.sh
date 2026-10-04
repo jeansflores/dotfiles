@@ -18,6 +18,7 @@ set -euo pipefail
 PKGS=(
     # Terminal e ferramentas
     alacritty
+    kitty                       #     em teste, com a mesma config do alacritty
     btop
     starship                    #     prompt do shell
     wl-clipboard                #     área de transferência do Neovim no Wayland
@@ -42,7 +43,7 @@ PKGS=(
 #   lazydocker  TUI do Docker
 MISE_TOOLS=(herdr neovim lazydocker)
 
-STOW_PKGS=(alacritty btop gitconfig herdr nvim starship)
+STOW_PKGS=(alacritty btop gitconfig herdr kitty nvim starship)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"
