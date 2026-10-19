@@ -1,4 +1,4 @@
-# herdr — paleta Jellybeans HC.
+# herdr — paleta Rosé Pine Moon.
 #
 # Aviso: o herdr às vezes reescreve este arquivo sozinho (troca de tema pela UI,
 # por exemplo). Se o `git status` acusar mudança aqui, foi ele.
@@ -12,7 +12,7 @@ delivery = "system"
 status_indicators = "symbols"
 
 [theme]
-# "terminal" deriva dos 16 ANSI do alacritty — o texto segue o fg dele.
+# "terminal" deriva dos 16 ANSI do terminal (kitty/alacritty) — o texto segue o fg dele.
 name = "terminal"
 auto_switch = false
 
@@ -20,15 +20,15 @@ auto_switch = false
 # os dois são tons claros e o contraste cai para 1.4-2.8:1. Com os fundos
 # escuros abaixo o texto senta sobre escuro e fica acima de 4.5:1.
 [theme.custom]
-sidebar_bg    = "#000000"
-panel_bg      = "#000000"
-active_row_bg = "#363636"
-selection_bg  = "#363636"
-accent = "#98b0e0"
-green  = "#8cd468"
-blue   = "#98b0e0"
-red    = "#ff5050"
-yellow = "#ffe080"
+sidebar_bg    = "#232136"
+panel_bg      = "#232136"
+active_row_bg = "#44415a"
+selection_bg  = "#44415a"
+accent = "#c4a7e7"
+green  = "#3e8fb0"
+blue   = "#9ccfd8"
+red    = "#eb6f92"
+yellow = "#f6c177"
 
 # Direct chords (no prefix). The prefix bindings keep working alongside.
 # alt+hjkl        -> move between panes/agents in the current Space

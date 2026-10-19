@@ -1,7 +1,7 @@
 # dotfiles
 
 Configuração das ferramentas de terminal que uso no CachyOS, toda na paleta
-**Jellybeans HC**. O desktop é o **COSMIC** de fábrica: painel, rede,
+**Rosé Pine Moon**. O desktop é o **COSMIC** de fábrica: painel, rede,
 bluetooth, notificações, bloqueio de tela e perfil de energia vêm dele, sem
 config aqui.
 
@@ -113,31 +113,34 @@ O terminal padrão do sistema fica em `system_actions`, no mesmo diretório
 
 ## Paleta
 
-Uma paleta só, **Jellybeans HC** (de `WTFox/jellybeans.nvim`), escrita à mão em
-cada app — sem script gerador, sem arquivo fora do repositório.
+Uma paleta só, **Rosé Pine Moon** (de [rose-pine](https://rosepinetheme.com)), vendorizada
+dos ports oficiais em cada app — sem script gerador, sem arquivo fora do repositório.
 
 | arquivo | o que tem |
 | --- | --- |
 | `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor |
-| `kitty/.config/kitty/kitty.conf` | os mesmos hex do alacritty |
+| `kitty/.config/kitty/current-theme.conf` | gerado por `kitten themes "Rosé Pine Moon"`, incluído pelo `kitty.conf` |
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
-| `btop/.config/btop/themes/jellybeans-hc.theme` | tema do btop |
-| `nvim/…/plugins/colorscheme.lua` | `jellybeans-hc` |
+| `btop/.config/btop/themes/rose-pine-moon.theme` | tema do btop |
+| `nvim/…/plugins/colorscheme.lua` | `rose-pine-moon` (plugin `rose-pine/neovim`) |
 
 | papel | hex | | papel | hex |
 | --- | --- | --- | --- | --- |
-| `bg_dark` | `#000000` | | `blue` | `#98b0e0` |
-| `bg` | `#060606` | | `cyan` | `#aad4f8` |
-| `bg_hl` | `#1a1a1a` | | `magenta` | `#d8c8ff` |
-| `bg_sel` | `#363636` | | `green` | `#8cd468` |
-| `fg` | `#f8f8f0` | | `yellow` | `#ffe080` |
-| `fg_dim` | `#c8c8c0` | | `orange` | `#ffc060` |
-| `comment` | `#909090` | | `red` | `#ff5050` |
-| | | | `teal` | `#78a0b8` |
+| `base` | `#232136` | | `love` (red) | `#eb6f92` |
+| `surface` | `#2a273f` | | `gold` (yellow) | `#f6c177` |
+| `overlay` | `#393552` | | `rose` (cyan) | `#ea9a97` |
+| `highlight_med` | `#44415a` | | `pine` (green) | `#3e8fb0` |
+| `highlight_high` | `#56526e` | | `foam` (blue) | `#9ccfd8` |
+| `muted` | `#6e6a86` | | `iris` (magenta) | `#c4a7e7` |
+| `subtle` | `#908caa` | | | |
+| `text` | `#e0def4` | | | |
+
+Os 16 ANSI seguem o mapeamento oficial do Rosé Pine: não há verde de verdade,
+`green` é `pine` (azul-petróleo) e `cyan` é `rose`. Normal e bright são iguais.
 
 ### herdr
 
-O tema `terminal` do herdr deriva dos 16 ANSI do alacritty, mas põe o *texto*
+O tema `terminal` do herdr deriva dos 16 ANSI do terminal, mas põe o *texto*
 sobre a *cor de acento* — em paleta escura os dois são tons claros e o
 contraste cai para 1.4-2.8:1. A tabela `[theme.custom]` troca os fundos pelos
 níveis escuros da paleta e o texto volta a sentar sobre escuro.

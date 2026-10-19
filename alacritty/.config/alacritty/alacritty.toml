@@ -34,60 +34,62 @@ hide_when_typing = true
 save_to_clipboard = true
 
 # ---------------------------------------------------------------------------
-# Jellybeans HC — vendorizado de WTFox/jellybeans.nvim (extras/ghostty)
+# Rosé Pine Moon — vendorizado de rose-pine/alacritty (dist/rose-pine-moon.toml)
 # ---------------------------------------------------------------------------
 [colors.primary]
-background = "#060606"
-foreground = "#f8f8f0"
+background = "#232136"
+foreground = "#e0def4"
+dim_foreground = "#908caa"
+bright_foreground = "#e0def4"
 
 [colors.cursor]
-text = "#060606"
-cursor = "#c0e0ff"
+text = "#e0def4"
+cursor = "#56526e"
+
+[colors.vi_mode_cursor]
+text = "#e0def4"
+cursor = "#56526e"
+
+[colors.search.matches]
+foreground = "#908caa"
+background = "#393552"
+
+[colors.search.focused_match]
+foreground = "#232136"
+background = "#ea9a97"
+
+[colors.hints.start]
+foreground = "#908caa"
+background = "#2a273f"
+
+[colors.hints.end]
+foreground = "#6e6a86"
+background = "#2a273f"
+
+[colors.footer_bar]
+foreground = "#e0def4"
+background = "#2a273f"
 
 [colors.selection]
-text = "#f8f8f0"
-background = "#303030"
+text = "#e0def4"
+background = "#44415a"
 
 [colors.normal]
-black = "#060606"
-red = "#ff5050"
-green = "#c0d880"
-yellow = "#ffe080"
-blue = "#98b0e0"
-magenta = "#d8c8ff"
-cyan = "#78a0b8"
-white = "#f8f8f0"
+black = "#393552"
+red = "#eb6f92"
+green = "#3e8fb0"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ea9a97"
+white = "#e0def4"
 
 [colors.bright]
-black = "#909090"
-red = "#b02020"
-green = "#8cd468"
-yellow = "#ffc060"
-blue = "#aad4f8"
-magenta = "#8800a8"
-cyan = "#aad4f8"
-white = "#f8f8f8"
-
-[[colors.indexed_colors]]
-index = 16
-color = "#ff5050"
-
-[[colors.indexed_colors]]
-index = 17
-color = "#ffc800"
-
-[[colors.indexed_colors]]
-index = 18
-color = "#0e0e0e"
-
-[[colors.indexed_colors]]
-index = 19
-color = "#282828"
-
-[[colors.indexed_colors]]
-index = 20
-color = "#686868"
-
-[[colors.indexed_colors]]
-index = 21
-color = "#d8d8d8"
+black = "#6e6a86"
+red = "#eb6f92"
+green = "#3e8fb0"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ea9a97"
+white = "#e0def4"

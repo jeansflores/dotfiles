@@ -1,5 +1,11 @@
--- Jellybeans HC, a mesma paleta do alacritty, do herdr e do btop.
+-- Rosé Pine Moon, a mesma paleta do kitty, alacritty, herdr e btop.
 return {
-  { "wtfox/jellybeans.nvim", lazy = false, priority = 1000 },
-  { "LazyVim/LazyVim", opts = { colorscheme = "jellybeans-hc" } },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    lazy = false,
+    priority = 1000,
+    opts = { variant = "moon", dark_variant = "moon" },
+  },
+  { "LazyVim/LazyVim", opts = { colorscheme = "rose-pine-moon" } },
 }
