@@ -126,7 +126,7 @@ variante *dark* de contraste médio, com os hex de
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
 | `btop/.config/btop/themes/gruvbox-dark.theme` | tema do btop |
 | `nvim/…/plugins/colorscheme.lua` | `gruvbox` (plugin `ellisonleao/gruvbox.nvim`, contraste médio) |
-| `vscode/.vscode/extensions/gruvbox-nvim/` | tema do VSCode com os hex dos grupos do gruvbox.nvim |
+| `vscode/.vscode/extensions/gruvbox-nvim/` | tema do VSCode com a mesma paleta e os mesmos papéis |
 
 | papel | normal | bright | | papel | hex |
 | --- | --- | --- | --- | --- | --- |
@@ -140,8 +140,35 @@ variante *dark* de contraste médio, com os hex de
 | `white` | `#a89984` | `#ebdbb2` | | | |
 
 O `orange` não está nos 16 ANSI; é o acento do herdr e, no nvim e no VSCode, a
-cor de operadores, pontuação e builtins. O cursor e a seleção
-invertem fundo e texto (`#ebdbb2` sobre `#282828`), como no terminalcolors.
+cor dos operadores.
+
+### Papéis
+
+Os terminais só mostram os 16 ANSI. Quem decide *qual cor vai em qual token* é
+o nvim (`colorscheme.lua`, via `overrides` do gruvbox.nvim) e o tema do VSCode,
+e os dois seguem esta tabela:
+
+| token | cor | hex |
+| --- | --- | --- |
+| keywords (`func`, `type`, `var`, `return`, `if`) e builtins (`panic`, `len`) | red | `#fb4934` |
+| `struct`, `interface` (e `class`, `enum`) | aqua | `#8ec07c` |
+| funções e métodos, sem negrito | green | `#b8bb26` |
+| strings, sem itálico | green | `#b8bb26` |
+| tipos builtin (`string`, `int`, `error`) | yellow | `#fabd2f` |
+| tipos definidos por você ou de pacote (`testStruct`, `fmt.State`) | fg | `#ebdbb2` |
+| variáveis, parâmetros, campos, nome de pacote | fg | `#ebdbb2` |
+| números, booleanos, constantes | purple | `#d3869b` |
+| `nil`, `iota`, `this`/`self`, escapes em string | orange | `#fe8019` |
+| operadores (`:=`, `*`, `+`) | orange | `#fe8019` |
+| parênteses, chaves, vírgula, ponto | fg4 | `#a89984` |
+| comentários, em itálico | gray | `#928374` |
+
+Os tokens semânticos do LSP não pintam nada: no nvim os grupos `@lsp.type.*`
+estão vazios e no VSCode o tema tem `semanticHighlighting: false`. Assim os
+dois são coloridos só pela gramática (treesitter / TextMate) e ficam iguais;
+com o gopls ligado o caminho do import virava `namespace` e perdia o verde.
+`struct`/`interface` separados do `type` vêm de
+`nvim/.config/nvim/after/queries/go/highlights.scm`.
 
 ### VSCode
 
@@ -150,8 +177,8 @@ sem dependência de extensão da loja. Os hex vieram dos grupos de highlight do
 gruvbox.nvim (`Normal`, `Pmenu`, `StatusLine`, `Visual`, `Diff*`, `GitSigns*`
 para a UI; `@keyword`, `@string`, `@function`, `@type`, `@variable.parameter`
 etc. para os tokens). O `settings.json` do VSCode não está no repositório; o que
-precisa casar é `workbench.colorTheme = "Gruvbox nvim"` e, para o Go ficar igual
-ao nvim (que usa os tokens semânticos do gopls), `"gopls": { "ui.semanticTokens": true }`.
+precisa casar é `workbench.colorTheme = "Gruvbox nvim"`, e isso o Settings Sync
+já leva junto; a extensão de tema, por ser local, só chega pelo stow.
 
 ### herdr
 

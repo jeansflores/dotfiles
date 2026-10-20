@@ -2,7 +2,7 @@
   "$schema": "vscode://schemas/color-theme",
   "name": "Gruvbox nvim",
   "type": "dark",
-  "semanticHighlighting": true,
+  "semanticHighlighting": false,
   "colors": {
     "editor.background": "#282828",
     "editor.foreground": "#ebdbb2",
@@ -292,7 +292,7 @@
       }
     },
     {
-      "name": "@comment.todo",
+      "name": "Comment todo",
       "scope": [
         "comment keyword.codetag",
         "comment.todo"
@@ -303,7 +303,7 @@
       }
     },
     {
-      "name": "Keyword / Statement",
+      "name": "Keyword",
       "scope": [
         "keyword",
         "keyword.control",
@@ -320,8 +320,6 @@
         "keyword.var",
         "keyword.const",
         "keyword.type",
-        "keyword.struct",
-        "keyword.interface",
         "keyword.map",
         "keyword.channel",
         "keyword.package",
@@ -333,7 +331,24 @@
       }
     },
     {
-      "name": "@keyword.directive / PreProc",
+      "name": "struct / interface / class (aqua)",
+      "scope": [
+        "keyword.struct",
+        "keyword.interface",
+        "storage.type.struct",
+        "storage.type.interface",
+        "storage.type.class",
+        "storage.type.enum",
+        "storage.type.trait",
+        "storage.type.class.python"
+      ],
+      "settings": {
+        "foreground": "#8ec07c",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "PreProc / diretiva",
       "scope": [
         "keyword.control.directive",
         "meta.preprocessor",
@@ -346,7 +361,7 @@
       }
     },
     {
-      "name": "Operator / Delimiter",
+      "name": "Operador (laranja)",
       "scope": [
         "keyword.operator",
         "keyword.operator.new",
@@ -354,16 +369,31 @@
         "keyword.operator.assignment",
         "keyword.operator.comparison",
         "keyword.operator.arithmetic",
+        "keyword.operator.address",
+        "keyword.operator.ellipsis",
+        "keyword.operator.channel"
+      ],
+      "settings": {
+        "foreground": "#fe8019",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Pontuação (cinza claro)",
+      "scope": [
         "punctuation",
         "punctuation.definition.tag",
         "punctuation.separator",
         "punctuation.terminator",
         "punctuation.accessor",
+        "punctuation.definition.begin.bracket",
+        "punctuation.definition.end.bracket",
+        "punctuation.other",
         "meta.brace",
         "brace"
       ],
       "settings": {
-        "foreground": "#fe8019",
+        "foreground": "#a89984",
         "fontStyle": ""
       }
     },
@@ -377,29 +407,19 @@
         "string.quoted.double.json",
         "string.template",
         "constant.other.placeholder",
-        "string.unquoted"
-      ],
-      "settings": {
-        "foreground": "#b8bb26",
-        "fontStyle": "italic"
-      }
-    },
-    {
-      "name": "@string.regexp",
-      "scope": [
+        "string.unquoted",
         "string.regexp"
       ],
       "settings": {
         "foreground": "#b8bb26",
-        "fontStyle": "italic"
+        "fontStyle": ""
       }
     },
     {
-      "name": "@string.escape / SpecialChar",
+      "name": "Escape",
       "scope": [
         "constant.character.escape",
-        "string.escape",
-        "constant.other.placeholder.c"
+        "string.escape"
       ],
       "settings": {
         "foreground": "#fe8019",
@@ -407,7 +427,7 @@
       }
     },
     {
-      "name": "@string.special.url",
+      "name": "URL / link",
       "scope": [
         "markup.underline.link",
         "string.other.link",
@@ -419,7 +439,7 @@
       }
     },
     {
-      "name": "Constant / Number / Boolean",
+      "name": "Constante / número / booleano",
       "scope": [
         "constant",
         "constant.numeric",
@@ -439,7 +459,7 @@
       }
     },
     {
-      "name": "@constant.builtin (nil, iota, undefined)",
+      "name": "nil / null / iota",
       "scope": [
         "constant.language.null",
         "constant.language.nil",
@@ -454,7 +474,7 @@
       }
     },
     {
-      "name": "Function",
+      "name": "Função / método (verde, sem negrito)",
       "scope": [
         "entity.name.function",
         "support.function",
@@ -467,28 +487,31 @@
         "meta.function-call.generic",
         "entity.name.function.support",
         "entity.name.function.member",
-        "entity.name.function.decorator"
+        "entity.name.function.decorator",
+        "entity.name.function.constructor",
+        "support.function.constructor"
       ],
       "settings": {
         "foreground": "#b8bb26",
-        "fontStyle": "bold"
-      }
-    },
-    {
-      "name": "@function.builtin / Special",
-      "scope": [
-        "support.function.builtin",
-        "entity.name.function.support.builtin",
-        "support.function.builtin.python",
-        "support.function.magic.python"
-      ],
-      "settings": {
-        "foreground": "#fe8019",
         "fontStyle": ""
       }
     },
     {
-      "name": "@function.macro / @attribute",
+      "name": "Builtin (panic, len, append) em vermelho",
+      "scope": [
+        "support.function.builtin",
+        "entity.name.function.support.builtin",
+        "support.function.builtin.python",
+        "support.function.magic.python",
+        "support.function.builtin.shell"
+      ],
+      "settings": {
+        "foreground": "#fb4934",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Macro / atributo / decorator",
       "scope": [
         "entity.name.function.macro",
         "entity.name.function.preprocessor",
@@ -496,8 +519,7 @@
         "entity.other.attribute-name.decorator",
         "meta.decorator",
         "punctuation.decorator",
-        "entity.name.function.decorator.python",
-        "support.type.python"
+        "entity.name.function.decorator.python"
       ],
       "settings": {
         "foreground": "#8ec07c",
@@ -505,7 +527,7 @@
       }
     },
     {
-      "name": "Type",
+      "name": "Tipo definido por você / da biblioteca (creme)",
       "scope": [
         "entity.name.type",
         "entity.name.class",
@@ -520,6 +542,17 @@
         "meta.return-type",
         "meta.type.annotation",
         "variable.class",
+        "entity.name.type.any",
+        "entity.name.type.comparable"
+      ],
+      "settings": {
+        "foreground": "#ebdbb2",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Tipo builtin (amarelo)",
+      "scope": [
         "storage.type.primitive",
         "storage.type.built-in",
         "storage.type.boolean",
@@ -533,8 +566,7 @@
         "entity.name.type.primitive",
         "support.type.primitive",
         "support.type.builtin",
-        "entity.name.type.any",
-        "entity.name.type.comparable"
+        "support.type.python"
       ],
       "settings": {
         "foreground": "#fabd2f",
@@ -542,19 +574,7 @@
       }
     },
     {
-      "name": "@constructor",
-      "scope": [
-        "entity.name.function.constructor",
-        "meta.class.constructor",
-        "support.function.constructor"
-      ],
-      "settings": {
-        "foreground": "#fe8019",
-        "fontStyle": ""
-      }
-    },
-    {
-      "name": "@module / @namespace",
+      "name": "Pacote / namespace",
       "scope": [
         "entity.name.namespace",
         "entity.name.module",
@@ -563,7 +583,6 @@
         "entity.name.type.package",
         "entity.name.type.module",
         "variable.other.import",
-        "entity.name.import",
         "meta.import variable.other"
       ],
       "settings": {
@@ -572,7 +591,17 @@
       }
     },
     {
-      "name": "@variable",
+      "name": "Caminho do import (string)",
+      "scope": [
+        "entity.name.import"
+      ],
+      "settings": {
+        "foreground": "#b8bb26",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Variável, parâmetro, campo (creme)",
       "scope": [
         "variable",
         "variable.other",
@@ -582,16 +611,7 @@
         "meta.function-call.arguments",
         "meta.definition.variable",
         "variable.other.readwrite.alias",
-        "variable.other.object"
-      ],
-      "settings": {
-        "foreground": "#ebdbb2",
-        "fontStyle": ""
-      }
-    },
-    {
-      "name": "@variable.parameter / @variable.member / @property",
-      "scope": [
+        "variable.other.object",
         "variable.parameter",
         "meta.parameter.type.variable",
         "variable.other.property",
@@ -607,12 +627,12 @@
         "support.variable.dom"
       ],
       "settings": {
-        "foreground": "#83a598",
+        "foreground": "#ebdbb2",
         "fontStyle": ""
       }
     },
     {
-      "name": "@variable.builtin",
+      "name": "this / self (laranja)",
       "scope": [
         "variable.language",
         "variable.this",
@@ -628,7 +648,7 @@
       }
     },
     {
-      "name": "@label",
+      "name": "Label",
       "scope": [
         "entity.name.label",
         "variable.other.label",
@@ -640,7 +660,7 @@
       }
     },
     {
-      "name": "@tag",
+      "name": "Tag HTML/JSX",
       "scope": [
         "entity.name.tag",
         "punctuation.tag",
@@ -655,7 +675,7 @@
       }
     },
     {
-      "name": "@tag.attribute",
+      "name": "Atributo",
       "scope": [
         "entity.other.attribute-name",
         "entity.other.attribute-name.html",
@@ -668,7 +688,7 @@
       }
     },
     {
-      "name": "CSS selector / property",
+      "name": "CSS seletor",
       "scope": [
         "entity.name.tag.css",
         "entity.other.attribute-name.class.css",
@@ -683,7 +703,7 @@
       }
     },
     {
-      "name": "CSS property name",
+      "name": "CSS propriedade",
       "scope": [
         "support.type.property-name.css",
         "support.type.vendored.property-name.css"
@@ -694,7 +714,7 @@
       }
     },
     {
-      "name": "CSS value",
+      "name": "CSS valor",
       "scope": [
         "support.constant.property-value.css",
         "constant.other.color.rgb-value",
@@ -706,19 +726,10 @@
       }
     },
     {
-      "name": "JSON key",
+      "name": "JSON / YAML / TOML key",
       "scope": [
         "support.type.property-name.json",
-        "meta.structure.dictionary.key.python string"
-      ],
-      "settings": {
-        "foreground": "#83a598",
-        "fontStyle": ""
-      }
-    },
-    {
-      "name": "YAML key",
-      "scope": [
+        "meta.structure.dictionary.key.python string",
         "entity.name.tag.yaml",
         "entity.name.tag.toml",
         "support.type.property-name.toml",
@@ -730,7 +741,7 @@
       }
     },
     {
-      "name": "Markdown heading / Title",
+      "name": "Markdown título",
       "scope": [
         "markup.heading",
         "entity.name.section.markdown",
@@ -748,7 +759,7 @@
       }
     },
     {
-      "name": "@markup.strong",
+      "name": "Markdown negrito",
       "scope": [
         "markup.bold",
         "punctuation.definition.bold"
@@ -758,7 +769,7 @@
       }
     },
     {
-      "name": "@markup.italic",
+      "name": "Markdown itálico",
       "scope": [
         "markup.italic",
         "punctuation.definition.italic"
@@ -768,7 +779,7 @@
       }
     },
     {
-      "name": "@markup.strikethrough",
+      "name": "Markdown riscado",
       "scope": [
         "markup.strikethrough"
       ],
@@ -777,7 +788,7 @@
       }
     },
     {
-      "name": "@markup.raw",
+      "name": "Markdown código",
       "scope": [
         "markup.inline.raw",
         "markup.fenced_code.block",
@@ -786,11 +797,11 @@
       ],
       "settings": {
         "foreground": "#b8bb26",
-        "fontStyle": "italic"
+        "fontStyle": ""
       }
     },
     {
-      "name": "@markup.list",
+      "name": "Markdown lista",
       "scope": [
         "markup.list",
         "punctuation.definition.list.begin.markdown",
@@ -804,7 +815,7 @@
       }
     },
     {
-      "name": "@markup.quote",
+      "name": "Markdown citação",
       "scope": [
         "markup.quote",
         "punctuation.definition.quote.begin.markdown"
@@ -815,7 +826,7 @@
       }
     },
     {
-      "name": "@markup.link.label",
+      "name": "Markdown link label",
       "scope": [
         "string.other.link.title.markdown",
         "string.other.link.description.markdown"
@@ -826,7 +837,7 @@
       }
     },
     {
-      "name": "@markup.link.url",
+      "name": "Markdown link url",
       "scope": [
         "markup.underline.link.markdown",
         "markup.underline.link.image.markdown"
@@ -837,7 +848,7 @@
       }
     },
     {
-      "name": "@diff.plus",
+      "name": "Diff +",
       "scope": [
         "markup.inserted",
         "meta.diff.header.to-file",
@@ -849,7 +860,7 @@
       }
     },
     {
-      "name": "@diff.minus",
+      "name": "Diff -",
       "scope": [
         "markup.deleted",
         "meta.diff.header.from-file",
@@ -861,7 +872,7 @@
       }
     },
     {
-      "name": "@diff.delta",
+      "name": "Diff ~",
       "scope": [
         "markup.changed",
         "punctuation.definition.changed"
@@ -872,7 +883,7 @@
       }
     },
     {
-      "name": "Diff header / range",
+      "name": "Diff header",
       "scope": [
         "meta.diff.header",
         "meta.diff.range",
@@ -884,7 +895,7 @@
       }
     },
     {
-      "name": "Invalid / Error",
+      "name": "Inválido",
       "scope": [
         "invalid",
         "invalid.illegal"
@@ -905,7 +916,7 @@
       }
     },
     {
-      "name": "Shell variable",
+      "name": "Shell variável",
       "scope": [
         "variable.other.normal.shell",
         "variable.other.positional.shell",
@@ -919,30 +930,7 @@
       }
     },
     {
-      "name": "Shell builtin",
-      "scope": [
-        "support.function.builtin.shell"
-      ],
-      "settings": {
-        "foreground": "#fe8019",
-        "fontStyle": ""
-      }
-    },
-    {
-      "name": "Regex",
-      "scope": [
-        "string.regexp",
-        "constant.other.character-class.regexp",
-        "keyword.operator.quantifier.regexp",
-        "punctuation.definition.group.regexp"
-      ],
-      "settings": {
-        "foreground": "#b8bb26",
-        "fontStyle": "italic"
-      }
-    },
-    {
-      "name": "Git rebase / commit",
+      "name": "Git rebase",
       "scope": [
         "support.function.git-rebase"
       ],
@@ -952,22 +940,18 @@
       }
     },
     {
-      "name": "Lua self / field",
-      "scope": [
-        "variable.language.self.lua"
-      ],
-      "settings": {
-        "foreground": "#fe8019",
-        "fontStyle": ""
-      }
-    },
-    {
-      "name": "Go — keyword (o tema de terceiros usava regras source.go; aqui não há, mas fixo mesmo assim)",
+      "name": "Go keyword",
       "scope": [
         "source.go keyword",
         "source.go keyword.control.import",
         "source.go keyword.package",
-        "source.go keyword.import"
+        "source.go keyword.import",
+        "source.go keyword.type",
+        "source.go keyword.function",
+        "source.go keyword.var",
+        "source.go keyword.const",
+        "source.go keyword.map",
+        "source.go keyword.channel"
       ],
       "settings": {
         "foreground": "#fb4934",
@@ -975,10 +959,20 @@
       }
     },
     {
-      "name": "Go — tipo builtin",
+      "name": "Go struct / interface",
       "scope": [
-        "source.go storage.type",
-        "source.go entity.name.type"
+        "source.go keyword.struct",
+        "source.go keyword.interface"
+      ],
+      "settings": {
+        "foreground": "#8ec07c",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go tipo builtin",
+      "scope": [
+        "source.go storage.type"
       ],
       "settings": {
         "foreground": "#fabd2f",
@@ -986,7 +980,17 @@
       }
     },
     {
-      "name": "Go — pacote",
+      "name": "Go tipo definido / de pacote",
+      "scope": [
+        "source.go entity.name.type"
+      ],
+      "settings": {
+        "foreground": "#ebdbb2",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go pacote",
       "scope": [
         "source.go entity.name.type.package",
         "source.go variable.other.import"
@@ -997,49 +1001,64 @@
       }
     },
     {
-      "name": "Go — caminho do import (string)",
+      "name": "Go caminho do import",
       "scope": [
         "source.go entity.name.import"
       ],
       "settings": {
         "foreground": "#b8bb26",
-        "fontStyle": "italic"
+        "fontStyle": ""
       }
     },
     {
-      "name": "Go — função",
+      "name": "Go função",
       "scope": [
         "source.go entity.name.function",
         "source.go entity.name.function.support"
       ],
       "settings": {
         "foreground": "#b8bb26",
-        "fontStyle": "bold"
+        "fontStyle": ""
       }
     },
     {
-      "name": "Go — builtin (len, append, make, panic)",
+      "name": "Go builtin",
       "scope": [
         "source.go entity.name.function.support.builtin"
       ],
       "settings": {
-        "foreground": "#fe8019",
+        "foreground": "#fb4934",
         "fontStyle": ""
       }
     },
     {
-      "name": "Go — parâmetro / campo",
+      "name": "Go variável / parâmetro / campo",
       "scope": [
+        "source.go variable.other",
+        "source.go variable.other.assignment",
         "source.go variable.parameter",
         "source.go variable.other.property"
       ],
       "settings": {
-        "foreground": "#83a598",
+        "foreground": "#ebdbb2",
         "fontStyle": ""
       }
     },
     {
-      "name": "Go — nil / iota",
+      "name": "Go constante",
+      "scope": [
+        "source.go variable.other.constant",
+        "source.go constant.language.boolean",
+        "source.go constant.numeric",
+        "source.go constant.other.rune"
+      ],
+      "settings": {
+        "foreground": "#d3869b",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go nil / iota",
       "scope": [
         "source.go constant.language.null",
         "source.go constant.language.iota"
@@ -1048,59 +1067,69 @@
         "foreground": "#fe8019",
         "fontStyle": ""
       }
+    },
+    {
+      "name": "Go label",
+      "scope": [
+        "source.go variable.other.label"
+      ],
+      "settings": {
+        "foreground": "#fb4934",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go operador",
+      "scope": [
+        "source.go keyword.operator"
+      ],
+      "settings": {
+        "foreground": "#fe8019",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go pontuação",
+      "scope": [
+        "source.go punctuation"
+      ],
+      "settings": {
+        "foreground": "#a89984",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go string",
+      "scope": [
+        "source.go string",
+        "source.go punctuation.definition.string",
+        "source.go constant.other.placeholder"
+      ],
+      "settings": {
+        "foreground": "#b8bb26",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go escape",
+      "scope": [
+        "source.go constant.character.escape"
+      ],
+      "settings": {
+        "foreground": "#fe8019",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Go comentário",
+      "scope": [
+        "source.go comment",
+        "source.go punctuation.definition.comment"
+      ],
+      "settings": {
+        "foreground": "#928374",
+        "fontStyle": "italic"
+      }
     }
-  ],
-  "semanticTokenColors": {
-    "namespace": "#ebdbb2",
-    "type": "#fabd2f",
-    "struct": "#fabd2f",
-    "class": "#fabd2f",
-    "enum": "#fabd2f",
-    "typeParameter": "#fabd2f",
-    "event": "#fabd2f",
-    "interface": "#fe8019",
-    "function": {
-      "foreground": "#b8bb26",
-      "bold": true
-    },
-    "method": {
-      "foreground": "#b8bb26",
-      "bold": true
-    },
-    "function.defaultLibrary": {
-      "foreground": "#b8bb26",
-      "bold": true
-    },
-    "function.builtin": "#fe8019",
-    "macro": "#8ec07c",
-    "decorator": "#8ec07c",
-    "parameter": "#83a598",
-    "property": "#83a598",
-    "variable": "#ebdbb2",
-    "variable.readonly": "#d3869b",
-    "enumMember": "#d3869b",
-    "variable.defaultLibrary": "#fe8019",
-    "selfKeyword": "#fe8019",
-    "selfParameter": "#fe8019",
-    "keyword": "#fb4934",
-    "modifier": "#fabd2f",
-    "label": "#fb4934",
-    "string": {
-      "foreground": "#b8bb26",
-      "italic": true
-    },
-    "regexp": {
-      "foreground": "#b8bb26",
-      "italic": true
-    },
-    "number": "#d3869b",
-    "operator": "#fe8019",
-    "comment": {
-      "foreground": "#928374",
-      "italic": true
-    },
-    "tokenModifiers.deprecated": {
-      "strikethrough": true
-    }
-  }
+  ]
 }
