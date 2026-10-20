@@ -1,7 +1,7 @@
 # dotfiles
 
 Configuração das ferramentas de terminal que uso no CachyOS, toda na paleta
-**Rosé Pine Moon**. O desktop é o **COSMIC** de fábrica: painel, rede,
+**Gruvbox Dark**. O desktop é o **COSMIC** de fábrica: painel, rede,
 bluetooth, notificações, bloqueio de tela e perfil de energia vêm dele, sem
 config aqui.
 
@@ -113,30 +113,32 @@ O terminal padrão do sistema fica em `system_actions`, no mesmo diretório
 
 ## Paleta
 
-Uma paleta só, **Rosé Pine Moon** (de [rose-pine](https://rosepinetheme.com)), vendorizada
-dos ports oficiais em cada app — sem script gerador, sem arquivo fora do repositório.
+Uma paleta só, **Gruvbox Dark** (a original de [morhetz](https://github.com/morhetz/gruvbox),
+variante *dark* de contraste médio, com os hex de
+[terminalcolors.com](https://terminalcolors.com/themes/gruvbox/dark/)), escrita
+à mão em cada app — sem script gerador, sem arquivo fora do repositório.
 
 | arquivo | o que tem |
 | --- | --- |
-| `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor |
-| `kitty/.config/kitty/current-theme.conf` | gerado por `kitten themes "Rosé Pine Moon"`, incluído pelo `kitty.conf` |
+| `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor, seleção |
+| `kitty/.config/kitty/current-theme.conf` | os mesmos hex do alacritty, incluído pelo `kitty.conf` |
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
-| `btop/.config/btop/themes/rose-pine-moon.theme` | tema do btop |
-| `nvim/…/plugins/colorscheme.lua` | `rose-pine-moon` (plugin `rose-pine/neovim`) |
+| `btop/.config/btop/themes/gruvbox-dark.theme` | tema do btop |
+| `nvim/…/plugins/colorscheme.lua` | `gruvbox` (plugin `ellisonleao/gruvbox.nvim`, contraste médio) |
 
-| papel | hex | | papel | hex |
-| --- | --- | --- | --- | --- |
-| `base` | `#232136` | | `love` (red) | `#eb6f92` |
-| `surface` | `#2a273f` | | `gold` (yellow) | `#f6c177` |
-| `overlay` | `#393552` | | `rose` (cyan) | `#ea9a97` |
-| `highlight_med` | `#44415a` | | `pine` (green) | `#3e8fb0` |
-| `highlight_high` | `#56526e` | | `foam` (blue) | `#9ccfd8` |
-| `muted` | `#6e6a86` | | `iris` (magenta) | `#c4a7e7` |
-| `subtle` | `#908caa` | | | |
-| `text` | `#e0def4` | | | |
+| papel | normal | bright | | papel | hex |
+| --- | --- | --- | --- | --- | --- |
+| `black` | `#282828` | `#928374` | | `bg` | `#282828` |
+| `red` | `#cc241d` | `#fb4934` | | `fg` | `#ebdbb2` |
+| `green` | `#98971a` | `#b8bb26` | | `bg1` | `#3c3836` |
+| `yellow` | `#d79921` | `#fabd2f` | | `bg2` | `#504945` |
+| `blue` | `#458588` | `#83a598` | | `bg3` | `#665c54` |
+| `magenta` | `#b16286` | `#d3869b` | | `gray` | `#928374` |
+| `cyan` | `#689d6a` | `#8ec07c` | | `orange` | `#fe8019` |
+| `white` | `#a89984` | `#ebdbb2` | | | |
 
-Os 16 ANSI seguem o mapeamento oficial do Rosé Pine: não há verde de verdade,
-`green` é `pine` (azul-petróleo) e `cyan` é `rose`. Normal e bright são iguais.
+O `orange` não está nos 16 ANSI; é o acento do herdr. O cursor e a seleção
+invertem fundo e texto (`#ebdbb2` sobre `#282828`), como no terminalcolors.
 
 ### herdr
 
