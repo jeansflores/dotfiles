@@ -1,0 +1,23 @@
+{
+  "name": "gruvbox-nvim",
+  "displayName": "Gruvbox nvim",
+  "description": "Gruvbox Dark com os mesmos hex dos grupos de highlight do gruvbox.nvim — gerado no dotfiles, sem dependência de extensão de terceiros.",
+  "version": "1.0.0",
+  "publisher": "jean",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Gruvbox nvim",
+        "uiTheme": "vs-dark",
+        "path": "./themes/gruvbox-nvim-color-theme.json"
+      }
+    ]
+  }
+}

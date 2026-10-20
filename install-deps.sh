@@ -44,7 +44,7 @@ PKGS=(
 #   lazydocker  TUI do Docker
 MISE_TOOLS=(herdr neovim lazydocker)
 
-STOW_PKGS=(alacritty btop fish gitconfig herdr kitty nvim starship)
+STOW_PKGS=(alacritty btop fish gitconfig herdr kitty nvim starship vscode)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"

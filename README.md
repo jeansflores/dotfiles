@@ -24,7 +24,7 @@ O que precisa casar entre os dois é só isto:
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
 > tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
-> `install-deps.sh --stow` usa `--no-folding` e aplica só os 8 pacotes de verdade.
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 9 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
@@ -79,6 +79,7 @@ stow -D nvim               # remove
 | `fish` | shell de login: mise, starship, pyenv e as envs do `api_gv3` |
 | `starship` | prompt do shell (ícone de branch no tamanho cheio) |
 | `gitconfig` | git |
+| `vscode` | extensão de tema `Gruvbox nvim`, linkada em `~/.vscode/extensions` |
 
 ## fish
 
@@ -125,6 +126,7 @@ variante *dark* de contraste médio, com os hex de
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
 | `btop/.config/btop/themes/gruvbox-dark.theme` | tema do btop |
 | `nvim/…/plugins/colorscheme.lua` | `gruvbox` (plugin `ellisonleao/gruvbox.nvim`, contraste médio) |
+| `vscode/.vscode/extensions/gruvbox-nvim/` | tema do VSCode com os hex dos grupos do gruvbox.nvim |
 
 | papel | normal | bright | | papel | hex |
 | --- | --- | --- | --- | --- | --- |
@@ -137,8 +139,19 @@ variante *dark* de contraste médio, com os hex de
 | `cyan` | `#689d6a` | `#8ec07c` | | `orange` | `#fe8019` |
 | `white` | `#a89984` | `#ebdbb2` | | | |
 
-O `orange` não está nos 16 ANSI; é o acento do herdr. O cursor e a seleção
+O `orange` não está nos 16 ANSI; é o acento do herdr e, no nvim e no VSCode, a
+cor de operadores, pontuação e builtins. O cursor e a seleção
 invertem fundo e texto (`#ebdbb2` sobre `#282828`), como no terminalcolors.
+
+### VSCode
+
+O tema `Gruvbox nvim` é uma extensão local em `vscode/.vscode/extensions/gruvbox-nvim/`,
+sem dependência de extensão da loja. Os hex vieram dos grupos de highlight do
+gruvbox.nvim (`Normal`, `Pmenu`, `StatusLine`, `Visual`, `Diff*`, `GitSigns*`
+para a UI; `@keyword`, `@string`, `@function`, `@type`, `@variable.parameter`
+etc. para os tokens). O `settings.json` do VSCode não está no repositório; o que
+precisa casar é `workbench.colorTheme = "Gruvbox nvim"` e, para o Go ficar igual
+ao nvim (que usa os tokens semânticos do gopls), `"gopls": { "ui.semanticTokens": true }`.
 
 ### herdr
 
