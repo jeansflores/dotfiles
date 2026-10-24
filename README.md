@@ -1,7 +1,7 @@
 # dotfiles
 
 Configuração das ferramentas de terminal que uso no CachyOS, toda na paleta
-**Gruvbox Dark**. O desktop é o **COSMIC** de fábrica: painel, rede,
+**Catppuccin Mocha**. O desktop é o **COSMIC** de fábrica: painel, rede,
 bluetooth, notificações, bloqueio de tela e perfil de energia vêm dele, sem
 config aqui.
 
@@ -24,7 +24,7 @@ O que precisa casar entre os dois é só isto:
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
 > tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
-> `install-deps.sh --stow` usa `--no-folding` e aplica só os 9 pacotes de verdade.
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 8 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
@@ -79,7 +79,6 @@ stow -D nvim               # remove
 | `fish` | shell de login: mise, starship, pyenv e as envs do `api_gv3` |
 | `starship` | prompt do shell (ícone de branch no tamanho cheio) |
 | `gitconfig` | git |
-| `vscode` | extensão de tema `Gruvbox nvim`, linkada em `~/.vscode/extensions` |
 
 ## fish
 
@@ -114,75 +113,76 @@ O terminal padrão do sistema fica em `system_actions`, no mesmo diretório
 
 ## Paleta
 
-Uma paleta só, **Gruvbox Dark** (a original de [morhetz](https://github.com/morhetz/gruvbox),
-variante *dark* de contraste médio, com os hex de
-[terminalcolors.com](https://terminalcolors.com/themes/gruvbox/dark/)), escrita
-à mão em cada app — sem script gerador, sem arquivo fora do repositório.
+Uma paleta só, **Catppuccin Mocha**, nos arquivos oficiais de cada port do
+[Catppuccin](https://github.com/catppuccin) copiados sem mudança — sem arquivo
+fora do repositório.
 
 | arquivo | o que tem |
 | --- | --- |
-| `alacritty/.config/alacritty/alacritty.toml` | os 16 ANSI + fundo, texto, cursor, seleção |
-| `kitty/.config/kitty/current-theme.conf` | os mesmos hex do alacritty, incluído pelo `kitty.conf` |
+| `alacritty/.config/alacritty/alacritty.toml` | `catppuccin-mocha.toml` de [catppuccin/alacritty](https://github.com/catppuccin/alacritty), colado no fim |
+| `kitty/.config/kitty/current-theme.conf` | `mocha.conf` de [catppuccin/kitty](https://github.com/catppuccin/kitty), incluído pelo `kitty.conf` |
+| `btop/.config/btop/themes/catppuccin_mocha.theme` | de [catppuccin/btop](https://github.com/catppuccin/btop) |
 | `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
-| `btop/.config/btop/themes/gruvbox-dark.theme` | tema do btop |
-| `nvim/…/plugins/colorscheme.lua` | `gruvbox` (plugin `ellisonleao/gruvbox.nvim`, contraste médio) |
-| `vscode/.vscode/extensions/gruvbox-nvim/` | Gruvbox Dark Medium de jdinhlife, vendorizado; é a referência dos papéis |
+| `nvim/…/plugins/colorscheme.lua` | `catppuccin-mocha` ([catppuccin/nvim](https://github.com/catppuccin/nvim)), sem overrides |
 
-| papel | normal | bright | | papel | hex |
-| --- | --- | --- | --- | --- | --- |
-| `black` | `#282828` | `#928374` | | `bg` | `#282828` |
-| `red` | `#cc241d` | `#fb4934` | | `fg` | `#ebdbb2` |
-| `green` | `#98971a` | `#b8bb26` | | `bg1` | `#3c3836` |
-| `yellow` | `#d79921` | `#fabd2f` | | `bg2` | `#504945` |
-| `blue` | `#458588` | `#83a598` | | `bg3` | `#665c54` |
-| `magenta` | `#b16286` | `#d3869b` | | `gray` | `#928374` |
-| `cyan` | `#689d6a` | `#8ec07c` | | `orange` | `#fe8019` |
-| `white` | `#a89984` | `#ebdbb2` | | | |
+| papel | hex | | papel | hex |
+| --- | --- | --- | --- | --- |
+| `base` (fundo) | `#1e1e2e` | | `red` | `#f38ba8` |
+| `mantle` | `#181825` | | `maroon` | `#eba0ac` |
+| `crust` | `#11111b` | | `peach` | `#fab387` |
+| `surface0` | `#313244` | | `yellow` | `#f9e2af` |
+| `surface1` | `#45475a` | | `green` | `#a6e3a1` |
+| `surface2` | `#585b70` | | `teal` | `#94e2d5` |
+| `overlay2` | `#9399b2` | | `sky` | `#89dceb` |
+| `subtext1` | `#bac2de` | | `blue` | `#89b4fa` |
+| `subtext0` | `#a6adc8` | | `lavender` | `#b4befe` |
+| `text` | `#cdd6f4` | | `mauve` | `#cba6f7` |
+| `rosewater` (cursor) | `#f5e0dc` | | `pink` | `#f5c2e7` |
 
-O `orange` não está nos 16 ANSI; é o acento do herdr e, no nvim e no VSCode, a
-cor dos operadores.
+Nos terminais, o `normal` e o `bright` de cada ANSI são a mesma cor, como no
+port oficial; só `black` (`surface1`/`surface2`) e `white` (`subtext1`/`subtext0`)
+mudam. O `mauve` é o acento do herdr.
 
 ### Papéis
 
 Os terminais só mostram os 16 ANSI. Quem decide *qual cor vai em qual token* é
-o tema do VSCode e o nvim (`colorscheme.lua`, via `overrides` do gruvbox.nvim),
-e os dois seguem esta tabela, que é o mapeamento do **Gruvbox Dark Medium** de
-[jdinhlife](https://github.com/jdinhlife/vscode-theme-gruvbox) para Go:
+o catppuccin/nvim, sem nenhum override. Para Go e TypeScript, isso dá:
 
-| token | cor | hex |
-| --- | --- | --- |
-| keywords (`func`, `type`, `var`, `import`, `return`, `if`) | red | `#fb4934` |
-| `package` | aqua | `#8ec07c` |
-| `struct`, `interface` | blue | `#83a598` |
-| variáveis, parâmetros, campos de struct | blue | `#83a598` |
-| funções, métodos e builtins (`panic`, `len`), sem negrito | purple | `#d3869b` |
-| números, booleanos, constantes, `nil`, escapes em string | purple | `#d3869b` |
-| strings, sem itálico | green | `#b8bb26` |
-| tipos builtin (`string`, `int`, `error`) | yellow | `#fabd2f` |
-| tipos definidos por você ou de pacote (`testStruct`, `fmt.State`) | fg | `#ebdbb2` |
-| nome de pacote em tipo (`fmt` em `fmt.State`) | fg | `#ebdbb2` |
-| operadores (`:=`, `*`, `+`) | aqua | `#8ec07c` |
-| vírgula, ponto, ponto e vírgula | fg4 | `#a89984` |
-| colchetes, por nível de aninhamento | purple, blue, aqua, green, yellow, orange | `#b16286 #458588 #689d6a #98971a #d79921 #d65d0e` |
-| comentários, em itálico | gray | `#928374` |
+| token | cor |
+| --- | --- |
+| keywords (`func`, `type`, `struct`, `import`, `return`, `const`) | mauve |
+| condicionais (`if`, `else`, `switch`), em itálico no nvim | mauve |
+| tipos (`Shape`, `fmt.State`, interfaces, classes) | yellow |
+| tipos builtin (`string`, `int`, `error`, `number`) | mauve |
+| nome de pacote/módulo (`fmt`, `package main`), em itálico | yellow |
+| funções e métodos | blue |
+| builtins (`len`, `make`, `append`) | peach |
+| variáveis | text |
+| parâmetros | maroon |
+| campos e propriedades | lavender |
+| números, booleanos, constantes, `nil` | peach |
+| strings | green |
+| escapes em string, regex | pink |
+| `%s` e outros verbos de formato | teal |
+| operadores (`:=`, `*`, `==`) | sky |
+| pontuação (`,`, `.`, `;`, `:` de tipo) | overlay2 |
+| `this`/`self`, `console` | red |
+| comentários, em itálico | overlay2 |
+| colchetes, por nível de aninhamento | red, yellow, blue, peach, green, mauve |
 
-Os tokens semânticos do LSP não pintam nada: no nvim os grupos `@lsp.type.*`
-estão vazios, e no VSCode o gopls não manda tokens semânticos por padrão. Assim
-os dois são coloridos só pela gramática (treesitter / TextMate) e ficam iguais;
-com o gopls ligado o caminho do import virava `namespace` e perdia o verde.
-`struct`/`interface` separados do `type`, e `package` do `import`, vêm de
-`nvim/.config/nvim/after/queries/go/highlights.scm`. Os níveis de colchete no
-nvim são o `rainbow-delimiters.nvim` com as mesmas seis cores do
-`editorBracketHighlight` do tema.
+Os tokens semânticos do LSP usam os grupos `@lsp.type.*` do catppuccin. Os
+níveis de colchete são o `rainbow-delimiters.nvim` com as cores da integração
+do catppuccin.
+
+O colorscheme é `catppuccin-mocha`, e não `catppuccin`: o Neovim 0.12 traz um
+`colors/catppuccin.vim` próprio no runtime, que é achado antes do plugin e
+pinta as variáveis de `flamingo`.
 
 ### VSCode
 
-O tema `Gruvbox nvim` é uma extensão local em `vscode/.vscode/extensions/gruvbox-nvim/`,
-sem dependência de extensão da loja: é o JSON do Gruvbox Dark Medium de
-jdinhlife (MIT, licença junto) vendorizado, renomeado para o nome não mudar se
-a extensão original for instalada. O `settings.json` do VSCode não está no repositório; o que
-precisa casar é `workbench.colorTheme = "Gruvbox nvim"`, e isso o Settings Sync
-já leva junto; a extensão de tema, por ser local, só chega pelo stow.
+O VSCode usa o tema **Catppuccin Mocha** da loja (extensão
+`Catppuccin.catppuccin-vsc`), sem nada neste repositório: a extensão e o
+`workbench.colorTheme` chegam pelo Settings Sync.
 
 ### herdr
 
