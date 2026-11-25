@@ -34,45 +34,46 @@ hide_when_typing = true
 save_to_clipboard = true
 
 # ---------------------------------------------------------------------------
-# Catppuccin Mocha — igual a https://github.com/catppuccin/alacritty (catppuccin-mocha.toml)
+# Catppuccin Mocha (base: catppuccin/alacritty, catppuccin-mocha.toml) com o fundo
+# preto do herdr (#17191d) e a seleção do herdr, como kitty, nvim e herdr-app.
 # ---------------------------------------------------------------------------
 [colors.primary]
-background = "#1e1e2e"
+background = "#17191d"
 foreground = "#cdd6f4"
 dim_foreground = "#7f849c"
 bright_foreground = "#cdd6f4"
 
 [colors.cursor]
-text = "#1e1e2e"
+text = "#17191d"
 cursor = "#f5e0dc"
 
 [colors.vi_mode_cursor]
-text = "#1e1e2e"
+text = "#17191d"
 cursor = "#b4befe"
 
 [colors.search.matches]
-foreground = "#1e1e2e"
+foreground = "#17191d"
 background = "#a6adc8"
 
 [colors.search.focused_match]
-foreground = "#1e1e2e"
+foreground = "#17191d"
 background = "#a6e3a1"
 
 [colors.footer_bar]
-foreground = "#1e1e2e"
+foreground = "#17191d"
 background = "#a6adc8"
 
 [colors.hints.start]
-foreground = "#1e1e2e"
+foreground = "#17191d"
 background = "#f9e2af"
 
 [colors.hints.end]
-foreground = "#1e1e2e"
+foreground = "#17191d"
 background = "#a6adc8"
 
 [colors.selection]
-text = "#1e1e2e"
-background = "#f5e0dc"
+text = "#cdd6f4"
+background = "#45475a"
 
 [colors.normal]
 black = "#45475a"

@@ -1,4 +1,4 @@
-# herdr — paleta Catppuccin Mocha.
+# herdr — paleta Catppuccin Mocha com o fundo preto do herdr-app (#17191d).
 #
 # Aviso: o herdr às vezes reescreve este arquivo sozinho (troca de tema pela UI,
 # por exemplo). Se o `git status` acusar mudança aqui, foi ele.
@@ -20,8 +20,8 @@ auto_switch = false
 # os dois são tons claros e o contraste cai para 1.4-2.8:1. Com os fundos
 # escuros abaixo o texto senta sobre escuro e fica acima de 4.5:1.
 [theme.custom]
-sidebar_bg    = "#181825"
-panel_bg      = "#1e1e2e"
+sidebar_bg    = "#131418"
+panel_bg      = "#17191d"
 active_row_bg = "#313244"
 selection_bg  = "#45475a"
 accent = "#cba6f7"
