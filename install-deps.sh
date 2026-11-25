@@ -23,6 +23,7 @@ PKGS=(
     fish                        #     shell
     starship                    #     prompt do shell
     wl-clipboard                #     área de transferência do Neovim no Wayland
+    ydotool                     #     cola o texto ditado pelo voxtype (uinput)
 
     # Sistema
     power-profiles-daemon       #     backend dos perfis de energia do painel
@@ -44,7 +45,7 @@ PKGS=(
 #   lazydocker  TUI do Docker
 MISE_TOOLS=(herdr neovim lazydocker)
 
-STOW_PKGS=(alacritty btop fish gitconfig herdr kitty nvim starship)
+STOW_PKGS=(alacritty btop fish gitconfig herdr kitty nvim starship voxtype)
 
 print_line() {
     printf 'sudo pacman -S --needed %s\n' "${PKGS[*]}"
@@ -99,4 +100,5 @@ Passos que continuam manuais:
   - troque o shell de login para o fish: chsh -s /usr/bin/fish
   - abra o Neovim uma vez para o lazy.nvim instalar os plugins
   - crie no COSMIC o atalho do terminal com herdr (ver README, seção Atalhos)
+  - voxtype (ditado): instale o voxtype-bin do AUR e siga o README, seção voxtype
 EOF

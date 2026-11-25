@@ -24,7 +24,7 @@ O que precisa casar entre os dois é só isto:
 > **Não use `stow *`.** Num `$HOME` limpo, o stow sem `--no-folding` transforma o
 > `~/.config` inteiro num link para dentro deste repositório, e o `*` ainda
 > tentaria stowar o `README.md` e o próprio `install-deps.sh`. O
-> `install-deps.sh --stow` usa `--no-folding` e aplica só os 8 pacotes de verdade.
+> `install-deps.sh --stow` usa `--no-folding` e aplica só os 9 pacotes de verdade.
 
 O script faz, nesta ordem: instala os pacotes do pacman, instala pelo `mise` as
 ferramentas que não existem no pacman, habilita os serviços e aplica os symlinks.
@@ -79,6 +79,7 @@ stow -D nvim               # remove
 | `fish` | shell de login: mise, starship, pyenv e as envs do `api_gv3` |
 | `starship` | prompt do shell (ícone de branch no tamanho cheio) |
 | `gitconfig` | git |
+| `voxtype` | ditado por voz em pt-BR: config, atalho `Meta+H` e notificação com o tempo de gravação |
 
 ## fish
 
@@ -93,6 +94,29 @@ interpreta é o bash, e o fish só importa as variáveis que ele define.
 
 O `fish_variables` (variáveis universais) fica fora do repositório: o fish
 reescreve esse arquivo sozinho.
+
+## voxtype
+
+Ditado por voz (Whisper local, modelo `small`, `pt`): `Meta+H` começa a
+gravar, `Meta+H` de novo transcreve e cola o texto na janela em foco. O modelo
+só fica na memória enquanto transcreve (`on_demand_loading`). Uma notificação
+mostra o tempo de gravação (`~/.local/bin/voxtype-timer`, via
+`pre_recording_command`).
+
+No KDE o texto é colado pelo `ydotool` com `ctrl+shift+v`: o `eitype` pede a
+permissão do portal de controle remoto a cada ditado e o KWin rejeita a sessão,
+e digitar tecla por tecla perde os acentos. Passos fora do stow:
+
+```sh
+paru -S voxtype-bin                       # AUR
+echo 'KERNEL=="uinput", TAG+="uaccess", OPTIONS+="static_node=uinput"' \
+  | sudo tee /etc/udev/rules.d/60-uinput.rules
+sudo udevadm control --reload && sudo udevadm trigger --name-match=uinput
+voxtype setup --download --model small
+systemctl --user enable --now ydotool voxtype
+kwriteconfig6 --file kglobalshortcutsrc --group services \
+  --group voxtype-toggle.desktop --key _launch "Meta+H"   # vale no próximo login
+```
 
 ## Atalhos
 

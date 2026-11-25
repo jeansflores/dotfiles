@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Notificação com o tempo de gravação do voxtype ("Gravando 0:42 / 10:00").
+# Chamado pelo pre_recording_command do voxtype; atualiza a mesma notificação
+# a cada segundo enquanto `voxtype status` disser "recording" e fecha no fim.
+
+max=$(sed -n 's/^max_duration_secs *= *\([0-9]\+\).*/\1/p' "$HOME/.config/voxtype/config.toml")
+max=${max:-60}
+fmt() { printf '%d:%02d' $(($1 / 60)) $(($1 % 60)); }
+
+start=$(date +%s)
+id=0
+# o daemon troca o estado logo depois de rodar o comando; espera até 2 s
+for _ in $(seq 20); do
+  [[ $(voxtype status 2>/dev/null) == recording ]] && break
+  sleep 0.1
+done
+
+while [[ $(voxtype status 2>/dev/null) == recording ]]; do
+  el=$(($(date +%s) - start))
+  id=$(notify-send -a Voxtype -i audio-input-microphone -u low -t 0 \
+    -h boolean:transient:true -r "$id" -p \
+    "🎙 Gravando $(fmt "$el") / $(fmt "$max")" "Meta+H para parar")
+  sleep 1
+done
+
+[[ $id != 0 ]] && gdbus call --session --dest org.freedesktop.Notifications \
+  --object-path /org/freedesktop/Notifications \
+  --method org.freedesktop.Notifications.CloseNotification "$id" >/dev/null
