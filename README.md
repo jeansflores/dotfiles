@@ -137,23 +137,26 @@ O terminal padrão do sistema fica em `system_actions`, no mesmo diretório
 
 ## Paleta
 
-Uma paleta só, **Catppuccin Mocha**, nos arquivos oficiais de cada port do
-[Catppuccin](https://github.com/catppuccin) copiados sem mudança — sem arquivo
-fora do repositório.
+Uma paleta só, **Catppuccin Mocha** com o **fundo preto do herdr**: as cores de
+texto e os 16 ANSI são os dos ports oficiais do
+[Catppuccin](https://github.com/catppuccin); só os fundos (`base`, `mantle`,
+`crust`) trocam pelo `#17191d` que o tema `graphite` do herdr-app pinta, e a
+seleção passa a ser `surface1` com `text`, como no herdr.
 
 | arquivo | o que tem |
 | --- | --- |
-| `alacritty/.config/alacritty/alacritty.toml` | `catppuccin-mocha.toml` de [catppuccin/alacritty](https://github.com/catppuccin/alacritty), colado no fim |
-| `kitty/.config/kitty/current-theme.conf` | `mocha.conf` de [catppuccin/kitty](https://github.com/catppuccin/kitty), incluído pelo `kitty.conf` |
-| `btop/.config/btop/themes/catppuccin_mocha.theme` | de [catppuccin/btop](https://github.com/catppuccin/btop) |
-| `herdr/.config/herdr/config.toml` | tema `terminal` + fundos escuros em `[theme.custom]` |
-| `nvim/…/plugins/colorscheme.lua` | `catppuccin-mocha` ([catppuccin/nvim](https://github.com/catppuccin/nvim)), sem overrides |
+| `alacritty/.config/alacritty/alacritty.toml` | `catppuccin-mocha.toml` de [catppuccin/alacritty](https://github.com/catppuccin/alacritty), colado no fim, com os fundos e a seleção trocados |
+| `kitty/.config/kitty/current-theme.conf` | `mocha.conf` de [catppuccin/kitty](https://github.com/catppuccin/kitty), incluído pelo `kitty.conf`, com os fundos e a seleção trocados |
+| `btop/.config/btop/themes/catppuccin_mocha.theme` | de [catppuccin/btop](https://github.com/catppuccin/btop), com `main_bg` trocado |
+| `herdr/.config/herdr/config.toml` | herdr TUI: tema `terminal` + fundos escuros em `[theme.custom]` |
+| `herdr/.config/herdr-app/themes/catppuccin-black.json` | herdr-app: 16 ANSI do Mocha, acento `mauve`, escolhido no `settings.json` |
+| `nvim/…/plugins/colorscheme.lua` | `catppuccin-mocha` ([catppuccin/nvim](https://github.com/catppuccin/nvim)) com `color_overrides` só nos fundos |
 
 | papel | hex | | papel | hex |
 | --- | --- | --- | --- | --- |
-| `base` (fundo) | `#1e1e2e` | | `red` | `#f38ba8` |
-| `mantle` | `#181825` | | `maroon` | `#eba0ac` |
-| `crust` | `#11111b` | | `peach` | `#fab387` |
+| `base` (fundo) | `#17191d` (Mocha: `#1e1e2e`) | | `red` | `#f38ba8` |
+| `mantle` | `#131418` (Mocha: `#181825`) | | `maroon` | `#eba0ac` |
+| `crust` | `#0f1013` (Mocha: `#11111b`) | | `peach` | `#fab387` |
 | `surface0` | `#313244` | | `yellow` | `#f9e2af` |
 | `surface1` | `#45475a` | | `green` | `#a6e3a1` |
 | `surface2` | `#585b70` | | `teal` | `#94e2d5` |
@@ -198,6 +201,9 @@ Os tokens semânticos do LSP usam os grupos `@lsp.type.*` do catppuccin. Os
 níveis de colchete são o `rainbow-delimiters.nvim` com as cores da integração
 do catppuccin.
 
+Os `color_overrides` do nvim mudam só `base`, `mantle` e `crust`; os papéis
+acima continuam os do catppuccin.
+
 O colorscheme é `catppuccin-mocha`, e não `catppuccin`: o Neovim 0.12 traz um
 `colors/catppuccin.vim` próprio no runtime, que é achado antes do plugin e
 pinta as variáveis de `flamingo`.
@@ -214,6 +220,11 @@ O tema `terminal` do herdr deriva dos 16 ANSI do terminal, mas põe o *texto*
 sobre a *cor de acento* — em paleta escura os dois são tons claros e o
 contraste cai para 1.4-2.8:1. A tabela `[theme.custom]` troca os fundos pelos
 níveis escuros da paleta e o texto volta a sentar sobre escuro.
+
+O herdr-app (a janela nativa) usa o tema `catppuccin-black.json`, com o mesmo
+fundo `#17191d` e o `mauve` de acento, escolhido para a aparência escura no
+`settings.json`. O `#17191d` veio de um print do tema `graphite`: o terminal
+do herdr responde `#282c34` à consulta OSC 11, mas não é o que ele pinta.
 
 O herdr às vezes reescreve o próprio `config.toml`. Se o `git status` acusar
 mudança nele, foi isso.
